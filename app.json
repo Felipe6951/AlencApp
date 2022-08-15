@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "LoginRegAlencapp",
+    "slug": "LoginRegAlencapp",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
