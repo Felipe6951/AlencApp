@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Login from '../pages/Login'
 import Register from '../pages/Register';
-import Home from '../pages/Home'
+import Auxiliar from '../pages/Auxiliar'
 
 const Stack = createNativeStackNavigator();
 
@@ -22,8 +22,8 @@ export default function Routes() {
     />
     
     <Stack.Screen 
-      name="Home" 
-      component={Home} 
+      name="Auxiliar" 
+      component={Auxiliar}
       options={{ headerShown: false }}
     />
     </Stack.Navigator>
