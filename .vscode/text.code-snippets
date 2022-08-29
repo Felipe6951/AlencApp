@@ -1,0 +1,10 @@
+{
+	"Print to console": {
+		"scope": "javascript",
+		"prefix": "text",
+		"body": [
+			"<Text>  </Text>"
+		],
+		"description": "Printa componente de texto"
+	}
+}

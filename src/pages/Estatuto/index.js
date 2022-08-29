@@ -1,87 +1,80 @@
-import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, ScrollView, FlatList, ListRenderItemInfo, Alert } from 'react-native';
+import { Input } from 'native-base';
+import { Ionicons, AntDesign, FontAwesome, Entypo, MaterialIcons  } from '@expo/vector-icons';
+import * as OpenAnything from 'react-native-openanything';
 
-//Ícones: https://www.npmjs.com/package/react-native-vector-icons
 
 export default function Estatuto() {
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.box}>
-        <View style={styles.boxRed}>
-          <Text style={styles.boxRedTitle}>Dowloads</Text>
+    <SafeAreaView style={{ backgroundColor: '#FFFFFF', height: '100%'}}>
+      <ScrollView>
+         <View> 
+          <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 24, borderTopLeftRadius: 8, borderTopRightRadius: 8, marginTop: 24, paddingHorizontal: 16, flexDirection: 'row' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Entypo name="book" size={20} color="#FFFFFF" style={{ marginRight: 4 }} />
+              <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Lista</Text>
+            </View>
+
+            <View style={{ backgroundColor: '#FFFFFF', borderRadius: 50, width: 25, height: 25, alignItems: 'center', justifyContent: 'center' }}>
+              <Text>2</Text>
+            </View>
+          </View>
+
+          <View style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, elevation: 5, shadowColor: '#505050', backgroundColor: '#FFFFFF', marginHorizontal: 24, paddingHorizontal: 16, paddingTop: 24, paddingBottom: 16 }}>
+            <Text style={{ color: '#505050', fontSize: 12 }}>Estatutos internos do Alencar Futebol Clube (AFC)</Text>
+          </View>
         </View>
-        <View style={styles.boxWhite}>
-          <TouchableOpacity style={styles.buttonMargin} >
-            <Text style={styles.buttonTitle}>Estatuto AFC - 2022 <Icon name="download" size={20} color="#FFFFFF"/></Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonTitle}>Estatuto AFC - 2021 <Icon name="download" size={20} color="#FFFFFF" />
-            </Text>
-          </TouchableOpacity>
+
+        <View style={{ height: 136, width: 312, elevation: 5, shadowColor: '#000000', backgroundColor: '#FFFFFF', marginHorizontal: 24, marginTop: 24, marginBottom: 16, borderRadius: 8, paddingHorizontal: 16, paddingVertical: 16 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+            <Entypo name="book" size={20} color="#C0212E" style={{ marginRight: 8 }} />
+            <View>
+              <Text style={{ fontSize: 15, fontWeight: 'bold' }}>Estatuto - AFC</Text>
+              <Text style={{ fontSize: 15, color: '#505050' }}>2022</Text>
+            </View>
+          </View>
+
+          <View style={{ borderBottomWidth: 1, borderBottomColor: '#DDDDDD', width: 288, alignSelf: 'center', marginBottom: 8 }} />
+
+          <View style={{ alignSelf: 'center' }}>
+            <TouchableOpacity
+              style={{ backgroundColor: '#C0212E', width: 272, height: 32, borderRadius: 8, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginTop: 8}}
+              onPress={() => OpenAnything.Pdf('https://drive.google.com/file/d/15wKQkM_Yiw6rWL3aVb1Y7igBrHmGLUab/view?usp=sharing')}>
+              <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#FFFFFF' }}>Visualizar</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+
+
+        <View style={{ height: 136, width: 312, elevation: 5, shadowColor: '#000000', backgroundColor: '#FFFFFF', marginHorizontal: 24, borderRadius: 8, paddingHorizontal: 16, paddingVertical: 16, marginBottom: 24}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+            <Entypo name="book" size={20} color="#C0212E" style={{ marginRight: 8 }} />
+            <View>
+              <Text style={{ fontSize: 15, fontWeight: 'bold' }}>Estatuto - AFC</Text>
+              <Text style={{ fontSize: 15, color: '#505050' }}>2021</Text>
+            </View>
+          </View>
+
+          <View style={{ borderBottomWidth: 1, borderBottomColor: '#DDDDDD', width: 288, alignSelf: 'center', marginBottom: 8 }} />
+
+          <View style={{ alignSelf: 'center' }}>
+            <TouchableOpacity
+              style={{ backgroundColor: '#C0212E', width: 272, height: 32, borderRadius: 8, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginTop: 8}}
+              onPress={() => OpenAnything.Pdf('https://drive.google.com/file/d/15wKQkM_Yiw6rWL3aVb1Y7igBrHmGLUab/view?usp=sharing')}>
+              <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#FFFFFF' }}>Visualizar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+      </ScrollView>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    marginTop: 72,
-    backgroundColor: '#F2F2F2'
-  },
-  logo: {
-    width: 250,
-    resizeMode: 'contain'
-  },
-  boxRed: {
-    backgroundColor: '#8C1F28',
-    width: 312,
-    height: 40,
-    justifyContent: 'center',
-    borderTopLeftRadius: 3,
-    borderTopRightRadius: 3
-  },
-  boxRedTitle: {
-    color: '#FFFFFF',
-    paddingLeft: 16,
-    fontSize: 15,
-  },
-  boxWhite: {
-    backgroundColor: "#FFFFFF",
-    width: 312,
-    height: 128,
-    borderBottomLeftRadius: 3,
-    borderBottomRightRadius: 3,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  box: {
-    elevation: 5,
-    shadowColor: '#000000',
-    marginTop: 24
-  },
-  button: {
-    backgroundColor: '#D93B48',
-    width: 192,
-    height: 40,
-    borderRadius: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 16
-  },
-  buttonMargin: {
-    margin: 16,
-    backgroundColor: '#D93B48',
-    width: 192,
-    height: 40,
-    borderRadius: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonTitle: {
-    color: "#FFFFFF",
-  }
-});
+/* <TouchableOpacity
+  style={{ backgroundColor: '#C0212E', width: 312, height: 40, borderRadius: 8, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}
+  onPress={() => navigation.navigate('Auxiliar')}>
+  <AntDesign name="login" size={18} color="#FFFFFF" style={{ marginRight: 4 }} />
+  <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#FFFFFF' }}>Entrar</Text>
+</TouchableOpacity> */

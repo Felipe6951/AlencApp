@@ -1,0 +1,12 @@
+{
+	"Print to console": {
+		"scope": "javascript",
+		"prefix": "view",
+		"body": [
+			"<View>",
+			"",
+			"</View>"
+		],
+		"description": "print component View"
+	}
+}

@@ -16,51 +16,51 @@ const { Screen, Navigator } = createDrawerNavigator();
 export default function DrawerRoutes() {
   return (
     <Navigator>
-    <Screen 
-      name="AlencApp" 
-      component={Home}
-      options={{
-        drawerLabel: 'Início'
-      }}
-    />
-    <Screen 
-      name="Perfil" 
-      component={Perfil} 
-    />
-    <Screen 
-      name="Presenca" 
-      component={Presenca} 
-      options={{
-        drawerLabel: 'Presenças'
-      }}
-    />
-    <Screen 
-      name="Jogadores" 
-      component={Jogadores} 
-    />
-    <Screen 
-      name="Solicitacoes" 
-      component={Solicitacoes} 
-      options={{
-        drawerLabel: 'Solicitações'
-      }}
-    />
-    <Screen 
-      name="Avisos" 
-      component={Avisos} 
-    />
-    <Screen 
-      name="Organizadores" 
-      component={Organizadores} 
-    />
-    <Screen 
-      name="Estatuto" 
-      component={Estatuto} 
-    />
-    <Screen 
-      name="Sobre" 
-      component={Sobre} 
-    />
+      <Screen
+        name="AlencApp"
+        component={Home}
+        options={{
+          drawerLabel: 'Início'
+        }}
+      />
+      <Screen
+        name="Perfil"
+        component={Perfil}
+      />
+      <Screen
+        name="Presença"
+        component={Presenca}
+        options={{
+          drawerLabel: 'Presenças'
+        }}
+      />
+      <Screen
+        name="Jogadores"
+        component={Jogadores}
+      />
+      <Screen
+        name="Solicitações"
+        component={Solicitacoes}
+        options={{
+          drawerLabel: 'Solicitações'
+        }}
+      />
+      <Screen
+        name="Avisos"
+        component={Avisos}
+      />
+      <Screen
+        name="Organizadores"
+        component={Organizadores}
+      />
+      <Screen
+        name="Estatuto"
+        component={Estatuto}
+      />
+      <Screen
+        name="Sobre"
+        component={Sobre}
+      />
     </Navigator>
   );
 }

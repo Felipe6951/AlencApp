@@ -1,159 +1,97 @@
-import React from 'react';
-
-import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
-import { useNavigation } from '@react-navigation/native'
+import React, { useState } from 'react';
+import { View, StyleSheet, Image, SafeAreaView, TouchableOpacity, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Input } from 'native-base';
+import { Ionicons, AntDesign  } from '@expo/vector-icons';
 
 export default function Login() {
   const navigation = useNavigation();
+  const [password, setPassword] = useState('');
+  const [hidePassword, setHidePassword] = useState(true);
 
   return (
-    <View style={styles.container}>
-      
-      <View style={styles.containerLogo}>
+    <SafeAreaView style={styles.container}>
+
+      <View style={{ alignSelf: 'center', marginTop: 90, marginBottom: 40 }}>
         <Image
-          source={require('../../assets/logoAFC.png')}
-          style={styles.logo}
-          resizeMode= "contain"
+          source={require('../../assets/img/logo_afc.png')}
+          style={{ width: 180, height: 200 }}
+          resizeMode="contain"
         />
-        <Text style={styles.Title}>Alencar Futebol Clube</Text>
-        <Text style={styles.subTitle}>Um clube formado por amigos!</Text>
       </View>
 
-      <View style={styles.containerLogin}>
+      <View style={{ marginHorizontal: 24 }}>
+            <View style={{ marginBottom: 16 }}>
+              <Input
+                variant="filled"
+                placeholder="Email ou nome de usuário"
+                fontSize={15}
+                style={{ backgroundColor: '#F2F2F2' }}
+                autoCapitalize='none'
+                keyboardType='email-address'
+              />
+            </View>
 
-        <Text style={styles.loginTitle}>Entrar</Text>
-        <TextInput 
-          placeholder="Usuário ou email"
-          style={styles.input}
-        />
-        
-        <TextInput 
-          placeholder="Senha"
-          style={styles.input}
-        />
+            <View>
+              <Input
+                variant="filled"
+                placeholder="Senha"
+                style={{ backgroundColor: '#F2F2F2', paddingLeft: 12 }}
+                onChangeText={(texto) => setPassword(texto)}
+                secureTextEntry={hidePassword}
+                fontSize={15}
+                autoCapitalize='none'
+                InputRightElement={
+                  <TouchableOpacity
+                    style={{ marginRight: 12 }}
+                    onPress={() => setHidePassword(!hidePassword)}>
+                    {hidePassword ?
+                      <Ionicons name='eye' color={'#505050'} size={25} />
+                      :
+                      <Ionicons name='eye-off' color={'#505050'} size={25} />
+                    }
+                  </TouchableOpacity>
+                }
+              />
+            </View>
 
-        <TouchableOpacity style={styles.btnforget}>
-          <Text style={styles.forgettext}>Esqueçeu a senha?</Text>
-        </TouchableOpacity>
+            <View style={{ marginTop: 20 }}>
+              <TouchableOpacity
+                style={{ backgroundColor: '#C0212E', width: 312, height: 40, borderRadius: 8, alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}
+                onPress={() => navigation.navigate('Auxiliar')}>
+                  <AntDesign name="login" size={18} color="#FFFFFF" style={{ marginRight: 4 }} />
+                <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#FFFFFF' }}>Entrar</Text>
+              </TouchableOpacity>
+            </View>        
 
-        <TouchableOpacity 
-        onPress={ () => navigation.navigate('Auxiliar')}
-        style={styles.button}>
-          <Text style={styles.buttontext}>Login</Text>
-        </TouchableOpacity>
-
-        <Text style={styles.Register}>Não tem uma conta? 
-          <TouchableOpacity
-          onPress={ () => navigation.navigate('Register')}
-          style={styles.registerbtn}>
-            <Text style={styles.registertext}>Cadastre-se</Text>
+        <View style={{ flexDirection: 'row', marginTop: 24, justifyContent: 'center' }}>
+          <Text style={{ color: '#505050', fontSize: 12, marginRight: 4 }}>Esqueceu seus dados de login?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('')}>
+            <Text style={{ color: '#505050', fontSize: 12, fontWeight: 'bold' }}>Recuperar acesso</Text>
           </TouchableOpacity>
-        </Text>
-      
+        </View>
+
+        <View style={{ marginTop: 152 }}>
+          <View style={{ borderBottomWidth: 1, borderBottomColor: '#DDDDDD', width: 288, alignSelf: 'center' }} />
+
+          <View style={{ flexDirection: 'row', marginTop: 16, justifyContent: 'center' }}>
+            <Text style={{ color: '#505050', fontSize: 12, marginRight: 4 }}>Não tem uma conta?</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+              <Text style={{ color: '#505050', fontSize: 12, fontWeight: 'bold' }}>Cadastre-se</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
-    </View>
+    </SafeAreaView >
   );
 }
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     flex: 1,
-    backgroundColor: '#F4F4F4'
+    backgroundColor: '#FFFFFF'
   },
-
-  containerLogo:{
-    flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-
-  logo:{
-    width: '50%',
-    position: 'absolute'
-  },
-
-  Title:{
-    paddingTop: '60%',
-    color: '#8C1F28',
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontSize: 20,
-    fontWeight: '700'
-  },
-
-  subTitle:{
-    color: '#000000',
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontSize: 15,
-    fontWeight: '400'
-  },
-
-  containerLogin:{
-    flex: 2,
-    paddingHorizontal: '5%'
-  },
-
-  loginTitle:{
-    color: '#8C1F28',
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontSize: 25,
-    fontWeight: '700'
-  },
-
-  input:{
-    borderBottomColor: '#8C1F28',
-    borderBottomWidth: 2,
-    paddingTop: 10
-  },
-
-  btnforget:{
-    alignItems: 'flex-end',
-    paddingTop: '5%',
-  },
-
-  forgettext:{
-    borderBottomColor: '#8C1F28',
-    borderBottomWidth: 1,
-  },
-
-  button:{
-    backgroundColor: '#8C1F28',
-    borderRadius: 40,
-    alignItems: 'center',
-    paddingVertical: 11,
-    marginTop: 24,
-    width: '100%'
-  },
-
-  buttontext:{
-    fontFamily: 'Roboto',
-    fontSize: 15,
-    fontStyle: 'normal',
-    fontWeight: '700',
-    color: '#F5F5F5'
-  },
-
-  Register: {
-    marginTop: 80,
-    alignSelf: 'center',
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontSize: 12,
-    fontWeight: '400'
-  },
-
-  registerbtn:{
-    paddingLeft:5
-  },
-
-  registertext:{
-    color: '#8C1F28',
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontSize: 12,
-    fontWeight: '400'
+  teste: {
+    borderColor: 'red'
   }
-
 })
