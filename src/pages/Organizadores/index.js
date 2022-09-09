@@ -56,7 +56,7 @@ export default function Organizadores() {
   );
 
   return (
-    <SafeAreaView style={{ backgroundColor: '#F8F8F8' }}>
+    <SafeAreaView style={{ backgroundColor: '#F1F1F1' }}>
       <FlatList
         ListHeaderComponent={
           <View>

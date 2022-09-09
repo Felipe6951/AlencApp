@@ -66,7 +66,7 @@ export default function Solicitacoes() {
   );
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{backgroundColor: '#F1F1F1'}}>
       <FlatList
         ListHeaderComponent={
           <View style={{ marginBottom: 24 }}>

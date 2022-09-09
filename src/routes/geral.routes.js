@@ -1,4 +1,6 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { Text, ViewBase } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import Home from '../pages/Home'
 import Sobre from '../pages/Sobre'
@@ -10,29 +12,35 @@ import Jogadores from '../pages/Jogadores'
 import Solicitacoes from '../pages/Solicitacoes'
 import Organizadores from '../pages/Organizadores'
 
+import { CustomDrawer } from '../components/customDrawer';
 
 const { Screen, Navigator } = createDrawerNavigator();
 
 export default function DrawerRoutes() {
   return (
-    <Navigator>
+    <Navigator drawerContent={props => <CustomDrawer {...props} />}>
       <Screen
         name="AlencApp"
         component={Home}
-        options={{
-          drawerLabel: 'Início'
-        }}
+        options={({ navigation }) => ({
+          title: 'AlencApp',
+          headerStyle: {
+            backgroundColor: '#8C1F28',
+          },
+          headerTitleStyle: {
+            color: '#FFFFFF',
+            fontSize: 18
+          },
+          headerTitleAlign: "center",
+        })}
       />
       <Screen
         name="Perfil"
         component={Perfil}
       />
       <Screen
-        name="Presença"
+        name="Presenças"
         component={Presenca}
-        options={{
-          drawerLabel: 'Presenças'
-        }}
       />
       <Screen
         name="Jogadores"
@@ -41,9 +49,6 @@ export default function DrawerRoutes() {
       <Screen
         name="Solicitações"
         component={Solicitacoes}
-        options={{
-          drawerLabel: 'Solicitações'
-        }}
       />
       <Screen
         name="Avisos"

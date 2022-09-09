@@ -4,7 +4,7 @@ import { FontAwesome, MaterialIcons, Ionicons } from '@expo/vector-icons';
 
 export default function Perfil() {
   return (
-    <SafeAreaView style={{ backgroundColor: '#F2F2F2' }}>
+    <SafeAreaView style={{ backgroundColor: '#F1F1F1' }}>
       <ScrollView>
         <View>
           <View style={{ alignSelf: 'center', marginTop: 8, marginBottom: 16 }}>

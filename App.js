@@ -9,7 +9,7 @@ export default function App() {
   return (
     <NativeBaseProvider>
       <NavigationContainer>
-        <Routes/>
+        <Routes />
       </NavigationContainer>
     </NativeBaseProvider>
   );

@@ -8,7 +8,7 @@ import * as OpenAnything from 'react-native-openanything';
 export default function Estatuto() {
 
   return (
-    <SafeAreaView style={{ backgroundColor: '#FFFFFF', height: '100%'}}>
+    <SafeAreaView style={{ backgroundColor: '#F1F1F1', height: '100%'}}>
       <ScrollView>
          <View> 
           <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 24, borderTopLeftRadius: 8, borderTopRightRadius: 8, marginTop: 24, paddingHorizontal: 16, flexDirection: 'row' }}>
