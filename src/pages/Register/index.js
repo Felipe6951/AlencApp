@@ -1,15 +1,16 @@
 import React, { useRef, useState } from 'react';
-import { View, StyleSheet, Image, SafeAreaView, TouchableOpacity, Text, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, StyleSheet, Image, SafeAreaView, TouchableOpacity, Text, ScrollView, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import { Input } from 'native-base';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from '../../../firebase-config';
+
 export default function Register() {
   const navigation = useNavigation();
-
-  const [bestFoot] = useState(['Melhor pé', 'Direito', 'Esquerdo', 'Ambidestro'])
-  const [footSelected, setFootSelected] = useState([])
 
   const [tampa] = useState(['Tampa', '1', '2', '3', '4', '5', '6'])
   const [tampaSelected, setTampaSelected] = useState([])
@@ -18,10 +19,26 @@ export default function Register() {
   const emailRef = useRef();
   const phoneRef = useRef();
   const shirtNumberRef = useRef();
-  const passwordConfirmRef = useRef();
 
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const [hidePassword, setHidePassword] = useState(true);
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app)
+
+  const handleCreateAccount = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      console.log('Conta criada')
+      const user = userCredential.user;
+      console.log(user)
+    })
+    .catch(error => {
+      console.log(error)
+      Alert.alert(error.message)
+    })
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
@@ -63,6 +80,7 @@ export default function Register() {
 
             <View style={{ marginBottom: 16 }}>
               <Input
+                onChangeText={(text) => setEmail(text)}
                 ref={emailRef}
                 returnKeyType="next"
                 onSubmitEditing={() => phoneRef.current.focus()}
@@ -103,21 +121,6 @@ export default function Register() {
             <View style={{ marginBottom: 16, borderRadius: 4, backgroundColor: '#F2F2F2', height: 45, justifyContent: 'center' }}>
               <Picker
                 style={{ color: '#9E9E9E' }}
-                selectedValue={footSelected}
-                onValueChange={(itemValue) =>
-                  setFootSelected(itemValue)
-                }>
-                {
-                  bestFoot.map(cr => {
-                    return <Picker.Item label={cr} value={cr} />
-                  })
-                }
-              </Picker>
-            </View>
-
-            <View style={{ marginBottom: 16, borderRadius: 4, backgroundColor: '#F2F2F2', height: 45, justifyContent: 'center' }}>
-              <Picker
-                style={{ color: '#9E9E9E' }}
                 selectedValue={tampaSelected}
                 onValueChange={(itemValue) =>
                   setTampaSelected(itemValue)
@@ -133,35 +136,10 @@ export default function Register() {
             <View style={{ marginBottom: 16 }}>
               <Input
                 returnKeyType="next"
-                onSubmitEditing={() => passwordConfirmRef.current.focus()}
                 variant="filled"
                 placeholder="Senha"
                 style={{ backgroundColor: '#F2F2F2', paddingLeft: 12 }}
-                onChangeText={(texto) => setPassword(texto)}
-                secureTextEntry={hidePassword}
-                fontSize={15}
-                autoCapitalize='none'
-                InputRightElement={
-                  <TouchableOpacity
-                    style={{ marginRight: 12 }}
-                    onPress={() => setHidePassword(!hidePassword)}>
-                    {hidePassword ?
-                      <Ionicons name='eye' color={'#505050'} size={25} />
-                      :
-                      <Ionicons name='eye-off' color={'#505050'} size={25} />
-                    }
-                  </TouchableOpacity>
-                }
-              />
-            </View>
-
-            <View style={{ marginBottom: 16 }}>
-              <Input
-                ref={passwordConfirmRef}
-                variant="filled"
-                placeholder="Senha"
-                style={{ backgroundColor: '#F2F2F2', paddingLeft: 12 }}
-                onChangeText={(texto) => setPassword(texto)}
+                onChangeText={(text) => setPassword(text)}
                 secureTextEntry={hidePassword}
                 fontSize={15}
                 autoCapitalize='none'
@@ -183,7 +161,7 @@ export default function Register() {
           <View style={{ marginTop: 8 }}>
             <TouchableOpacity
               style={{ backgroundColor: '#C0212E', width: 312, height: 40, borderRadius: 8, alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}
-              onPress={() => navigation.navigate('Auxiliar')}>
+              onPress={handleCreateAccount}>
               <AntDesign name="check" size={18} color="#FFFFFF" style={{ marginRight: 4 }} />
               <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#FFFFFF' }}>Cadastrar</Text>
             </TouchableOpacity>

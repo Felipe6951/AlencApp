@@ -1,13 +1,36 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Image, SafeAreaView, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, Image, SafeAreaView, TouchableOpacity, Text, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Input } from 'native-base';
 import { Ionicons, AntDesign  } from '@expo/vector-icons';
 
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from '../../../firebase-config';
+
 export default function Login() {
   const navigation = useNavigation();
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const [hidePassword, setHidePassword] = useState(true);
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app)
+
+  const handleSignin = () => {
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      console.log('Logado com sucesso!')
+      const user = userCredential.user;
+      console.log(user)
+      navigation.navigate('Auxiliar')
+    })
+    .catch(error => {
+      console.log(error)
+      Alert.alert(error.message);
+    })
+  }
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -23,6 +46,7 @@ export default function Login() {
       <View style={{ marginHorizontal: 24 }}>
             <View style={{ marginBottom: 16 }}>
               <Input
+                onChangeText={(text) => setEmail(text)}
                 variant="filled"
                 placeholder="Email ou nome de usuário"
                 fontSize={15}
@@ -37,7 +61,7 @@ export default function Login() {
                 variant="filled"
                 placeholder="Senha"
                 style={{ backgroundColor: '#F2F2F2', paddingLeft: 12 }}
-                onChangeText={(texto) => setPassword(texto)}
+                onChangeText={(text) => setPassword(text)}
                 secureTextEntry={hidePassword}
                 fontSize={15}
                 autoCapitalize='none'
@@ -58,7 +82,7 @@ export default function Login() {
             <View style={{ marginTop: 20 }}>
               <TouchableOpacity
                 style={{ backgroundColor: '#C0212E', width: 312, height: 40, borderRadius: 8, alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}
-                onPress={() => navigation.navigate('Auxiliar')}>
+                onPress={handleSignin}>
                   <AntDesign name="login" size={18} color="#FFFFFF" style={{ marginRight: 4 }} />
                 <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#FFFFFF' }}>Entrar</Text>
               </TouchableOpacity>
