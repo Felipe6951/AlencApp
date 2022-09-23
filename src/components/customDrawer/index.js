@@ -5,10 +5,23 @@ import { Drawer } from 'react-native-paper';
 import { AntDesign, FontAwesome, MaterialIcons, Ionicons, FontAwesome5, Entypo } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 
+import { getAuth, signOut } from "firebase/auth";
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from '../../../firebase-config';
+
 export function CustomDrawer(props) {
 
     const [active, setActive] = React.useState('');
     const navigation = useNavigation()
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app)
+
+    const handleSignout = () => {
+        signOut(auth)
+        .then(() => navigation.navigate("Login"))
+        .catch(error => console.log(error))
+      }
 
     return (
         <View style={{ flex: 1 }}>
@@ -116,7 +129,7 @@ export function CustomDrawer(props) {
                     <View style={{marginTop: 40}}>
                         <TouchableOpacity
                             style={{ backgroundColor: '#C0212E', flexDirection: 'row', alignItems: "center", paddingVertical: 12, paddingHorizontal: 16 }}
-                            onPress={() => navigation.navigate('Login')}
+                            onPress={handleSignout}
                         >
                             <AntDesign name="logout" size={20} color="#FFFFFF" style={{ marginRight: 6 }} />
                             <Text style={{ fontSize: 16, color: '#FFFFFF', fontWeight: '500'}}>Sair</Text>

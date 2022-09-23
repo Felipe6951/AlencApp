@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Input } from 'native-base';
 import { Ionicons, AntDesign  } from '@expo/vector-icons';
 
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
 
@@ -20,10 +20,9 @@ export default function Login() {
   const handleSignin = () => {
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      console.log('Logado com sucesso!')
       const user = userCredential.user;
       console.log(user)
-      navigation.navigate('Auxiliar')
+      navigation.navigate('AlencApp')
     })
     .catch(error => {
       console.log(error)
@@ -31,6 +30,11 @@ export default function Login() {
     })
   }
 
+  const forgotPassword = () => {
+    sendPasswordResetEmail(auth, email)
+    .then(() => Alert.alert("Redefinir senha", "Enviamos um e-mail para você"))
+    .catch(error => console.log(error))
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -90,7 +94,7 @@ export default function Login() {
 
         <View style={{ flexDirection: 'row', marginTop: 24, justifyContent: 'center' }}>
           <Text style={{ color: '#505050', fontSize: 12, marginRight: 4 }}>Esqueceu seus dados de login?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('')}>
+          <TouchableOpacity onPress={forgotPassword}>
             <Text style={{ color: '#505050', fontSize: 12, fontWeight: 'bold' }}>Recuperar acesso</Text>
           </TouchableOpacity>
         </View>

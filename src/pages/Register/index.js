@@ -30,7 +30,7 @@ export default function Register() {
   const handleCreateAccount = () => {
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      console.log('Conta criada')
+      Alert.alert("Registro", "Conta criada com sucesso")
       const user = userCredential.user;
       console.log(user)
     })
