@@ -22,7 +22,7 @@ export default function Login() {
     .then((userCredential) => {
       const user = userCredential.user;
       console.log(user)
-      navigation.navigate('AlencApp')
+      navigation.navigate('Auxiliar')
     })
     .catch(error => {
       console.log(error)

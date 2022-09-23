@@ -8,9 +8,7 @@ import { NativeBaseProvider } from 'native-base';
 export default function App() {
   return (
     <NativeBaseProvider>
-      <NavigationContainer>
         <Routes />
-      </NavigationContainer>
     </NativeBaseProvider>
   );
 }

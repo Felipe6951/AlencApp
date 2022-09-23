@@ -9,27 +9,43 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
 
+import { getFirestore, setDoc, doc } from 'firebase/firestore'
+
 export default function Register() {
   const navigation = useNavigation();
 
-  const [tampa] = useState(['Tampa', '1', '2', '3', '4', '5', '6'])
-  const [tampaSelected, setTampaSelected] = useState([])
+  const [tampa] = React.useState(['Tampa', '1', '2', '3', '4', '5', '6'])
+  const [tampaSelected, setTampaSelected] = React.useState([])
 
   const usarnameRef = useRef();
   const emailRef = useRef();
   const phoneRef = useRef();
   const shirtNumberRef = useRef();
 
+  const [name, setName] = React.useState('');
+  const [username, setUsername] = React.useState('');
   const [email, setEmail] = React.useState('');
+  const [phone, setPhone] = React.useState('');
+  const [shirtnum, setShirtnum] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [hidePassword, setHidePassword] = useState(true);
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app)
 
+  const firestore = getFirestore(app);
+
   const handleCreateAccount = () => {
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
+      setDoc(doc(firestore, "membros", name), {
+        nome: name,
+        usuario: username,
+        email: email,
+        telefone: phone,
+        camisa: shirtnum,
+        tampa: tampaSelected
+      });
       Alert.alert("Registro", "Conta criada com sucesso")
       const user = userCredential.user;
       console.log(user)
@@ -57,6 +73,7 @@ export default function Register() {
 
             <View style={{ marginBottom: 16 }}>
               <Input
+                onChangeText={(text) => setName(text)}
                 returnKeyType="next"
                 onSubmitEditing={() => usarnameRef.current.focus()}
                 variant="filled"
@@ -68,6 +85,7 @@ export default function Register() {
 
             <View style={{ marginBottom: 16 }}>
               <Input
+                onChangeText={(text) => setUsername(text)}
                 ref={usarnameRef}
                 returnKeyType="next"
                 onSubmitEditing={() => emailRef.current.focus()}
@@ -95,6 +113,7 @@ export default function Register() {
 
             <View style={{ marginBottom: 16 }}>
               <Input
+                onChangeText={(text) => setPhone(text)}
                 ref={phoneRef}
                 returnKeyType="next"
                 onSubmitEditing={() => shirtNumberRef.current.focus()}
@@ -109,6 +128,7 @@ export default function Register() {
 
             <View style={{ marginBottom: 16 }}>
               <Input
+                onChangeText={(text) => setShirtnum(text)}
                 ref={shirtNumberRef}
                 variant="filled"
                 placeholder="Número da camisa"
