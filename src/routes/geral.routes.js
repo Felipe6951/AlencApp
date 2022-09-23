@@ -32,39 +32,120 @@ export default function DrawerRoutes() {
             fontSize: 18
           },
           headerTitleAlign: "center",
+          headerTintColor: '#FFFFFF'
         })}
       />
       <Screen
         name="Perfil"
         component={Perfil}
+        options={({ navigation }) => ({
+          headerStyle: {
+            backgroundColor: '#8C1F28',
+          },
+          headerTitleStyle: {
+            color: '#FFFFFF',
+            fontSize: 18
+          },
+          headerTintColor: '#FFFFFF'
+        })}
       />
       <Screen
         name="Presenças"
         component={Presenca}
+        options={({ navigation }) => ({
+          headerStyle: {
+            backgroundColor: '#8C1F28',
+          },
+          headerTitleStyle: {
+            color: '#FFFFFF',
+            fontSize: 18
+          },
+          headerTintColor: '#FFFFFF'
+        })}
       />
       <Screen
         name="Jogadores"
         component={Jogadores}
+        options={({ navigation }) => ({
+          headerStyle: {
+            backgroundColor: '#8C1F28',
+          },
+          headerTitleStyle: {
+            color: '#FFFFFF',
+            fontSize: 18
+          },
+          headerTintColor: '#FFFFFF'
+        })}
       />
       <Screen
         name="Solicitações"
         component={Solicitacoes}
+        options={({ navigation }) => ({
+          headerStyle: {
+            backgroundColor: '#8C1F28',
+          },
+          headerTitleStyle: {
+            color: '#FFFFFF',
+            fontSize: 18
+          },
+          headerTintColor: '#FFFFFF'
+        })}
       />
       <Screen
         name="Avisos"
         component={Avisos}
+        options={({ navigation }) => ({
+          headerStyle: {
+            backgroundColor: '#8C1F28',
+          },
+          headerTitleStyle: {
+            color: '#FFFFFF',
+            fontSize: 18
+          },
+          headerTintColor: '#FFFFFF'
+        })}
       />
       <Screen
         name="Organizadores"
         component={Organizadores}
+        options={({ navigation }) => ({
+          headerStyle: {
+            backgroundColor: '#8C1F28',
+          },
+          headerTitleStyle: {
+            color: '#FFFFFF',
+            fontSize: 18
+          },
+          headerTintColor: '#FFFFFF'
+        })}
       />
       <Screen
         name="Estatuto"
         component={Estatuto}
+        options={({ navigation }) => ({
+          headerStyle: {
+            backgroundColor: '#8C1F28',
+          },
+          headerTitleStyle: {
+            color: '#FFFFFF',
+            fontSize: 18
+          },
+          headerTintColor: '#FFFFFF'
+        })}
       />
       <Screen
         name="Sobre"
         component={Sobre}
+        options={({ navigation }) => ({
+          headerStyle: {
+            backgroundColor: '#8C1F28',
+          },
+          headerTitleStyle: {
+            color: '#FFFFFF',
+            fontSize: 18
+          },
+          headerTintColor: '#FFFFFF'
+        })}
       />
     </Navigator>
   );

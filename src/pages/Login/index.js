@@ -99,7 +99,7 @@ export default function Login() {
           </TouchableOpacity>
         </View>
 
-        <View style={{ marginTop: 152 }}>
+        <View style={{ marginTop: 136}}>
           <View style={{ borderBottomWidth: 1, borderBottomColor: '#DDDDDD', width: 288, alignSelf: 'center' }} />
 
           <View style={{ flexDirection: 'row', marginTop: 16, justifyContent: 'center' }}>

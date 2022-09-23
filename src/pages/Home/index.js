@@ -1,16 +1,106 @@
 import React from 'react';
-
-import { Avatar, ChevronRightIcon, CircleIcon, CheckCircleIcon, InfoOutlineIcon } from 'native-base';
-import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
+import { Dimensions, View, Text, Image, TouchableOpacity, SafeAreaView, Alert, StatusBar, ScrollView } from 'react-native';
+import { MaterialIcons, Octicons, MaterialCommunityIcons, FontAwesome, AntDesign, Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native'
-import { MaterialIcons } from "@expo/vector-icons";
+const { width } = Dimensions.get("window")
 
 export default function Home() {
-  return (
 
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Home</Text>
-    </View>
+  const navigation = useNavigation()
+
+  return (
+    <SafeAreaView>
+      <StatusBar />
+      <View style={{ backgroundColor: '#FFFFFF', height: 170, paddingHorizontal: 24, paddingVertical: 16, borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }}>
+        <TouchableOpacity 
+        onPress={() => navigation.navigate('Perfil')}
+        style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+          <View>
+            <Image
+              source={require('../../assets/img/user.png')}
+              style={{ width: 48, height: 48, marginRight: 8 }}
+              resizeMode="contain"
+            />
+          </View>
+
+          <View style={{ marginRight: 8 }}>
+            <Text>Olá,</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>root</Text>
+          </View>
+
+          <View>
+            <MaterialIcons name="keyboard-arrow-right" size={20} color="black" />
+          </View>
+        </TouchableOpacity>
+
+        <View style={{ borderBottomWidth: 1, borderBottomColor: '#DDDDDD', width: 312, alignSelf: 'center' }} />
+
+        <View style={{ marginTop: 16, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+
+          <View style={{ marginRight: 108, alignItems: 'center' }}>
+            <Text style={{ fontSize: 18 }}>Tampa</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+              <Octicons name="feed-star" size={20} color="#D93B48" />
+              <Text style={{ fontWeight: 'bold', fontSize: 18, color: "#D93B48", marginLeft: 4 }}>2</Text>
+            </View>
+          </View>
+
+          <View>
+            <TouchableOpacity
+              style={{ backgroundColor: '#C0212E', width: 144, height: 32, borderRadius: 8, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginTop: 8 }}
+              onPress={() => Alert.alert('Check!')}
+            >
+              <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#FFFFFF', marginRight: 8 }}>Check-in</Text>
+              <MaterialCommunityIcons name="qrcode-scan" size={18} color="#FFFFFF" />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+
+      <View style={{ marginVertical: 24 }}>
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          horizontal={true}
+          snapToAlignment='start'
+          style={{ width: width, height: width / 2.6 }}
+        >
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Perfil')}
+            style={{ marginHorizontal: 8, backgroundColor: '#C83844', width: width * 0.4, height: width / 4, borderRadius: 8, justifyContent: 'center', paddingLeft: 16 }}
+          >
+            <FontAwesome name="user-circle" size={20} color="#FFFFFF" style={{ marginRight: 6 }} />
+            <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Perfil</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Presenças')}
+            style={{ marginHorizontal: 8, backgroundColor: '#C83844', width: width * 0.4, height: width / 4, borderRadius: 8, justifyContent: 'center', paddingLeft: 16 }}
+          >
+            <AntDesign name="checkcircle" size={20} color="#FFFFFF" style={{ marginRight: 6 }} />
+            <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Presenças</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Estatuto')}
+            style={{ marginHorizontal: 8, backgroundColor: '#C83844', width: width * 0.4, height: width / 4, borderRadius: 8, justifyContent: 'center', paddingLeft: 16 }}
+          >
+            <Entypo name="book" size={20} color="#FFFFFF" style={{ marginRight: 6 }} />
+            <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Estatuto</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Sobre')}
+            style={{ marginHorizontal: 8, backgroundColor: '#C83844', width: width * 0.4, height: width / 4, borderRadius: 8, justifyContent: 'center', paddingLeft: 16 }}
+          >
+            <AntDesign name="questioncircle" size={20} color="#FFFFFF" style={{ marginRight: 6 }} />
+            <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Sobre</Text>
+          </TouchableOpacity>
+
+
+        </ScrollView>
+      </View>
+    </SafeAreaView >
   );
 }
 

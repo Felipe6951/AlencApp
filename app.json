@@ -5,6 +5,11 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ], 
+    "splash": {
+      "image": "./src/assets/img/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#8C1F28"
+    }
   }
 }

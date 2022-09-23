@@ -1,9 +1,11 @@
-import React from 'react';
-import { Text, View, SafeAreaView, ScrollView } from 'react-native';
-import Swipe from './ajudante';
+import React from "react";
+import { SafeAreaView,StatusBar } from "react-native";
 
 export default function Presenca() {
   return (
-    <Swipe />
+    <SafeAreaView>
+      <StatusBar />
+      
+    </SafeAreaView>
   );
 }
