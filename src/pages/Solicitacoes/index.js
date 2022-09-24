@@ -1,41 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Alert, FlatList } from 'react-native';
 import { Ionicons, AntDesign, FontAwesome, Entypo, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import DATA from '../Auxiliar/dataSolicitacoes';
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'One Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Two Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Three Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Four Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Five Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Six Item',
-  },
-];
-
-const Item = ({ title }) => (
+const Item = ({ name, email }) => (
   <View style={{ height: 136, width: 312, elevation: 5, shadowColor: '#000000', backgroundColor: '#FFFFFF', marginHorizontal: 24, borderRadius: 8, paddingHorizontal: 16, paddingVertical: 16, marginBottom: 16 }}>
     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
       <FontAwesome name="user-circle" size={24} color="#C0212E" style={{ marginRight: 8 }} />
       <View>
-        <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{title}</Text>
-        <Text style={{ fontSize: 15, color: '#505050' }}>kaioedu2003@gmail.com</Text>
+        <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{name}</Text>
+        <Text style={{ fontSize: 15, color: '#505050' }}>{email}</Text>
       </View>
     </View>
 
@@ -44,14 +18,14 @@ const Item = ({ title }) => (
     <View style={{ alignSelf: 'center', flexDirection: 'row' }}>
       <TouchableOpacity
         style={{ marginRight: 8, backgroundColor: '#C0212E', width: 128, height: 32, borderRadius: 8, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginTop: 8 }}
-        onPress={() => Alert.alert('Recusou!')}
+        onPress={() => Alert.alert('Recusou ' + name + '!')}
       >
         <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#FFFFFF' }}>Recusar</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={{ backgroundColor: '#C0212E', width: 128, height: 32, borderRadius: 8, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginTop: 8 }}
-        onPress={() => Alert.alert('Aceitou!')}
+        onPress={() => Alert.alert('Aceitou ' + name + '!')}
       >
         <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#FFFFFF' }}>Aceitar</Text>
       </TouchableOpacity>
@@ -60,11 +34,6 @@ const Item = ({ title }) => (
 );
 
 export default function Solicitacoes() {
-
-  const renderItem = ({ item }) => (
-    <Item title={item.title} />
-  );
-
   return (
     <SafeAreaView style={{backgroundColor: '#F1F1F1'}}>
       <FlatList
@@ -77,7 +46,7 @@ export default function Solicitacoes() {
               </View>
 
               <View style={{ backgroundColor: '#FFFFFF', borderRadius: 50, width: 25, height: 25, alignItems: 'center', justifyContent: 'center' }}>
-                <Text>2</Text>
+                <Text>{DATA.length}</Text>
               </View>
             </View>
 
@@ -87,8 +56,8 @@ export default function Solicitacoes() {
           </View>
         }
         data={DATA}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
+        renderItem={({ item }) => <Item name={item.name} email={item.email} />}       
+         keyExtractor={item => item.id}
       />
     </SafeAreaView>
   );
