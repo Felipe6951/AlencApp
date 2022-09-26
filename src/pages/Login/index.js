@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Image, SafeAreaView, TouchableOpacity, Text, Alert, ScrollView, Dimensions, KeyboardAvoidingView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Input, FormControl, StatusBar } from 'native-base';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 
-import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, setPersistence, browserLocalPersistence, onAuthStateChanged } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
 
@@ -22,13 +22,18 @@ export default function Login() {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user)
-        navigation.navigate('Auxiliar')
       })
       .catch(error => {
         console.log(error)
         Alert.alert(error.message);
       })
   }
+  
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      navigation.navigate('Auxiliar')
+    }
+  })
 
   const forgotPassword = () => {
     sendPasswordResetEmail(auth, email)
@@ -37,6 +42,7 @@ export default function Login() {
   }
 
   const { width } = Dimensions.get('screen')
+
 
   return (
     <SafeAreaView style={styles.container}>
