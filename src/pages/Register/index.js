@@ -20,7 +20,6 @@ export default function Register() {
 
   const [service, setService] = React.useState("");
 
-
   const usarnameRef = useRef();
   const emailRef = useRef();
   const phoneRef = useRef();

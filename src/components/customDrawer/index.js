@@ -80,9 +80,17 @@ export function CustomDrawer(props) {
 
                             <TouchableOpacity
                                 style={{ flexDirection: 'row', alignItems: "center", paddingVertical: 16, paddingHorizontal: 16 }}
+                                onPress={() => navigation.navigate('Organizadores')}
+                            >
+                                <FontAwesome5 name="users-cog" size={18} color="#8C1F28" style={{ marginRight: 6 }} />
+                                <Text style={{ fontSize: 16 }}>Organizadores</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={{ flexDirection: 'row', alignItems: "center", paddingVertical: 16, paddingHorizontal: 16 }}
                                 onPress={() => navigation.navigate('Solicitações')}
                             >
-                                <MaterialIcons name="pending" size={22} color="#8C1F28" style={{ marginRight: 6 }} />
+                                <MaterialIcons name="new-releases" size={22} color="#8C1F28" style={{ marginRight: 6 }} />
                                 <Text style={{ fontSize: 16 }}>Solicitações</Text>
                             </TouchableOpacity>
 
@@ -92,14 +100,6 @@ export function CustomDrawer(props) {
                             >
                                 <Ionicons name="alert-circle" size={22} color="#8C1F28" style={{ marginRight: 6 }} />
                                 <Text style={{ fontSize: 16 }}>Avisos</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                style={{ flexDirection: 'row', alignItems: "center", paddingVertical: 16, paddingHorizontal: 16 }}
-                                onPress={() => navigation.navigate('Organizadores')}
-                            >
-                                <FontAwesome5 name="users-cog" size={18} color="#8C1F28" style={{ marginRight: 6 }} />
-                                <Text style={{ fontSize: 16 }}>Organizadores</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

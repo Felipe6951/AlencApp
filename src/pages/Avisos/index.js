@@ -30,6 +30,8 @@ export default function Avisos() {
   const [motive] = React.useState(['Mudança de horário', 'Jogo cancelado', 'Outro'])
   const [motiveSelected, setMotiveSelected] = React.useState([])
 
+  const [description, setDescription] = useState('');
+
   return (
     <SafeAreaView style={{ backgroundColor: '#F1F1F1', height: '100%' }}>
       <View>
@@ -72,6 +74,8 @@ export default function Avisos() {
               fontSize={15}
               variant="outline"
               backgroundColor={'#F2F2F2'}
+              value={description}
+              onChangeText={(text) => setDescription(text)}
               placeholderTextColor={'#888888'}
               multiline={true}
               height={20}
@@ -80,8 +84,12 @@ export default function Avisos() {
           </View>
 
           <View style={{ justifyContent: 'flex-end', marginRight: 16, marginTop: 24, flexDirection: 'row' }}>
-            <TouchableOpacity onPress={() => Alert.alert('Limpou!')}>
-              <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#C0212E', marginRight: 16 }}>Limpar</Text>
+            <TouchableOpacity
+              onPress={() => {
+                setDescription('')
+                setMotiveSelected('')
+              }}>
+              <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#C0212E', marginRight: 24 }}>Limpar</Text>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => Alert.alert('Enviou!')}>

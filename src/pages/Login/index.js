@@ -7,7 +7,6 @@ import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
-import { color } from 'react-native-reanimated';
 
 export default function Login() {
   const navigation = useNavigation();
@@ -68,6 +67,7 @@ export default function Login() {
               keyboardType='email-address'
               backgroundColor={'#F2F2F2'}
               placeholderTextColor={'#888888'}
+              
             />
           </View>
 
