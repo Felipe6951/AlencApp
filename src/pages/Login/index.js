@@ -43,7 +43,6 @@ export default function Login() {
 
   const { width } = Dimensions.get('screen')
 
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar />

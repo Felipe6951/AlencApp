@@ -25,7 +25,7 @@ export function CustomDrawer(props) {
 
     return (
         <View style={{ flex: 1 }}>
-            <DrawerContentScrollView {...props} style={{ backgroundColor: '#8C1F28' }}>
+            <DrawerContentScrollView {...props} showsVerticalScrollIndicator={false} style={{ backgroundColor: '#8C1F28' }}>
                 <View style={{ alignSelf: 'center', backgroundColor: '#8C1F28', paddingHorizontal: '100%' }}>
                     <Image
                         source={require('../../assets/img/logo_afc.png')}

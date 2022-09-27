@@ -46,7 +46,6 @@ export default function Jogadores() {
     }
   }, [searchPlayer]);
 
-
   return (
     <SafeAreaView style={{ backgroundColor: '#F1F1F1' }}>
       <FlatList
@@ -92,8 +91,6 @@ export default function Jogadores() {
         renderItem={({ item }) => <Item name={item.name} tampa={item.tampa} camisa={item.camisa} />}
         keyExtractor={item => item.id}
       />
-
-
     </SafeAreaView>
   );
 }
