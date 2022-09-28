@@ -28,7 +28,7 @@ export default function Login() {
         Alert.alert(error.message);
       })
   }
-  
+
   onAuthStateChanged(auth, (user) => {
     if (user) {
       navigation.navigate('Auxiliar')
@@ -42,7 +42,6 @@ export default function Login() {
   }
 
   const { width } = Dimensions.get('screen')
-
 
   return (
     <SafeAreaView style={styles.container}>
