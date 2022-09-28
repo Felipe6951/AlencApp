@@ -1,12 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Dimensions, View, Text, Image, TouchableOpacity, SafeAreaView, Alert, StatusBar, ScrollView } from 'react-native';
 import { MaterialIcons, Octicons, MaterialCommunityIcons, FontAwesome, AntDesign, Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native'
 const { width } = Dimensions.get("window")
 
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from '../../../firebase-config';
+import { getFirestore, collection, query, onSnapshot, where } from 'firebase/firestore';
+import { getAuth} from 'firebase/auth';
+
 export default function Home() {
 
   const navigation = useNavigation()
+
+  const app = initializeApp(firebaseConfig);    
+  const firestore = getFirestore(app);
+  const auth = getAuth(app);
+
+  const q = query(collection(firestore, "membros"), where ("email", "==", auth.currentUser.email));
+
+  const [usuario, setUser] = useState([])
+
+  onSnapshot(q, (querySnapshot) => {
+    const members = [];
+    querySnapshot.forEach((doc) => {
+      members.push(doc.data().name);
+    })
+
+    setUser(members);
+  });
 
   return (
     <SafeAreaView>
@@ -25,7 +47,7 @@ export default function Home() {
 
           <View style={{ marginRight: 8 }}>
             <Text>Olá,</Text>
-            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>root</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{usuario.join()}</Text>
           </View>
 
           <View>

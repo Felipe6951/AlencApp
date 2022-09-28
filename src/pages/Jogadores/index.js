@@ -3,9 +3,28 @@ import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, FlatList, Alert
 import { Input } from 'native-base';
 import { Ionicons, AntDesign, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { useEffect } from 'react';
-import DATA from '../Auxiliar/dataJogadores';
+
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from '../../../firebase-config';
+import { getFirestore, collection, query, onSnapshot } from 'firebase/firestore'
 
 export default function Jogadores() {
+
+  const app = initializeApp(firebaseConfig);    
+  const firestore = getFirestore(app);
+
+  const q = query(collection(firestore, "membros"));
+  
+  const [DATA, setData] = useState([])
+
+  onSnapshot(q, (querySnapshot) => {
+    const members = [];
+    querySnapshot.forEach((doc) => {
+      members.push({ ...doc.data(), id: doc.id });
+    })
+  
+    setData(members);
+  });
 
   const Item = ({ name, tampa, camisa }) => (
     <TouchableOpacity
@@ -31,7 +50,7 @@ export default function Jogadores() {
   const [list, setList] = useState(DATA);
 
   useEffect(() => {
-    if (searchPlayer === '') {
+    if (searchPlayer === "") {
       setList(DATA);
     } else {
       setList(

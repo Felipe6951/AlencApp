@@ -28,7 +28,7 @@ export default function Login() {
         Alert.alert(error.message);
       })
   }
-  
+
   onAuthStateChanged(auth, (user) => {
     if (user) {
       navigation.navigate('Auxiliar')

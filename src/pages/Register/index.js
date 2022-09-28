@@ -9,7 +9,7 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
 
-import { getFirestore, setDoc, doc } from 'firebase/firestore'
+import { getFirestore, setDoc, doc, getDocs, collection, query, onSnapshot, addDoc } from 'firebase/firestore'
 import { color, max } from 'react-native-reanimated';
 
 export default function Register() {
@@ -40,9 +40,9 @@ export default function Register() {
 
   const handleCreateAccount = () => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(() => {
         setDoc(doc(firestore, "membros", name), {
-          nome: name,
+          name: name,
           usuario: username,
           email: email,
           telefone: phone,
@@ -50,8 +50,6 @@ export default function Register() {
           tampa: tampaSelected
         });
         Alert.alert("Registro", "Conta criada com sucesso")
-        const user = userCredential.user;
-        console.log(user)
       })
       .catch(error => {
         console.log(error)
@@ -60,6 +58,7 @@ export default function Register() {
   }
 
   const { width } = Dimensions.get("screen")
+  
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <StatusBar />
