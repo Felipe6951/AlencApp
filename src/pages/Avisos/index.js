@@ -30,6 +30,7 @@ export default function Avisos() {
   const [motive] = React.useState(['Mudança de horário', 'Jogo cancelado', 'Outro'])
   const [motiveSelected, setMotiveSelected] = React.useState([])
 
+
   const [description, setDescription] = useState('');
 
   return (
@@ -66,6 +67,8 @@ export default function Avisos() {
               }
             </Select>
           </View>
+
+          <Text> eai </Text>
 
           <View style={{ marginBottom: 8 }}>
             <FormControl.Label>Descrição</FormControl.Label>

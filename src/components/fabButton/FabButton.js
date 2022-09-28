@@ -12,7 +12,7 @@ export default class FabButton extends Component {
         Animated.spring(this.animation, {
             toValue,
             friction: 7,
-            useNativeDriver: true
+            useNativeDriver: true,
         }).start();
 
         this.open = !this.open;
@@ -55,7 +55,8 @@ export default class FabButton extends Component {
                     </Animated.View>
                 </TouchableWithoutFeedback>
 
-                <TouchableWithoutFeedback onPress={this.toggleOptions} >
+
+                <TouchableWithoutFeedback onPress={[this.toggleOptions, ]} >
                     <Animated.View style={[styles.button, styles.menu, rotation]}>
                         <Entypo name="plus" size={24} color="#FFFFFF" />
                     </Animated.View>
