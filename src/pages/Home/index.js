@@ -24,7 +24,8 @@ export default function Home() {
   onSnapshot(q, (querySnapshot) => {
     const members = [];
     querySnapshot.forEach((doc) => {
-      members.push(doc.data().name);
+      members.push(doc.data().usuario);
+      members.push(doc.data().tampa);
     })
 
     setUser(members);
@@ -47,7 +48,7 @@ export default function Home() {
 
           <View style={{ marginRight: 8 }}>
             <Text>Olá,</Text>
-            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{usuario.join()}</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{usuario[0]}</Text>
           </View>
 
           <View>
@@ -63,7 +64,7 @@ export default function Home() {
             <Text style={{ fontSize: 18 }}>Tampa</Text>
             <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
               <Octicons name="feed-star" size={20} color="#D93B48" />
-              <Text style={{ fontWeight: 'bold', fontSize: 18, color: "#D93B48", marginLeft: 4 }}>2</Text>
+              <Text style={{ fontWeight: 'bold', fontSize: 18, color: "#D93B48", marginLeft: 4 }}>{usuario[1]}</Text>
             </View>
           </View>
 
