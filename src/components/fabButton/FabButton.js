@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableWithoutFeedback, StyleSheet, Animated, Alert } from 'react-native';
-import { SimpleLineIcons, Entypo } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 export default class FabButton extends Component {
 

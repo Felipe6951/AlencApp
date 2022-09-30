@@ -4,32 +4,9 @@ import { Picker } from '@react-native-picker/picker';
 import { Ionicons, AntDesign, FontAwesome, Entypo, MaterialIcons, CheckIcon } from '@expo/vector-icons';
 import { Input, FormControl, Select } from 'native-base';
 
-
-//seguir passos desse site: https://www.npmjs.com/package/@react-native-picker/picker
-//https://www.npmjs.com/package/@react-native-community/picker
-
-//
-//
-//
-//
-//
-//
-//
-//PROBLEMA NO SELECT MOTIVOS
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 export default function Avisos() {
-  const [motive] = React.useState(['Mudança de horário', 'Jogo cancelado', 'Outro'])
+  const [motive] = React.useState(["Jogo cancelado", "outro"])
   const [motiveSelected, setMotiveSelected] = React.useState([])
-
 
   const [description, setDescription] = useState('');
 
@@ -43,7 +20,7 @@ export default function Avisos() {
           </View>
         </View>
 
-        <View style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, elevation: 5, shadowColor: '#505050', backgroundColor: '#FFFFFF', marginHorizontal: 24, paddingHorizontal: 16, paddingTop: 24, paddingBottom: 16 }}>
+        <View style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, elevation: 5, shadowColor: '#505050', backgroundColor: '#FFFFFF', marginHorizontal: 24, paddingHorizontal: 16, paddingTop: 16, paddingBottom: 16 }}>
           <View>
             <FormControl.Label>Motivo</FormControl.Label>
             <Select
@@ -68,8 +45,6 @@ export default function Avisos() {
             </Select>
           </View>
 
-          <Text> eai </Text>
-
           <View style={{ marginBottom: 8 }}>
             <FormControl.Label>Descrição</FormControl.Label>
             <Input
@@ -90,7 +65,7 @@ export default function Avisos() {
             <TouchableOpacity
               onPress={() => {
                 setDescription('')
-                setMotiveSelected('')
+                setMotiveSelected([])
               }}>
               <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#C0212E', marginRight: 24 }}>Limpar</Text>
             </TouchableOpacity>

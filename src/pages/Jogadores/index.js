@@ -10,11 +10,11 @@ import { getFirestore, collection, query, onSnapshot } from 'firebase/firestore'
 
 export default function Jogadores() {
 
-  const app = initializeApp(firebaseConfig);    
+  const app = initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
 
   const q = query(collection(firestore, "membros"));
-  
+
   const [DATA, setData] = useState([])
 
   onSnapshot(q, (querySnapshot) => {
@@ -22,14 +22,14 @@ export default function Jogadores() {
     querySnapshot.forEach((doc) => {
       members.push({ ...doc.data(), id: doc.id });
     })
-    
+
     setData(members);
   });
 
   const Item = ({ name, tampa, camisa }) => (
     <TouchableOpacity
       onPress={() => Alert.alert('Jogador: ' + name + " | Tampa: " + tampa + " | Camisa " + camisa)}
-      style={{ width: 312, alignSelf: 'center', height: 104, marginTop: 16, backgroundColor: '#FFFFFF', elevation: 5, shadowColor: '#505050', paddingHorizontal: 16, paddingVertical: 16, borderRadius: 8 }}>
+      style={{ width: 312, alignSelf: 'center', height: 104, marginBottom: 16, backgroundColor: '#FFFFFF', elevation: 5, shadowColor: '#505050', paddingHorizontal: 16, paddingVertical: 16, borderRadius: 8 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
         <FontAwesome name="user-circle" size={24} color="#C0212E" style={{ marginRight: 4 }} />
         <View style={{ marginLeft: 4 }}>
@@ -44,6 +44,49 @@ export default function Jogadores() {
         <Text style={{ color: '#505050' }}>Tampa: {tampa}</Text>
       </View>
     </TouchableOpacity>
+  );
+
+  const InputSearch = () => (
+    <Input
+      placeholder="Buscar..."
+      fontSize={15}
+      variant="outline"
+      value={searchPlayer}
+      backgroundColor={'#F2F2F2'}
+      placeholderTextColor={'#888888'}
+      height={10}
+      onChangeText={(t) => setSearchPlayer(t)}
+      InputLeftElement={
+        <AntDesign name="search1" size={18} color="#585858" style={{ marginLeft: 8 }} />
+      }
+      InputRightElement={
+        <TouchableOpacity
+          onPress={() => setSearchPlayer('')}
+        >
+          <MaterialIcons name="highlight-remove" size={20} color="#585858" style={{ marginRight: 8 }} />
+        </TouchableOpacity>
+      }
+    />
+  );
+
+  const CardHeader = () => (
+    <View style={{marginVertical: 24}}>
+      <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 24, borderTopLeftRadius: 8, borderTopRightRadius: 8, paddingHorizontal: 16, flexDirection: 'row' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Ionicons name="filter" size={20} color="#FFFFFF" style={{ marginRight: 4 }} />
+          <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Lista</Text>
+        </View>
+
+        <View style={{ backgroundColor: '#FFFFFF', borderRadius: 50, width: 25, height: 25, alignItems: 'center', justifyContent: 'center' }}>
+          <Text>{DATA.length}</Text>
+        </View>
+      </View>
+
+      <View style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, elevation: 5, shadowColor: '#505050', backgroundColor: '#FFFFFF', marginHorizontal: 24, paddingHorizontal: 16, alignItems: 'center', paddingVertical: 12 }}>
+        <Text style={{ color: '#505050', fontSize: 12, marginBottom: 16 }}>Busque os jogadores pelo nome, tampa, ou número da camisa.</Text>
+        <InputSearch />
+      </View>
+    </View>
   );
 
   const [searchPlayer, setSearchPlayer] = useState('');
@@ -70,40 +113,7 @@ export default function Jogadores() {
       <FlatList
         ListHeaderComponent={
           <View >
-            <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 24, borderTopLeftRadius: 8, borderTopRightRadius: 8, marginTop: 24, paddingHorizontal: 16, flexDirection: 'row' }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Ionicons name="filter" size={20} color="#FFFFFF" style={{ marginRight: 4 }} />
-                <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Lista</Text>
-              </View>
-
-              <View style={{ backgroundColor: '#FFFFFF', borderRadius: 50, width: 25, height: 25, alignItems: 'center', justifyContent: 'center' }}>
-                <Text>{DATA.length}</Text>
-              </View>
-            </View>
-
-            <View style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, elevation: 5, shadowColor: '#505050', backgroundColor: '#FFFFFF', marginHorizontal: 24, paddingHorizontal: 16, alignItems: 'center', paddingVertical: 12 }}>
-              <Text style={{ color: '#505050', fontSize: 12, marginBottom: 16 }}>Busque os jogadores pelo nome, tampa, ou número da camisa.</Text>
-              <Input
-                placeholder="Buscar..."
-                fontSize={15}
-                variant="outline"
-                value={searchPlayer}
-                backgroundColor={'#F2F2F2'}
-                placeholderTextColor={'#888888'}
-                height={10}
-                onChangeText={(t) => setSearchPlayer(t)}
-                InputLeftElement={
-                  <AntDesign name="search1" size={18} color="#585858" style={{ marginLeft: 8 }} />
-                }
-                InputRightElement={
-                  <TouchableOpacity
-                  onPress={() => setSearchPlayer('')}
-                  >
-                    <MaterialIcons name="highlight-remove" size={20} color="#585858" style={{ marginRight: 8 }} />
-                  </TouchableOpacity>
-                }
-              />
-            </View>
+            <CardHeader />
           </View>
         }
         data={list}
