@@ -7,6 +7,7 @@ import { firebaseConfig } from '../../../firebase-config';
 import { getFirestore, collection, query, onSnapshot, where } from 'firebase/firestore';
 import { getAuth} from 'firebase/auth';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 export default function Perfil() {
 
@@ -18,19 +19,21 @@ export default function Perfil() {
 
   const [usuario, setUser] = useState([])
 
-  onSnapshot(q, (querySnapshot) => {
-    const members = [];
-    querySnapshot.forEach((doc) => {
-      members.push(doc.data().name);
-      members.push(doc.data().tampa);
-      members.push(doc.data().camisa);
-      members.push(doc.data().telefone);
-      members.push(doc.data().usuario);
-      members.push(doc.data().email);
-    })
-
-    setUser(members);
-  });
+  useEffect(() => {
+    onSnapshot(q, (querySnapshot) => {
+      const members = [];
+      querySnapshot.forEach((doc) => {
+        members.push(doc.data().name);
+        members.push(doc.data().tampa);
+        members.push(doc.data().camisa);
+        members.push(doc.data().telefone);
+        members.push(doc.data().usuario);
+        members.push(doc.data().email);
+      })
+  
+      setUser(members);
+    });
+  }, [])
 
   return (
     <SafeAreaView style={{ backgroundColor: '#F1F1F1' }}>

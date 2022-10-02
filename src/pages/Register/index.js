@@ -47,7 +47,10 @@ export default function Register() {
           email: email,
           telefone: phone,
           camisa: shirtnum,
-          tampa: tampaSelected
+          tampa: tampaSelected,
+          situacao: "Pendente",
+          type: "Jogador",
+          status: "Ativo"
         });
         Alert.alert("Registro", "Conta criada com sucesso")
       })

@@ -17,15 +17,6 @@ export default function Jogadores() {
   
   const [DATA, setData] = useState([])
 
-  onSnapshot(q, (querySnapshot) => {
-    const members = [];
-    querySnapshot.forEach((doc) => {
-      members.push({ ...doc.data(), id: doc.id });
-    })
-    
-    setData(members);
-  });
-
   const Item = ({ name, tampa, camisa }) => (
     <TouchableOpacity
       onPress={() => Alert.alert('Jogador: ' + name + " | Tampa: " + tampa + " | Camisa " + camisa)}
@@ -50,6 +41,16 @@ export default function Jogadores() {
   const [list, setList] = useState(DATA);
 
   useEffect(() => {
+    
+    onSnapshot(q, (querySnapshot) => {
+      const members = [];
+      querySnapshot.forEach((doc) => {
+        members.push({ ...doc.data(), id: doc.id });
+      })
+      
+      setData(members);
+    });
+    
     if (searchPlayer === "") {
       setList(DATA);
     } else {

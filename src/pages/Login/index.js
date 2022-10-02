@@ -29,11 +29,13 @@ export default function Login() {
       })
   }
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      navigation.navigate('Auxiliar')
-    }
-  })
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigation.navigate('Auxiliar')
+      }
+    })
+  }, []);
 
   const forgotPassword = () => {
     sendPasswordResetEmail(auth, email)

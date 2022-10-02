@@ -57,7 +57,7 @@ export default function Solicitacoes() {
         }
         data={DATA}
         renderItem={({ item }) => <Item name={item.name} email={item.email} />}       
-         keyExtractor={item => item.id}
+        keyExtractor={item => item.id}
       />
     </SafeAreaView>
   );

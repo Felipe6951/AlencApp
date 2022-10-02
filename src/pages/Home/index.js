@@ -8,6 +8,7 @@ import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
 import { getFirestore, collection, query, onSnapshot, where } from 'firebase/firestore';
 import { getAuth} from 'firebase/auth';
+import { useEffect } from 'react';
 
 export default function Home() {
 
@@ -21,15 +22,17 @@ export default function Home() {
 
   const [usuario, setUser] = useState([])
 
-  onSnapshot(q, (querySnapshot) => {
-    const members = [];
-    querySnapshot.forEach((doc) => {
-      members.push(doc.data().usuario);
-      members.push(doc.data().tampa);
-    })
-
-    setUser(members);
-  });
+  useEffect(() => {
+    onSnapshot(q, (querySnapshot) => {
+      const members = [];
+      querySnapshot.forEach((doc) => {
+        members.push(doc.data().usuario);
+        members.push(doc.data().tampa);
+      })
+      
+      setUser(members);
+    });
+  }, []);
 
   return (
     <SafeAreaView>
