@@ -7,78 +7,8 @@ export default function Presenca() {
     <SafeAreaView>
       <StatusBar />
       <ScrollView>
-        <View styles={styles.container}>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-          <Text>Hello World!</Text>
-        </View>
+       <Text>Hello Presenças</Text>
       </ScrollView>
-
-      <FabButton />
-
     </SafeAreaView >
   );
 }

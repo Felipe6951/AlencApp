@@ -38,7 +38,7 @@ export default function Solicitacoes() {
     <SafeAreaView style={{backgroundColor: '#F1F1F1'}}>
       <FlatList
         ListHeaderComponent={
-          <View style={{ marginBottom: 24 }}>
+          <View style={{ marginBottom: 16 }}>
             <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 24, borderTopLeftRadius: 8, borderTopRightRadius: 8, marginTop: 24, paddingHorizontal: 16, flexDirection: 'row' }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <MaterialIcons name="new-releases" size={20} color="#FFFFFF" style={{ marginRight: 4 }} />
