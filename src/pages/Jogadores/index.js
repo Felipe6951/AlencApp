@@ -6,16 +6,16 @@ import { useEffect } from 'react';
 
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
-import { getFirestore, collection, query, onSnapshot } from 'firebase/firestore'
+import { getFirestore, collection, query, onSnapshot, where } from 'firebase/firestore'
 
 export default function Jogadores() {
 
   const app = initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
 
-  const q = query(collection(firestore, "membros"));
+  const q = query(collection(firestore, "membros"), where ("situacao", "==", "Aceito"));
 
-  const [DATA, setData] = useState([])
+  const [DATA, setData] = useState([]);
 
   const Item = ({ name, tampa, camisa }) => (
     <TouchableOpacity

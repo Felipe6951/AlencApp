@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { Ionicons, AntDesign, FontAwesome, Entypo, MaterialIcons, CheckIcon } from '@expo/vector-icons';
-import { Input, FormControl, Select } from 'native-base';
+import { Ionicons, AntDesign, FontAwesome, Entypo, MaterialIcons } from '@expo/vector-icons';
+import { Input, FormControl, Select, CheckIcon } from 'native-base';
 
 export default function Avisos() {
   const [motive] = React.useState(["Jogo cancelado", "outro"])

@@ -2,11 +2,29 @@ import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, SafeAreaView, Dimensions, TouchableWithoutFeedback, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { Input } from 'native-base';
 import { Ionicons, AntDesign, FontAwesome, MaterialIcons } from '@expo/vector-icons';
-import DATA from '../Auxiliar/dataOrganizadores'
+
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from '../../../firebase-config';
+import { getFirestore, collection, query, onSnapshot, where, doc, updateDoc } from 'firebase/firestore'
 
 const { width } = Dimensions.get('screen')
 
 export default function NewOrganizer() {
+
+    const app = initializeApp(firebaseConfig);
+    const firestore = getFirestore(app);
+  
+    const q = query(collection(firestore, "membros"), where ("type", "==", "Jogador"));
+  
+    const [DATA, setData] = useState([]);  
+
+    const addOrganizer = () => {
+        const myDoc = doc(firestore, "membros", "Felipe Freitas Lopes")
+
+        updateDoc(myDoc, {
+            Organizador: true
+        });
+    }
 
     const Item = ({ name, user, email, telefone }) => (
         <TouchableWithoutFeedback onPress={() => Alert.alert("Deseja tornar " + name + " (" + user + ") um organizador?")}>
@@ -80,6 +98,15 @@ export default function NewOrganizer() {
     const [list, setList] = useState(DATA);
 
     useEffect(() => {
+        onSnapshot(q, (querySnapshot) => {
+            const members = [];
+            querySnapshot.forEach((doc) => {
+              members.push({ ...doc.data(), id: doc.id });
+            })
+            
+            setData(members);
+        });
+        
         if (searchPlayer === "") {
             setList(DATA);
         } else {

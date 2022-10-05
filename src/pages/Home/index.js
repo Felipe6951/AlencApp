@@ -26,7 +26,7 @@ export default function Home() {
     onSnapshot(q, (querySnapshot) => {
       const members = [];
       querySnapshot.forEach((doc) => {
-        members.push(doc.data().usuario);
+        members.push(doc.data().user);
         members.push(doc.data().tampa);
       })
       

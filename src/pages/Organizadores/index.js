@@ -2,10 +2,20 @@ import React, { useState, useEffect, Component } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, FlatList, TouchableWithoutFeedback, Animated, Alert } from 'react-native';
 import { Input } from 'native-base';
 import { Ionicons, AntDesign, FontAwesome, MaterialIcons, Entypo } from '@expo/vector-icons';
-import DATA from '../Auxiliar/dataOrganizadores';
 import { useNavigation } from '@react-navigation/native';
 
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from '../../../firebase-config';
+import { getFirestore, collection, query, onSnapshot, where } from 'firebase/firestore'
+
 export default function Organizadores() {
+
+  const app = initializeApp(firebaseConfig);
+  const firestore = getFirestore(app);
+  
+  const q = query(collection(firestore, "membros"), where ("type", "==", "Organizador"));
+  
+  const [DATA, setData] = useState([]);
 
   class FabOrganizer extends Component {
     animation = new Animated.Value(0)
@@ -134,6 +144,16 @@ export default function Organizadores() {
   const [list, setList] = useState(DATA);
 
   useEffect(() => {
+    
+    onSnapshot(q, (querySnapshot) => {
+      const members = [];
+      querySnapshot.forEach((doc) => {
+        members.push({ ...doc.data(), id: doc.id });
+      })
+      
+      setData(members);
+    });
+
     if (searchOrganizer === '') {
       setList(DATA);
     } else {

@@ -27,8 +27,11 @@ export default function Perfil() {
         members.push(doc.data().tampa);
         members.push(doc.data().camisa);
         members.push(doc.data().telefone);
-        members.push(doc.data().usuario);
+        members.push(doc.data().user);
         members.push(doc.data().email);
+        members.push(doc.data().type);
+        members.push(doc.data().status);
+
       })
   
       setUser(members);
@@ -47,7 +50,7 @@ export default function Perfil() {
             />
             <View style={{ alignItems: 'center' }}>
               <Text style={{ fontWeight: 'bold', color: '#505050', fontSize: 18 }}>{usuario[4]}</Text>
-              <Text style={{ color: '#858585', fontSize: 15 }}>Organizador</Text>
+              <Text style={{ color: '#858585', fontSize: 15 }}>{usuario[6]}</Text>
             </View>
           </View>
 
@@ -72,7 +75,7 @@ export default function Perfil() {
               <Text>Status</Text>
             </View>
             <View>
-              <Text style={{ color: '#505050', fontSize: 12 }}>ATIVO</Text>
+              <Text style={{ color: '#505050', fontSize: 12 }}>{usuario[7]}</Text>
             </View>
           </View>
 

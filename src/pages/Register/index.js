@@ -43,12 +43,12 @@ export default function Register() {
       .then(() => {
         setDoc(doc(firestore, "membros", name), {
           name: name,
-          usuario: username,
+          user: username,
           email: email,
           telefone: phone,
           camisa: shirtnum,
           tampa: tampaSelected,
-          situacao: "Pendente",
+          situacao: "Aceito",
           type: "Jogador",
           status: "Ativo"
         });
