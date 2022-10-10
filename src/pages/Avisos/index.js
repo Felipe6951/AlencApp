@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, TextInput, Alert } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
-import { Ionicons, AntDesign, FontAwesome, Entypo, MaterialIcons } from '@expo/vector-icons';
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { Input, FormControl, Select, CheckIcon } from 'native-base';
 
 export default function Avisos() {
@@ -81,30 +80,8 @@ export default function Avisos() {
   );
 }
 
-/* <SafeAreaView>
-<View>
-  <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 24, borderTopLeftRadius: 8, borderTopRightRadius: 8, marginTop: 24, paddingHorizontal: 16, flexDirection: 'row' }}>
-    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      <Ionicons name="alert-circle" size={20} color="#FFFFFF" style={{ marginRight: 4 }} />
-      <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Novo aviso</Text>
-    </View>
-  </View>
-
-  <View style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, elevation: 5, shadowColor: '#505050', backgroundColor: '#FFFFFF', marginHorizontal: 24, paddingHorizontal: 16, paddingTop: 24, paddingBottom: 16 }}>
-    <Text style={{ color: '#505050', fontSize: 12 }}>Estatutos internos do Alencar Futebol Clube (AFC)</Text>
-  </View>
-</View>
-</SafeAreaView> */
-
-/* <Picker
-  style={styles.pickerItem}
-  selectedValue={motivoSelecionado}
-  onValueChange={(itemValue) =>
-    setMotivoSelecionado(itemValue)
-  }>
-  {
-    motivos.map(cr => {
-      return <Picker.Item label={cr} value={cr} />
-    })
+const card = StyleSheet.create({
+  container: {
+    
   }
-</Picker> */
+})

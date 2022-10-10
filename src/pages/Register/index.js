@@ -66,10 +66,6 @@ export default function Register() {
       <ScrollView
         showsVerticalScrollIndicator={false}
       >
-        <KeyboardAvoidingView
-          style={{ flex: 1, justifyContent: 'center', marginHorizontal: 24, height: "100%" }}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
           <View style={{ alignSelf: 'center', marginTop: 50, marginBottom: 24 }}>
             <Image
               source={require('../../assets/img/logo_afc.png')}
@@ -235,8 +231,6 @@ export default function Register() {
               </TouchableOpacity>
             </View>
           </View>
-
-        </KeyboardAvoidingView>
       </ScrollView>
     </SafeAreaView>
   );

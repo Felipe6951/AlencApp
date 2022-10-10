@@ -8,6 +8,8 @@ import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, setPersist
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
 
+const { width } = Dimensions.get('window')
+
 export default function Login() {
   const navigation = useNavigation();
   const [email, setEmail] = React.useState('');
@@ -43,23 +45,16 @@ export default function Login() {
       .catch(error => console.log(error))
   }
 
-  const { width } = Dimensions.get('screen')
-
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={position.container}>
       <StatusBar />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-      >
-        <KeyboardAvoidingView
-          style={{ flex: 1, justifyContent: 'center', marginHorizontal: 24 }}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
-          <View style={{ alignSelf: 'center', marginTop: 58, marginBottom: 32 }}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+          <View style={position.logo}>
             <Image
               source={require('../../assets/img/logo_afc.png')}
-              style={{ width: 180, height: 200 }}
               resizeMode="contain"
+              style={image.logo}
             />
           </View>
 
@@ -67,14 +62,12 @@ export default function Login() {
             <FormControl.Label>Email ou usuário</FormControl.Label>
             <Input
               placeholder="Seu email ou usuário"
-              onChangeText={(text) => setEmail(text)}
-              fontSize={15}
               variant="outline"
               autoCapitalize='none'
               keyboardType='email-address'
+              onChangeText={(text) => setEmail(text)}
               backgroundColor={'#F2F2F2'}
-              placeholderTextColor={'#888888'}
-              
+              style={form.all}
             />
           </View>
 
@@ -83,48 +76,49 @@ export default function Login() {
             <Input
               placeholder="Sua senha"
               onChangeText={(text) => setPassword(text)}
-              fontSize={15}
               variant="outline"
               autoCapitalize='none'
               secureTextEntry={hidePassword}
               InputRightElement={
                 <TouchableOpacity
-                  style={{ marginRight: 12 }}
-                  onPress={() => setHidePassword(!hidePassword)}>
+                  onPress={() => setHidePassword(!hidePassword)}
+                  style={form.buttonEye}
+                >
                   {hidePassword ?
-                    <Ionicons name='eye' color={'#505050'} size={25} />
+                    <Ionicons name='eye' style={form.iconEye} />
                     :
-                    <Ionicons name='eye-off' color={'#505050'} size={25} />
+                    <Ionicons name='eye-off' style={form.iconEye} />
                   }
                 </TouchableOpacity>
               }
               backgroundColor={'#F2F2F2'}
-              placeholderTextColor={'#888888'}
+              style={form.all}
             />
           </View>
 
-          <View style={{ marginTop: 20 }}>
+          <View style={position.enter}>
             <TouchableOpacity
-              style={{ backgroundColor: '#C0212E', height: 40, borderRadius: 8, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}
-              onPress={handleSignin}>
-              <AntDesign name="login" size={18} color="#FFFFFF" style={{ marginRight: 4 }} />
-              <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#FFFFFF' }}>Entrar</Text>
+              style={form.buttonEnter}
+              onPress={handleSignin}
+            >
+              <AntDesign name="login" size={18} style={form.iconButtonEnter} />
+              <Text style={typography.buttonEnter}>Entrar</Text>
             </TouchableOpacity>
           </View>
 
-          <View style={{ flexDirection: 'row', marginTop: 24, justifyContent: 'center' }}>
-            <Text style={{ color: '#505050', fontSize: 12, marginRight: 4 }}>Esqueceu seus dados de login?</Text>
+          <View style={position.recoverPass}>
+            <Text style={typography.questions}>Esqueceu seus dados de login?</Text>
             <TouchableOpacity onPress={forgotPassword}>
-              <Text style={{ color: '#505050', fontSize: 12, fontWeight: 'bold' }}>Recuperar acesso</Text>
+              <Text style={typography.actions}>Recuperar acesso</Text>
             </TouchableOpacity>
           </View>
 
-          <View style={{ marginTop: 116, marginBottom: 24 }}>
-            <View style={{ borderBottomWidth: 1, borderBottomColor: '#DDDDDD', width: width / 1.3, alignSelf: 'center' }} />
-            <View style={{ flexDirection: 'row', marginTop: 16, justifyContent: 'center' }}>
-              <Text style={{ color: '#505050', fontSize: 12, marginRight: 4 }}>Não tem uma conta?</Text>
+          <View style={position.register}>
+            <View style={styles.line} />
+            <View style={position.registerContent}>
+              <Text style={typography.questions}>Não tem uma conta?</Text>
               <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                <Text style={{ color: '#505050', fontSize: 12, fontWeight: 'bold' }}>Cadastre-se</Text>
+                <Text style={typography.actions}>Cadastre-se</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -134,9 +128,93 @@ export default function Login() {
   );
 }
 
-const styles = StyleSheet.create({
+const position = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF'
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 24
+  },
+  logo: {
+    alignSelf: 'center',
+    marginTop: 58,
+    marginBottom: 32
+  },
+  enter: {
+    marginTop: 24
+  },
+  recoverPass: {
+    flexDirection: 'row',
+    marginTop: 24,
+    justifyContent: 'center'
+  },
+  register: {
+    marginTop: 116,
+    marginBottom: 24
+  },
+  registerContent: {
+    flexDirection: 'row',
+    marginTop: 16,
+    justifyContent: 'center'
+  }
+})
+
+const image = StyleSheet.create({
+  logo: {
+    width: 180,
+    height: 200
+  }
+})
+
+const form = StyleSheet.create({
+  all: {
+    fontSize: 15,
+    placeholderTextColor: '#888888',
+    paddingLeft: 12
+  },
+  buttonEye: {
+    marginRight: 12
+  },
+  iconEye: {
+    color: '#505050',
+    fontSize: 25
+  },
+  iconButtonEnter: {
+    color: '#FFFFFF',
+    marginRight: 4
+  },
+  buttonEnter: {
+    backgroundColor: '#C0212E',
+    height: 40,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row'
+  }
+})
+
+const typography = StyleSheet.create({
+  buttonEnter: {
+    fontWeight: 'bold',
+    fontSize: 15,
+    color: '#FFFFFF'
+  },
+  questions: {
+    color: '#505050',
+    fontSize: 12,
+    marginRight: 4
+  },
+  actions: {
+    color: '#505050',
+    fontSize: 12,
+    fontWeight: 'bold'
+  }
+})
+
+const styles = StyleSheet.create({
+  line: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#DDDDDD',
+    width: width * 0.7,
+    alignSelf: 'center'
   }
 })
