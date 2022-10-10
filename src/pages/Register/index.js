@@ -34,30 +34,28 @@ export default function Register() {
   const [hidePassword, setHidePassword] = useState(true);
 
   const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app)
-
   const firestore = getFirestore(app);
 
   const handleCreateAccount = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        setDoc(doc(firestore, "membros", name), {
-          name: name,
-          user: username,
-          email: email,
-          telefone: phone,
-          camisa: shirtnum,
-          tampa: tampaSelected,
-          situacao: "Aceito",
-          type: "Jogador",
-          status: "Ativo"
-        });
-        Alert.alert("Registro", "Conta criada com sucesso")
-      })
-      .catch(error => {
-        console.log(error)
-        Alert.alert(error.message)
-      })
+    setDoc(doc(firestore, "membros", name), {
+      name: name,
+      user: username,
+      email: email,
+      telefone: phone,
+      camisa: shirtnum,
+      tampa: tampaSelected,
+      situacao: "Pendente",
+      type: "membro",
+      status: "Ativo",
+      password: password
+    })
+    .then(() => {
+      Alert.alert("Registro", "Conta Enviada para análise da comição")
+    })
+    .catch(error => {
+      console.log(error)
+      Alert.alert(error.message)
+    })
   }
 
   const { width } = Dimensions.get("screen")

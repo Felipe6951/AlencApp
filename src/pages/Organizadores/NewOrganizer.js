@@ -18,16 +18,8 @@ export default function NewOrganizer() {
   
     const [DATA, setData] = useState([]);  
 
-    const addOrganizer = () => {
-        const myDoc = doc(firestore, "membros", "Felipe Freitas Lopes")
-
-        updateDoc(myDoc, {
-            Organizador: true
-        });
-    }
-
     const Item = ({ name, user, email, telefone }) => (
-        <TouchableWithoutFeedback onPress={() => Alert.alert("Deseja tornar " + name + " (" + user + ") um organizador?")}>
+        <TouchableWithoutFeedback onPress={() => updateDoc(doc(firestore, "membros", name), {type: "Organizador"}).then(() => {Alert.alert("Organizadores", name + "Agora é um organizador!")})}>
             <View style={{ backgroundColor: '#FFFFFF', padding: 24, borderRadius: 8, marginBottom: 16, elevation: 5, shadowColor: '#505050' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ marginRight: 12 }}>
