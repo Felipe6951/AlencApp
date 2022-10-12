@@ -33,15 +33,15 @@ export default function NewOrganizer() {
                 <View style={{ borderBottomWidth: 1, borderColor: '#DDDDDD', width: width / 1.37, marginVertical: 8 }} />
                 <View style={{ marginTop: 8 }}>
                     <View style={{ marginBottom: 4 }}>
-                        <Text style={styles.span}>Usuário</Text>
+                        <Text style={styles.infospan}>Usuário</Text>
                         <Text style={styles.info}>{user}</Text>
                     </View>
                     <View style={{ marginBottom: 4 }}>
-                        <Text style={styles.span}>Email</Text>
+                        <Text style={styles.infospan}>Email</Text>
                         <Text style={styles.info}>{email}</Text>
                     </View>
                     <View>
-                        <Text style={styles.span}>Telefone</Text>
+                        <Text style={styles.infospan}>Telefone</Text>
                         <Text style={styles.info}>{telefone}</Text>
                     </View>
                 </View>
@@ -141,5 +141,9 @@ const styles = StyleSheet.create({
     info: {
         fontSize: 15,
         color: '#505050'
+    },
+    infospan: {
+        color: '#C0212E',
+        fontSize: 15
     }
 });

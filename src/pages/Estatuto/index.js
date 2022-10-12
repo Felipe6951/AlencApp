@@ -119,8 +119,6 @@ export default function Estatuto() {
         renderItem={({ item }) => <Item year={item.year} url={item.url} />}
         keyExtractor={item => item.id}
       />
-
-      <FabStatute />
     </SafeAreaView>
   );
 }

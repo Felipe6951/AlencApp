@@ -43,13 +43,13 @@ export default function Home() {
         style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
           <View>
             <Image
-              source={require('../../assets/img/user.png')}
-              style={{ width: 48, height: 48, marginRight: 8 }}
+              source={require('../../assets/img/user_null.png')}
+              style={{ width: 80, height: 80, marginLeft: -12, marginRight: -8}}
               resizeMode="contain"
             />
           </View>
 
-          <View style={{ marginRight: 8 }}>
+          <View>
             <Text>Olá,</Text>
             <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{usuario[0]}</Text>
           </View>

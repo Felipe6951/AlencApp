@@ -44,8 +44,8 @@ export default function Perfil() {
         <View>
           <View style={{ alignSelf: 'center', marginTop: 8, marginBottom: 16 }}>
             <Image
-              source={require('../../assets/img/user.png')}
-              style={{ width: 140, height: 160 }}
+              source={require('../../assets/img/user_null.png')}
+              style={{ width: 280, height: 280, marginTop: -50, marginBottom: -56}}
               resizeMode="contain"
             />
             <View style={{ alignItems: 'center' }}>
@@ -68,7 +68,7 @@ export default function Perfil() {
           </View>
         </View>
 
-        <View style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 20, borderTopRightRadius: 20, elevation: 2, shadowColor: '#000000', marginTop: 8, paddingBottom: 16}}>
+        <View style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 20, borderTopRightRadius: 20, elevation: 2, shadowColor: '#505050', marginTop: 8, paddingBottom: 20}}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 16, marginHorizontal: 24 }}>
             <View style={{ flexDirection: 'row' }}>
               <FontAwesome name="soccer-ball-o" size={18} color="#C0212E" style={{ marginRight: 4 }} />
@@ -80,7 +80,7 @@ export default function Perfil() {
           </View>
 
 
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 16, marginHorizontal: 24 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 8, marginHorizontal: 24 }}>
             <View style={{ flexDirection: 'row' }}>
               <FontAwesome name="user-circle" size={18} color="#C0212E" style={{ marginRight: 4 }} />
               <Text>Nome</Text>
@@ -131,7 +131,7 @@ export default function Perfil() {
             </View>
           </View>
 
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 24, marginVertical: 16 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 24, marginTop: 16}}>
             <View style={{ flexDirection: 'row' }}>
               <Ionicons name="today" size={18} color="#C0212E" style={{ marginRight: 4 }} />
               <Text>Dias</Text>

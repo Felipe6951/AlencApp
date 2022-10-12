@@ -49,31 +49,32 @@ export default function Register() {
       status: "Ativo",
       password: password
     })
-    .then(() => {
-      Alert.alert("Registro", "Conta Enviada para análise da comição")
-    })
-    .catch(error => {
-      console.log(error)
-      Alert.alert(error.message)
-    })
+      .then(() => {
+        Alert.alert("Registro", "Conta Enviada para análise da comição")
+      })
+      .catch(error => {
+        console.log(error)
+        Alert.alert(error.message)
+      })
   }
 
   const { width } = Dimensions.get("screen")
-  
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <StatusBar />
       <ScrollView
         showsVerticalScrollIndicator={false}
       >
-          <View style={{ alignSelf: 'center', marginTop: 50, marginBottom: 24 }}>
-            <Image
-              source={require('../../assets/img/logo_afc.png')}
-              style={{ width: 140, height: 160 }}
-              resizeMode="contain"
-            />
-          </View>
+        <View style={{ alignSelf: 'center', marginTop: 50, marginBottom: 24 }}>
+          <Image
+            source={require('../../assets/img/logo_afc.png')}
+            style={{ width: 140, height: 160 }}
+            resizeMode="contain"
+          />
+        </View>
 
+        <View style={{marginHorizontal: 24}}>
           <View style={{ marginBottom: 8 }}>
             <FormControl.Label>Nome completo</FormControl.Label>
             <Input
@@ -231,6 +232,7 @@ export default function Register() {
               </TouchableOpacity>
             </View>
           </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
