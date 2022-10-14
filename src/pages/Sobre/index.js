@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, SafeAreaView, Image, StyleSheet } from 'react-native';
+import { View, Text, SafeAreaView, Image } from 'react-native';
+import typography from '../../styles/typography';
 
 export default function Sobre() {
   return (
@@ -11,10 +12,10 @@ export default function Sobre() {
         />
       </View>
       <View style={{ alignSelf: 'center', marginHorizontal: 24, alignItems: 'center' }}>
-        <Text style={{ color: '#505050' }}>©AlencApp - Todos os direitos reservados.</Text>
-        <Text style={{ color: '#505050' }}>Desenvolvido por Felipe Freitas, Vinícius Fernandes, Irlan Moreira e Maikon Maia.</Text>
-        <Text style={{ color: '#505050' }}>Alencar Futebol Clube (A.F.C.)</Text>
-        <Text style={{ color: '#505050' }}>@Versão 201910940100</Text>
+        <Text style={typography.informationAbout}>©AlencApp - Todos os direitos reservados.</Text>
+        <Text style={typography.informationAbout}>Desenvolvido por Felipe Freitas, Vinícius Fernandes, Irlan Moreira e Maikon Maia.</Text>
+        <Text style={typography.informationAbout}>Alencar Futebol Clube (A.F.C.)</Text>
+        <Text style={typography.informationAbout}>@Versão 201910940100</Text>
       </View>
     </SafeAreaView >
   );

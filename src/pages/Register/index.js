@@ -11,6 +11,7 @@ import { firebaseConfig } from '../../../firebase-config';
 
 import { getFirestore, setDoc, doc, getDocs, collection, query, onSnapshot, addDoc } from 'firebase/firestore'
 import { color, max } from 'react-native-reanimated';
+import typography from '../../styles/typography';
 
 export default function Register() {
   const navigation = useNavigation();
@@ -219,16 +220,16 @@ export default function Register() {
               style={{ backgroundColor: '#C0212E', height: 40, borderRadius: 8, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}
               onPress={handleCreateAccount}>
               <AntDesign name="check" size={18} color="#FFFFFF" style={{ marginRight: 4 }} />
-              <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#FFFFFF' }}>Cadastrar</Text>
+              <Text style={typography.buttonRed}>Cadastrar</Text>
             </TouchableOpacity>
 
 
             <View style={{ borderBottomWidth: 1, borderBottomColor: '#DDDDDD', width: width / 1.3, alignSelf: 'center', marginTop: 40 }} />
 
             <View style={{ flexDirection: 'row', marginTop: 16, justifyContent: 'center', marginVertical: 24 }}>
-              <Text style={{ color: '#505050', fontSize: 12, marginRight: 4 }}>Já tem uma conta?</Text>
+              <Text style={typography.register}>Já tem uma conta?</Text>
               <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Text style={{ color: '#505050', fontSize: 12, fontWeight: 'bold' }}>Faça login</Text>
+                <Text style={typography.buttonRegister}>Faça login</Text>
               </TouchableOpacity>
             </View>
           </View>

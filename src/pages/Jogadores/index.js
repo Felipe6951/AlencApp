@@ -13,13 +13,17 @@ export default function Jogadores() {
   const app = initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
 
-  const q = query(collection(firestore, "membros"), where ("situacao", "==", "Aceito"));
+  const q = query(collection(firestore, "membros"), where("situacao", "==", "Aceito"));
 
   const [DATA, setData] = useState([]);
 
   const Item = ({ name, tampa, camisa }) => (
     <TouchableOpacity
-      onPress={() => Alert.alert('Jogador: ' + name + " | Tampa: " + tampa + " | Camisa " + camisa)}
+      onPress={() => console.log('You touched me')} _dark={{
+        bg: 'coolGray.800'
+      }} _light={{
+        bg: 'white'
+      }}
       style={{ width: 312, alignSelf: 'center', height: 104, marginBottom: 16, backgroundColor: '#FFFFFF', elevation: 5, shadowColor: '#505050', paddingHorizontal: 16, paddingVertical: 16, borderRadius: 8 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
         <FontAwesome name="user-circle" size={24} color="#C0212E" style={{ marginRight: 4 }} />
@@ -61,7 +65,7 @@ export default function Jogadores() {
   );
 
   const CardHeader = () => (
-    <View style={{marginVertical: 24}}>
+    <View style={{ marginVertical: 24 }}>
       <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 24, borderTopLeftRadius: 8, borderTopRightRadius: 8, paddingHorizontal: 16, flexDirection: 'row' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Ionicons name="filter" size={20} color="#FFFFFF" style={{ marginRight: 4 }} />
@@ -82,18 +86,18 @@ export default function Jogadores() {
 
   const [searchPlayer, setSearchPlayer] = useState('');
   const [list, setList] = useState(DATA);
-
+const test = list.find((item)=> item.name === searchPlayer);
   useEffect(() => {
-    
+
     onSnapshot(q, (querySnapshot) => {
       const members = [];
       querySnapshot.forEach((doc) => {
         members.push({ ...doc.data(), id: doc.id });
       })
-      
+
       setData(members);
     });
-    
+
     if (searchPlayer === "") {
       setList(DATA);
     } else {
@@ -119,6 +123,12 @@ export default function Jogadores() {
         }
         data={list}
         renderItem={({ item }) => <Item name={item.name} tampa={item.tampa} camisa={item.camisa} />}
+        renderHiddenItem={renderHiddenItem} 
+        rightOpenValue={-130} 
+        previewRowKey={'0'} 
+        previewOpenValue={-40} 
+        previewOpenDelay={3000} 
+        onRowDidOpen={onRowDidOpen}
         keyExtractor={item => item.id}
       />
     </SafeAreaView>

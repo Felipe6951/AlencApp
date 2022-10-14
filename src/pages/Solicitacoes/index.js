@@ -1,22 +1,26 @@
-import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Alert, FlatList } from 'react-native';
-import { Ionicons, AntDesign, FontAwesome, Entypo, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import React, { useEffect, useState } from 'react';
+import { Text, View, SafeAreaView, TouchableOpacity, Alert, FlatList } from 'react-native';
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import typography from '../../styles/typography';
+import styles from './styles';
 
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
 import { getFirestore, collection, query, onSnapshot, where, doc, updateDoc, deleteDoc, deleteField } from 'firebase/firestore'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import metrics from '../../styles/metrics';
+import { Dimensions } from 'react-native';
 
 
 export default function Solicitacoes() {
-  
+
   const app = initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
   const auth = getAuth(app)
 
-  const q = query(collection(firestore, "membros"), where ("situacao", "==", "Pendente"));
+  const q = query(collection(firestore, "membros"), where("situacao", "==", "Pendente"));
 
-  const [DATA, setData] = useState([]); 
+  const [DATA, setData] = useState([]);
 
   useEffect(() => {
     onSnapshot(q, (querySnapshot) => {
@@ -24,64 +28,68 @@ export default function Solicitacoes() {
       querySnapshot.forEach((doc) => {
         members.push({ ...doc.data(), id: doc.id });
       })
-      
+
       setData(members);
     });
   }, [])
-  
+
   const Item = ({ name, email, password }) => (
-    <View style={{ height: 136, width: 312, elevation: 5, shadowColor: '#000000', backgroundColor: '#FFFFFF', marginHorizontal: 24, borderRadius: 8, paddingHorizontal: 16, paddingVertical: 16, marginBottom: 16 }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
-        <FontAwesome name="user-circle" size={24} color="#C0212E" style={{ marginRight: 8 }} />
+    <View style={styles.itemCard}>
+      <View style={styles.itemContent}>
+        <FontAwesome name="user-circle" size={24} style={styles.itemIcon} />
         <View>
-          <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{name}</Text>
-          <Text style={{ fontSize: 15, color: '#505050' }}>{email}</Text>
+          <Text style={styles.itemName}>{name}</Text>
+          <Text style={styles.itemEmail}>{email}</Text>
         </View>
       </View>
-  
-      <View style={{ borderBottomWidth: 1, borderBottomColor: '#DDDDDD', width: 288, alignSelf: 'center', marginBottom: 8 }} />
-  
-      <View style={{ alignSelf: 'center', flexDirection: 'row' }}>
+
+      <View style={styles.line} />
+
+      <View style={[styles.direction, styles.buttonChoosesPosition]}>
         <TouchableOpacity
-          style={{ marginRight: 8, backgroundColor: '#C0212E', width: 128, height: 32, borderRadius: 8, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginTop: 8 }}
-          onPress={() => deleteDoc(doc(firestore, "membros", name)).then(() => {Alert.alert("Solicitações", name + " recusado!")})}
+          style={styles.buttonChooses}
+          onPress={() => deleteDoc(doc(firestore, "membros", name)).then(() => { Alert.alert("Solicitações", name + " recusado!") })}
         >
-          <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#FFFFFF' }}>Recusar</Text>
+          <Text style={typography.buttonRed}>Recusar</Text>
         </TouchableOpacity>
-  
+
         <TouchableOpacity
-          style={{ backgroundColor: '#C0212E', width: 128, height: 32, borderRadius: 8, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginTop: 8 }}
-          onPress={() => updateDoc(doc(firestore, "membros", name), {situacao: "Aceito", type: "Jogador", password: deleteField()}) && createUserWithEmailAndPassword(auth, email, password).then(() => {Alert.alert("Solicitações", name + " Aceito!")})}
+          style={styles.buttonChooses}
+          onPress={() => updateDoc(doc(firestore, "membros", name), { situacao: "Aceito", type: "Jogador", password: deleteField() }) && createUserWithEmailAndPassword(auth, email, password).then(() => { Alert.alert("Solicitações", name + " Aceito!") })}
         >
-          <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#FFFFFF' }}>Aceitar</Text>
+          <Text style={typography.buttonRed}>Aceitar</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 
+  const CardHeader = () => (
+    <View style={metrics.cardForItems}>
+      <View style={styles.cardRed}>
+        <View style={styles.direction}>
+          <MaterialIcons name="new-releases" size={20} style={styles.cardIcon} />
+          <Text style={typography.cardTitle}>Novos cadastros</Text>
+        </View>
+
+        <View style={styles.counter}>
+          <Text>{DATA.length}</Text>
+        </View>
+      </View>
+
+      <View style={styles.descriptionContent}>
+        <Text style={typography.cardDescription}>Solicitações de cadastro no Alencar Futebol Clube</Text>
+      </View>
+    </View>
+  );
+
   return (
-    <SafeAreaView style={{backgroundColor: '#F1F1F1'}}>
+    <SafeAreaView style={{ backgroundColor: '#F1F1F1' }}>
       <FlatList
         ListHeaderComponent={
-          <View style={{ marginBottom: 16 }}>
-            <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 24, borderTopLeftRadius: 8, borderTopRightRadius: 8, marginTop: 24, paddingHorizontal: 16, flexDirection: 'row' }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <MaterialIcons name="new-releases" size={20} color="#FFFFFF" style={{ marginRight: 4 }} />
-                <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Novos cadastros</Text>
-              </View>
-
-              <View style={{ backgroundColor: '#FFFFFF', borderRadius: 50, width: 25, height: 25, alignItems: 'center', justifyContent: 'center' }}>
-                <Text>{DATA.length}</Text>
-              </View>
-            </View>
-
-            <View style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, elevation: 5, shadowColor: '#505050', backgroundColor: '#FFFFFF', marginHorizontal: 24, paddingHorizontal: 16, paddingTop: 24, paddingBottom: 16 }}>
-              <Text style={{ color: '#505050', fontSize: 12 }}>Solicitações de cadastro no Alencar Futebol Clube</Text>
-            </View>
-          </View>
+          <CardHeader />
         }
         data={DATA}
-        renderItem={({ item }) => <Item name={item.name} email={item.email} password={item.password} />}       
+        renderItem={({ item }) => <Item name={item.name} email={item.email} password={item.password} />}
         keyExtractor={item => item.id}
       />
     </SafeAreaView>
