@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Image, SafeAreaView, TouchableOpacity, Text, Alert, ScrollView, Dimensions, KeyboardAvoidingView } from 'react-native';
+import { View, Image, SafeAreaView, TouchableOpacity, Text, Alert, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Input, FormControl, StatusBar } from 'native-base';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
+import Divider from '../../components/Divider/Divider'
+import styles from './styles';
 
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, setPersistence, browserLocalPersistence, onAuthStateChanged } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
-
-const { width } = Dimensions.get('window')
 
 export default function Login() {
   const navigation = useNavigation();
@@ -46,19 +46,16 @@ export default function Login() {
   }
 
   return (
-    <SafeAreaView style={position.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
-          <View style={position.logo}>
-            <Image
-              source={require('../../assets/img/logo_afc.png')}
-              resizeMode="contain"
-              style={image.logo}
-            />
+
+      <KeyboardAvoidingView behavior='height' keyboardVerticalOffset={30}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.logoPosition}>
+            <Image style={styles.logo} source={require('../../assets/img/logo_afc.png')} resizeMode="contain" />
           </View>
 
-          <View style={{ marginBottom: 8 }}>
+          <View style={styles.formFields}>
             <FormControl.Label>Email ou usuário</FormControl.Label>
             <Input
               placeholder="Seu email ou usuário"
@@ -67,11 +64,11 @@ export default function Login() {
               keyboardType='email-address'
               onChangeText={(text) => setEmail(text)}
               backgroundColor={'#F2F2F2'}
-              style={form.all}
+              style={styles.input}
             />
           </View>
 
-          <View>
+          <View style={styles.formFields}>
             <FormControl.Label>Senha</FormControl.Label>
             <Input
               placeholder="Sua senha"
@@ -79,142 +76,51 @@ export default function Login() {
               variant="outline"
               autoCapitalize='none'
               secureTextEntry={hidePassword}
+              backgroundColor={'#F2F2F2'}
+              style={styles.input}
               InputRightElement={
                 <TouchableOpacity
                   onPress={() => setHidePassword(!hidePassword)}
-                  style={form.buttonEye}
+                  style={styles.buttonEye}
                 >
                   {hidePassword ?
-                    <Ionicons name='eye' style={form.iconEye} />
+                    <Ionicons name='eye' style={styles.iconEye} />
                     :
-                    <Ionicons name='eye-off' style={form.iconEye} />
+                    <Ionicons name='eye-off' style={styles.iconEye} />
                   }
                 </TouchableOpacity>
-              }
-              backgroundColor={'#F2F2F2'}
-              style={form.all}
-            />
+              } />
           </View>
 
-          <View style={position.enter}>
-            <TouchableOpacity
-              style={form.buttonEnter}
-              onPress={handleSignin}
-            >
-              <AntDesign name="login" size={18} style={form.iconButtonEnter} />
-              <Text style={typography.buttonEnter}>Entrar</Text>
+          <View style={styles.boxLogin}>
+            <TouchableOpacity style={styles.buttonLogin} onPress={handleSignin}>
+              <AntDesign name="login" size={18} style={styles.iconButtonLogin} />
+              <Text style={styles.textButtonEnter}>Entrar</Text>
             </TouchableOpacity>
           </View>
 
-          <View style={position.recoverPass}>
-            <Text style={typography.questions}>Esqueceu seus dados de login?</Text>
+          <View style={styles.boxActions}>
+            <Text style={styles.textActions}>Esqueceu seus dados de login?</Text>
             <TouchableOpacity onPress={forgotPassword}>
-              <Text style={typography.actions}>Recuperar acesso</Text>
+              <Text style={styles.buttonActions}>Recuperar acesso</Text>
             </TouchableOpacity>
           </View>
 
-          <View style={position.register}>
-            <View style={styles.line} />
-            <View style={position.registerContent}>
-              <Text style={typography.questions}>Não tem uma conta?</Text>
+          <View style={styles.boxGlobal}>
+
+            <Divider />
+
+            <View style={styles.boxActions}>
+              <Text style={styles.textActions}>Não tem uma conta?</Text>
               <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                <Text style={typography.actions}>Cadastre-se</Text>
+                <Text style={styles.buttonActions}>Cadastre-se</Text>
               </TouchableOpacity>
             </View>
+
           </View>
-        </KeyboardAvoidingView>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
+
     </SafeAreaView >
   );
 }
-
-const position = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    paddingHorizontal: 24
-  },
-  logo: {
-    alignSelf: 'center',
-    marginTop: 58,
-    marginBottom: 32
-  },
-  enter: {
-    marginTop: 24
-  },
-  recoverPass: {
-    flexDirection: 'row',
-    marginTop: 24,
-    justifyContent: 'center'
-  },
-  register: {
-    marginTop: 116,
-    marginBottom: 24
-  },
-  registerContent: {
-    flexDirection: 'row',
-    marginTop: 16,
-    justifyContent: 'center'
-  }
-})
-
-const image = StyleSheet.create({
-  logo: {
-    width: 180,
-    height: 200
-  }
-})
-
-const form = StyleSheet.create({
-  all: {
-    fontSize: 15,
-    placeholderTextColor: '#888888',
-    paddingLeft: 12
-  },
-  buttonEye: {
-    marginRight: 12
-  },
-  iconEye: {
-    color: '#505050',
-    fontSize: 25
-  },
-  iconButtonEnter: {
-    color: '#FFFFFF',
-    marginRight: 4
-  },
-  buttonEnter: {
-    backgroundColor: '#C0212E',
-    height: 40,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row'
-  }
-})
-
-const typography = StyleSheet.create({
-  buttonEnter: {
-    fontWeight: 'bold',
-    fontSize: 15,
-    color: '#FFFFFF'
-  },
-  questions: {
-    color: '#505050',
-    fontSize: 12,
-    marginRight: 4
-  },
-  actions: {
-    color: '#505050',
-    fontSize: 12,
-    fontWeight: 'bold'
-  }
-})
-
-const styles = StyleSheet.create({
-  line: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#DDDDDD',
-    width: width * 0.7,
-    alignSelf: 'center'
-  }
-})

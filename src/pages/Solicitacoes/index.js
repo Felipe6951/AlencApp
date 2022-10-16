@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, SafeAreaView, TouchableOpacity, Alert, FlatList } from 'react-native';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
-import typography from '../../styles/typography';
 import styles from './styles';
+import Divider from '../../components/Divider/Divider'
 
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
 import { getFirestore, collection, query, onSnapshot, where, doc, updateDoc, deleteDoc, deleteField } from 'firebase/firestore'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import metrics from '../../styles/metrics';
-import { Dimensions } from 'react-native';
 
 
 export default function Solicitacoes() {
@@ -43,32 +41,33 @@ export default function Solicitacoes() {
         </View>
       </View>
 
-      <View style={styles.line} />
+      <View style={styles.line}/>
 
+     
       <View style={[styles.direction, styles.buttonChoosesPosition]}>
-        <TouchableOpacity
-          style={styles.buttonChooses}
-          onPress={() => deleteDoc(doc(firestore, "membros", name)).then(() => { Alert.alert("Solicitações", name + " recusado!") })}
-        >
-          <Text style={typography.buttonRed}>Recusar</Text>
+        <TouchableOpacity style={styles.buttonChooses}
+          onPress={() => deleteDoc(doc(firestore, "membros", name)).then(() => {
+            Alert.alert("Solicitações", name + " recusado!")
+          })}>
+          <Text style={styles.textButtonChooses}>Recusar</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.buttonChooses}
-          onPress={() => updateDoc(doc(firestore, "membros", name), { situacao: "Aceito", type: "Jogador", password: deleteField() }) && createUserWithEmailAndPassword(auth, email, password).then(() => { Alert.alert("Solicitações", name + " Aceito!") })}
-        >
-          <Text style={typography.buttonRed}>Aceitar</Text>
+        <TouchableOpacity style={styles.buttonChooses}
+          onPress={() => updateDoc(doc(firestore, "membros", name), { situacao: "Aceito", type: "Jogador", password: deleteField() }) && createUserWithEmailAndPassword(auth, email, password).then(() => {
+            Alert.alert("Solicitações", name + " aceito!")
+          })}>
+          <Text style={styles.textButtonChooses}>Aceitar</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 
   const CardHeader = () => (
-    <View style={metrics.cardForItems}>
+    <View style={styles.cardForItems}>
       <View style={styles.cardRed}>
         <View style={styles.direction}>
           <MaterialIcons name="new-releases" size={20} style={styles.cardIcon} />
-          <Text style={typography.cardTitle}>Novos cadastros</Text>
+          <Text style={styles.cardTitle}>Novos cadastros</Text>
         </View>
 
         <View style={styles.counter}>
@@ -77,13 +76,13 @@ export default function Solicitacoes() {
       </View>
 
       <View style={styles.descriptionContent}>
-        <Text style={typography.cardDescription}>Solicitações de cadastro no Alencar Futebol Clube</Text>
+        <Text style={styles.cardDescription}>Solicitações de cadastro no Alencar Futebol Clube</Text>
       </View>
     </View>
   );
 
   return (
-    <SafeAreaView style={{ backgroundColor: '#F1F1F1' }}>
+    <SafeAreaView style={styles.back}>
       <FlatList
         ListHeaderComponent={
           <CardHeader />

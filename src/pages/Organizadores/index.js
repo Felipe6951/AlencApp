@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, FlatList, Touch
 import { Input } from 'native-base';
 import { Ionicons, AntDesign, FontAwesome, MaterialIcons, Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import styles from './stylesOrganizer';
 
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
@@ -12,9 +13,9 @@ export default function Organizadores() {
 
   const app = initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
-  
-  const q = query(collection(firestore, "membros"), where ("type", "==", "Organizador"));
-  
+
+  const q = query(collection(firestore, "membros"), where("type", "==", "Organizador"));
+
   const [DATA, setData] = useState([]);
 
   class FabOrganizer extends Component {
@@ -58,20 +59,15 @@ export default function Organizadores() {
       }
 
       return (
-        <View style={[styles.container, this.props.style]}>
-          <TouchableWithoutFeedback
-            onPress={() => navigation.navigate('NewOrganizer')}
-            accessibilityLabel="eai"
-          >
-
-            <Animated.View style={[styles.button, styles.submenu, addStyle]}>
+        <View style={[styles.fabContent, this.props.style]}>
+          <TouchableWithoutFeedback onPress={() => navigation.navigate('NewOrganizer')}>
+            <Animated.View style={[styles.fabButton, styles.submenu, addStyle]}>
               <Entypo name="plus" size={20} color="#FFFFFF" />
             </Animated.View>
           </TouchableWithoutFeedback>
 
-
           <TouchableWithoutFeedback onPress={this.toggleOptions} >
-            <Animated.View style={[styles.button, styles.menu, rotation]}>
+            <Animated.View style={[styles.fabButton, styles.menu, rotation]}>
               <Entypo name="plus" size={24} color="#FFFFFF" />
             </Animated.View>
           </TouchableWithoutFeedback>
@@ -81,18 +77,18 @@ export default function Organizadores() {
   }
 
   const Item = ({ name, tampa, camisa }) => (
-    <View style={{ width: 312, alignSelf: 'center', height: 104, backgroundColor: '#FFFFFF', elevation: 5, shadowColor: '#505050', paddingHorizontal: 16, paddingVertical: 16, borderRadius: 8, marginBottom: 16 }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
-        <FontAwesome name="user-circle" size={24} color="#C0212E" style={{ marginRight: 4 }} />
-        <View style={{ marginLeft: 4 }}>
-          <Text style={{ fontSize: 15, fontWeight: 'bold' }}>Organizador</Text>
-          <Text style={{ fontSize: 15, color: '#505050' }}>{name}</Text>
+    <View style={styles.boxItem}>
+      <View style={styles.boxItemName}>
+        <FontAwesome name="user-circle" size={24} style={styles.itemIcon} />
+        <View>
+          <Text style={styles.itemClass}>Organizador</Text>
+          <Text style={styles.itemName}>{name}</Text>
         </View>
       </View>
-      <View style={{ borderBottomWidth: 1, borderBottomColor: '#DDDDDD', width: 288, alignSelf: 'center', marginBottom: 8 }} />
-      <View style={{ flexDirection: 'row', marginLeft: 4 }}>
-        <Text style={{ marginRight: 20, color: '#505050' }}>Camisa {camisa}</Text>
-        <Text style={{ color: '#505050' }}>Tampa: {tampa}</Text>
+      <View style={styles.line} />
+      <View style={styles.boxAlencar}>
+        <Text style={styles.tshirt}>Camisa {camisa}</Text>
+        <Text style={styles.cover}>Tampa: {tampa}</Text>
       </View>
     </View>
   );
@@ -107,21 +103,16 @@ export default function Organizadores() {
       height={10}
       value={searchOrganizer}
       onChangeText={(t) => setSearchOrganizer(t)}
-      InputLeftElement={
-        <AntDesign name="search1" size={18} color="#585858" style={{ marginLeft: 8 }} />
-      }
+      InputLeftElement={<AntDesign name="search1" size={18} style={styles.searchIcons} />}
       InputRightElement={
-        <TouchableOpacity
-          onPress={() => setSearchOrganizer('')}
-        >
-          <MaterialIcons name="highlight-remove" size={20} color="#585858" style={{ marginRight: 8 }} />
+        <TouchableOpacity onPress={() => setSearchOrganizer('')}>
+          <MaterialIcons name="highlight-remove" size={20} style={styles.searchIcons} />
         </TouchableOpacity>
-      }
-    />
+      }/>
   );
 
   const CardHeader = () => (
-    <View style={{ marginBottom: 24 }}>
+    <View style={styles.boxCard}>
       <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 24, borderTopLeftRadius: 8, borderTopRightRadius: 8, marginTop: 24, paddingHorizontal: 16, flexDirection: 'row' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Ionicons name="filter" size={20} color="#FFFFFF" style={{ marginRight: 4 }} />
@@ -144,13 +135,13 @@ export default function Organizadores() {
   const [list, setList] = useState(DATA);
 
   useEffect(() => {
-    
+
     onSnapshot(q, (querySnapshot) => {
       const members = [];
       querySnapshot.forEach((doc) => {
         members.push({ ...doc.data(), id: doc.id });
       })
-      
+
       setData(members);
     });
 
@@ -188,34 +179,3 @@ export default function Organizadores() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    position: 'absolute',
-    left: 300,
-    top: 580
-  },
-  button: {
-    position: 'absolute',
-    width: 60,
-    height: 60,
-    borderRadius: 60 / 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowRadius: 10,
-    shadowColor: "#C0212E",
-    shadowOpacity: 0.3,
-    shadowOffset: {
-      height: 10
-    },
-  },
-  menu: {
-    backgroundColor: "#C0212E"
-  },
-  submenu: {
-    width: 48,
-    height: 48,
-    borderRadius: 48 / 2,
-    backgroundColor: "#FF4554"
-  }
-})

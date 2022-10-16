@@ -12,7 +12,7 @@ import Jogadores from '../pages/Jogadores'
 import Solicitacoes from '../pages/Solicitacoes'
 import Organizadores from '../pages/Organizadores'
 
-import { CustomDrawer } from '../components/customDrawer';
+import { CustomDrawer } from '../components/customDrawer/index';
 
 const { Screen, Navigator } = createDrawerNavigator();
 

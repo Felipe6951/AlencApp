@@ -4,6 +4,9 @@ import { StyleSheet, Dimensions } from "react-native";
 const { width } = Dimensions.get('screen')
 
 const styles = StyleSheet.create({
+    back: {
+        backgroundColor: '#F1F1F1'
+    },
     descriptionContent: {
         backgroundColor: '#FFFFFF',
         elevation: 5,
@@ -92,6 +95,29 @@ const styles = StyleSheet.create({
     },
     buttonChoosesPosition: {
         justifyContent: "center"
+    },
+    textButtonChooses: {
+        fontSize: 15,
+        color: '#FFFFFF',
+        fontWeight: 'bold'
+    },
+    cardForItems: {
+        marginBottom: 16
+    },
+    cardTitle: {
+        fontSize: 18,
+        color: '#FFFFFF'
+    },
+    cardDescription: {
+        fontSize: 12,
+        color: '#505050'
+    }, 
+    line: {
+        borderBottomWidth: 1, 
+        borderBottomColor: '#DDDDDD', 
+        width: '100%', 
+        alignSelf: 'center',
+        marginBottom: 8
     }
 });
 
