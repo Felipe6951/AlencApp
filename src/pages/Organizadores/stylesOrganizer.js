@@ -6,7 +6,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         position: 'absolute',
         left: 300,
-        top: 580
+        top: 580,
+        backgroundColor: 'black'
     },
     fabButton: {
         position: 'absolute',
@@ -21,6 +22,18 @@ const styles = StyleSheet.create({
         shadowOffset: {
             height: 10
         }
+    },
+    fabText: {
+        right: 75,
+        fontSize: 12,
+        width: 110,
+        backgroundColor: "#FFFFFF", 
+        color: '#FF4554',
+        borderRadius: 4,
+        padding: 4
+    },
+    submenuIcon: {
+        right: 55
     },
     menu: {
         backgroundColor: "#C0212E"
@@ -78,12 +91,19 @@ const styles = StyleSheet.create({
     cover: {
         color: '#505050'
     },
-    searchIcons:{
+    searchIcons: {
         marginLeft: 8,
-        color: "#585858"
+        color: "#585858",
+    },
+    searchIconClean: {
+        color: "#585858",
+        marginRight: 8
     },
     boxCard: {
-        marginBottom: 24 
+        marginBottom: 24
+    },
+    teste: {
+        flexDirection: 'row',
     }
 })
 

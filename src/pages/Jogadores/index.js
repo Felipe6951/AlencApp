@@ -123,12 +123,6 @@ const test = list.find((item)=> item.name === searchPlayer);
         }
         data={list}
         renderItem={({ item }) => <Item name={item.name} tampa={item.tampa} camisa={item.camisa} />}
-        renderHiddenItem={renderHiddenItem} 
-        rightOpenValue={-130} 
-        previewRowKey={'0'} 
-        previewOpenValue={-40} 
-        previewOpenDelay={3000} 
-        onRowDidOpen={onRowDidOpen}
         keyExtractor={item => item.id}
       />
     </SafeAreaView>

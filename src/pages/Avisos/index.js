@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Input, FormControl, Select, CheckIcon } from 'native-base';
 
 export default function Avisos() {
-  const [motive] = React.useState(["Jogo cancelado", "outro"])
+  const [motive] = React.useState(["Jogo cancelado", "Mudança de horário", "Outro"])
   const [motiveSelected, setMotiveSelected] = React.useState([])
 
   const [description, setDescription] = useState('');
