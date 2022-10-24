@@ -1,12 +1,11 @@
 import React from "react";
-import { Dimensions, StatusBar, Animated, SafeAreaView, Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
+import { Alert, Dimensions, StatusBar, Animated, SafeAreaView, Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
 import { Box, Center, useColorModeValue } from 'native-base';
-import { MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
+import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import styles from "./styles";
-import { Alert } from "react-native";
 
-const DATA = [
+const ORDER = [
   {
     id: 1,
     username: 'marc123',
@@ -63,42 +62,127 @@ const DATA = [
   }
 ]
 
+const TIMES = [
+  {
+    id: 1,
+    player1: 'Marcos',
+    player2: 'Felipe',
+    player3: 'Kaio',
+    player4: 'Jota',
+    player5: 'Lola'
+  },
+  {
+    id: 2,
+    player1: 'Josimiel',
+    player2: 'Ian',
+    player3: 'Gustavo',
+    player4: 'Ismael',
+    player5: 'Luiz'
+  }
+]
 
-const Item = ({ username, tampa, number}) => (
-  <TouchableOpacity style={styles.boxOrder} onPress={() =>
-    Alert.alert(
-      username,
-      'Grande jogador',
-      [
-        { text: 'Cancelar', onPress: () => console.log('Cancel Pressed') },
-        { text: 'ok', onPress: () => Alert.alert('Jogador ' + username + ' OK!')},
-      ],
-    )}>
+
+const ItemOrder = ({ username, tampa, number }) => (
+  <View style={styles.boxOrder}>
     <Text style={styles.orderNumber}>{number}°</Text>
-    <FontAwesome name="user" size={32} style={styles.orderIcon} />
+    <Image style={styles.user} source={require('../../assets/img/user.png')} resizeMode="contain" />
     <View style={styles.orderInfo}>
-      <Text style={styles.orderUsername}>{username}</Text>
-      <Text style={styles.orderTampa}>{tampa}</Text>
+      <Text style={styles.players}>{username}</Text>
+      <Text style={styles.tampa}>Tampa {tampa}</Text>
     </View>
-  </TouchableOpacity>
+  </View>
 );
 
 const FirstRoute = () => <FlatList
   flex={1}
   my="4"
   showsVerticalScrollIndicator={false}
-  data={DATA}
-  renderItem={({ item }) => <Item username={item.username} tampa={item.tampa} number={item.number} />}
+  data={ORDER}
+  renderItem={({ item }) => <ItemOrder username={item.username} tampa={item.tampa} number={item.number} />}
   keyExtractor={item => item.id}
 />;
 
-const SecondRoute = () => <Center flex={1} my="4">
-  This is Tab 2
-</Center>;
+const ItemTimes = ({ player1, player2, player3, player4, player5 }) => (
+  <View>
+    <View style={styles.boxTeam}>
+      <Text style={styles.teamNumber}>Time X</Text>
+      <View style={styles.tampimetro} />
+      <View style={styles.tampimetroAux}>
+        <AntDesign name="star" size={8} style={styles.star} />
+        <AntDesign name="star" size={8} style={styles.star} />
+        <AntDesign name="star" size={8} style={styles.star} />
+      </View>
+    </View>
+    <TouchableOpacity
+      style={styles.boxPlayer}
+      onPress={() => Alert.alert(player1, "Jogador caro", [{ text: "Cancelar", onPress: () => console.log("Cancel Pressed") }, { text: "OK", onPress: () => console.log("OK Pressed") }])}>
+      <Text style={styles.orderNumber}>1°</Text>
+      <Image style={styles.user} source={require('../../assets/img/user.png')} resizeMode="contain" />
+      <View style={styles.infoPlayer}>
+        <Text style={styles.players}>{player1}</Text>
+        <Text style={styles.tampa}>Tampa 1</Text>
+      </View>
+    </TouchableOpacity>
+
+    <TouchableOpacity
+      style={styles.boxPlayer}
+      onPress={() => Alert.alert(player2, "Jogador caro", [{ text: "Cancelar", onPress: () => console.log("Cancel Pressed") }, { text: "OK", onPress: () => console.log("OK Pressed") }])}>
+      <Text style={styles.orderNumber}>2°</Text>
+      <Image style={styles.user} source={require('../../assets/img/user.png')} resizeMode="contain" />
+      <View style={styles.infoPlayer}>
+        <Text style={styles.players}>{player2}</Text>
+        <Text style={styles.tampa}>Tampa 1</Text>
+      </View>
+    </TouchableOpacity>
+
+    <TouchableOpacity
+      style={styles.boxPlayer}
+      onPress={() => Alert.alert(player3, "Jogador caro", [{ text: "Cancelar", onPress: () => console.log("Cancel Pressed") }, { text: "OK", onPress: () => console.log("OK Pressed") }])}>
+      <Text style={styles.orderNumber}>3°</Text>
+      <Image style={styles.user} source={require('../../assets/img/user.png')} resizeMode="contain" />
+      <View style={styles.infoPlayer}>
+        <Text style={styles.players}>{player3}</Text>
+        <Text style={styles.tampa}>Tampa 1</Text>
+      </View>
+    </TouchableOpacity>
+
+    <TouchableOpacity
+      style={styles.boxPlayer}
+      onPress={() => Alert.alert(player4, "Jogador caro", [{ text: "Cancelar", onPress: () => console.log("Cancel Pressed") }, { text: "OK", onPress: () => console.log("OK Pressed") }])}>
+      <Text style={styles.orderNumber}>4°</Text>
+      <Image style={styles.user} source={require('../../assets/img/user.png')} resizeMode="contain" />
+      <View style={styles.infoPlayer}>
+        <Text style={styles.players}>{player4}</Text>
+        <Text style={styles.tampa}>Tampa 1</Text>
+      </View>
+    </TouchableOpacity>
+
+    <TouchableOpacity
+      style={styles.boxPlayer}
+      onPress={() => Alert.alert(player5, "Jogador caro", [{ text: "Cancelar", onPress: () => console.log("Cancel Pressed") }, { text: "OK", onPress: () => console.log("OK Pressed") }])}>
+      <Text style={styles.orderNumber}>5°</Text>
+      <Image style={styles.user} source={require('../../assets/img/user.png')} resizeMode="contain" />
+      <View style={styles.infoPlayer}>
+        <Text style={styles.players}>{player5}</Text>
+        <Text style={styles.tampa}>Tampa 1</Text>
+      </View>
+    </TouchableOpacity>
+  </View>
+);
+
+const SecondRoute = () => <FlatList
+  flex={1}
+  my="4"
+  showsVerticalScrollIndicator={false}
+  data={TIMES}
+  renderItem={({ item }) => <ItemTimes player1={item.player1} player2={item.player2} player3={item.player3} player4={item.player4} player5={item.player5} />}
+  keyExtractor={item => item.id}
+/>;
 
 const initialLayout = {
   width: Dimensions.get('window').width
 };
+
 const renderScene = SceneMap({
   first: FirstRoute,
   second: SecondRoute
@@ -146,24 +230,34 @@ export default function Presenca() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#FAFAFA" }}>
       <StatusBar />
-      <View style={styles.boxBalls}>
-        <Image style={styles.userPhoto} source={require('../../assets/img/user_null.png')} resizeMode="contain" />
-        <Image style={styles.logoPhoto} source={require('../../assets/img/logo_afc.png')} resizeMode="contain" />
-        <View style={styles.boxTampa}>
-          <Text style={styles.boxTampaContent}>5</Text>
+      <View style={styles.boxHeader}>
+      
+          <Image style={styles.userPhoto} source={require('../../assets/img/userBig.png')} resizeMode="contain" />
+          <View style={styles.infoUsers}>
+            <Text style={styles.username}>marc123</Text>
+            <View style={styles.infoUsersAux}>
+              <View style={styles.boxCamisa}>
+                <Text>CAMISA</Text>
+                <Text>10</Text>
+              </View>
+              <View style={styles.boxTampa}>
+                <Text>TAMPA</Text>
+                <Text>1</Text>
+              </View>
+            </View>
+          </View>
+       
+        <View style={{marginLeft: 24}}>
+          <TouchableOpacity style={{backgroundColor: '#ED4654', paddingVertical: 10, paddingHorizontal: 16, alignItems: "center", borderRadius: 8}}>
+            <MaterialCommunityIcons name="qrcode-scan" size={24} color="#FFFFFF" />
+            <Text style={{color: '#FFFFFF', marginTop: 8}}>Check-in</Text>
+          </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.boxCheck} onPress={() => Alert.alert('Presenças', 'Realizou check-in')}>
-          <MaterialCommunityIcons name="qrcode-scan" size={45} color="#FFFFFF" />
-          <Text style={styles.boxCheckContent}>Check-in</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.boxUser}>
-        <Text style={styles.boxUserName}>marc123</Text>
-        <Text style={styles.boxUserNumber}>10</Text>
       </View>
       <Example />
     </SafeAreaView >
   );
 }
+
+/**/

@@ -164,7 +164,7 @@ export default function Organizadores() {
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView style={{ backgroundColor: '#F1F1F1' }}>
+    <SafeAreaView style={{ backgroundColor: '#FAFAFA', height: '100%'}}>
       <FlatList
         ListHeaderComponent={
           <View>

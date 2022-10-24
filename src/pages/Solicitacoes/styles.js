@@ -5,7 +5,8 @@ const { width } = Dimensions.get('screen')
 
 const styles = StyleSheet.create({
     back: {
-        backgroundColor: '#F1F1F1'
+        backgroundColor: '#FAFAFA',
+        height: '100%'
     },
     descriptionContent: {
         backgroundColor: '#FFFFFF',

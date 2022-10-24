@@ -42,12 +42,12 @@ const styles = StyleSheet.create({
          marginVertical: 24 
     },
     textSignup: {
-        fontSize: 14,
+        fontSize: 12,
         color: '#505050',
         marginRight: 4 
     },
     buttonSignup: {
-        fontSize: 14, 
+        fontSize: 12, 
         color: '#505050',
         fontWeight: 'bold' 
     },
@@ -58,6 +58,26 @@ const styles = StyleSheet.create({
     },
     buttonEye: {
         marginRight: 12
+    },
+    line: {
+        borderBottomWidth: 0.2,
+        borderColor: "#909090",
+        width: "80%",
+        alignSelf: "center"
+    },
+    textInput: {
+        borderColor: '#D5D5D5',
+        paddingHorizontal: 12, 
+        paddingVertical: 8, 
+        borderRadius: 4, 
+        borderWidth: 1
+    },
+    textInputFocus: {
+        borderColor: '#4B8D99',
+        paddingHorizontal: 12, 
+        paddingVertical: 8, 
+        borderRadius: 4, 
+        borderWidth: 1
     }
 })
 

@@ -49,7 +49,7 @@ export default function Estatuto() {
 
       return (
         <View style={[styles.container, this.props.style]}>
-          <TouchableWithoutFeedback onPress={() => navigation.navigate('NewStatute')}>
+          <TouchableWithoutFeedback>
             <Animated.View style={[styles.button, styles.submenu, addStyle]}>
               <Entypo name="plus" size={20} color="#FFFFFF" />
             </Animated.View>
@@ -110,7 +110,7 @@ export default function Estatuto() {
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView style={{ backgroundColor: '#F1F1F1', height: '100%' }}>
+    <SafeAreaView style={{ backgroundColor: '#FAFAFA', height: '100%' }}>
       <FlatList
         ListHeaderComponent={
           <CardHeader />

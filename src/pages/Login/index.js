@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, SafeAreaView, TouchableOpacity, Text, Alert, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Input, FormControl, StatusBar } from 'native-base';
+import { Input, FormControl, StatusBar, Button, Actionsheet, useDisclose } from 'native-base';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
-import Divider from '../../components/Divider/Divider'
 import styles from './styles';
 
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, setPersistence, browserLocalPersistence, onAuthStateChanged } from 'firebase/auth';
@@ -45,8 +44,10 @@ export default function Login() {
       .catch(error => console.log(error))
   }
 
+  const { isOpen, onOpen, onClose } = useDisclose();
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.back}>
       <StatusBar />
 
       <KeyboardAvoidingView behavior='height' keyboardVerticalOffset={30}>
@@ -101,14 +102,37 @@ export default function Login() {
 
           <View style={styles.boxActions}>
             <Text style={styles.textActions}>Esqueceu seus dados de login?</Text>
-            <TouchableOpacity onPress={forgotPassword}>
+            <TouchableOpacity onPress={onOpen}>
               <Text style={styles.buttonActions}>Recuperar acesso</Text>
             </TouchableOpacity>
           </View>
 
+          <Actionsheet isOpen={isOpen} onClose={onClose}>
+            <Actionsheet.Content style={{ paddingHorizontal: 24 }}>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', color: "#C0212E" }}>Recuperar acesso</Text>
+              <Text style={{ color: "#505050", marginVertical: "4%", alignItems: 'center', fontSize: 14, textAlign: 'center' }}>Informe o seu email de cadastro para iniciar a recuperação de dados.</Text>
+              <Input
+                placeholder="Email"
+                variant="outline"
+                autoCapitalize='none'
+                keyboardType='email-address'
+                onChangeText={(text) => setEmail(text)}
+                backgroundColor={'#F2F2F2'}
+                style={{ fontSize: 14 }}
+                width={"90%"}
+              />
+              <TouchableOpacity
+                onPress={onClose}
+                onPressIn={forgotPassword}
+                style={{ backgroundColor: '#C0212E', paddingVertical: 8, borderRadius: 6, marginVertical: "6%", width: "90%", alignItems: 'center' }}>
+                <Text style={{ fontSize: 16, color: "#FFFFFF", fontWeight: 'bold' }}>Enviar</Text>
+              </TouchableOpacity>
+            </Actionsheet.Content>
+          </Actionsheet>
+
           <View style={styles.boxGlobal}>
 
-            <Divider />
+            <View style={styles.line}/>
 
             <View style={styles.boxActions}>
               <Text style={styles.textActions}>Não tem uma conta?</Text>
@@ -120,7 +144,6 @@ export default function Login() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-
     </SafeAreaView >
   );
 }

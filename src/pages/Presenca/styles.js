@@ -2,75 +2,24 @@ import React from "react";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-    boxBalls: {
-        height: 160,
-        left: 40,
-        justifyContent: "center",
-        alignItems: "center",
+    boxHeader: {
+        height: '24%',
+        backgroundColor: '#FAFAFA',
+        paddingHorizontal: 24,
+        paddingVertical: 24,
         flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
         marginBottom: -25
     },
-    userPhoto: {
-        width: 180,
-        left: -50
-    },
-    logoPhoto: {
-        width: 50,
-        left: -120,
-        top: -25
-    },
-    boxTampa: {
-        backgroundColor: "#C0212E",
-        borderRadius: 100,
-        width: 50,
-        height: 50,
-        alignItems: "center",
-        justifyContent: "center",
-        left: -140,
-        top: 20
-    },
-    boxTampaContent: {
-        color: "#FFFFFF",
+    username: {
         fontSize: 20,
-        fontWeight: "bold"
+        fontWeight: "700"
     },
-    boxUser: {
-        left: 30,
-        flexDirection: "row"
-    },
-    boxUserName: {
-        fontSize: 14,
-        color: "#FFFFFF",
-        backgroundColor: "#C0212E",
-        paddingHorizontal: 8,
-        borderBottomLeftRadius: 4,
-        borderTopLeftRadius: 4,
-        fontWeight: "bold",
-        paddingVertical: 2
-    },
-    boxUserNumber: {
-        fontSize: 14,
-        fontWeight: "bold",
-        color: "#FFFFFF",
-        backgroundColor: "#505050",
-        paddingHorizontal: 8,
-        borderBottomRightRadius: 4,
-        borderTopRightRadius: 4,
-        paddingVertical: 2
-    },
-    boxCheck: {
-        alignItems: "center", 
-        backgroundColor: "#C0212E", 
-        padding: 8, 
-        borderRadius: 8,
-        right: 80,
-        top: 15
-    },
-    boxCheckContent: {
-        marginTop: 8, 
-        color: "#FFFFFF", 
-        fontWeight: "bold", 
-        fontSize: 16
+    userPhoto: {
+        width: 80,
+        height: 80,
+        marginRight: 16
     },
     boxOrder: {
         flexDirection: "row",
@@ -81,7 +30,8 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     orderInfo: {
-        flexDirection: "column"
+        flexDirection: "column",
+        paddingHorizontal: 6
     },
     orderIcon: {
         color: "#909090",
@@ -96,11 +46,82 @@ const styles = StyleSheet.create({
         fontWeight: "600",
         fontSize: 15
     },
-    orderTampa: {
-        fontSize: 12
+    teamNumber: {
+        fontSize: 14,
+        fontWeight: "bold",
     },
-
-
+    players: {
+        fontSize: 16,
+        fontWeight: "500"
+    },
+    boxPlayer: {
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: 16,
+        paddingVertical: 10,
+        borderBottomWidth: 0.25,
+        borderColor: '#DBDBDB'
+    },
+    user: {
+        width: 40,
+        height: 40,
+        marginLeft: 14,
+        marginRight: 2
+    },
+    boxTeam: {
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        borderBottomWidth: 0.25,
+        borderColor: '#DBDBDB',
+        backgroundColor: "#F1F1F1",
+        flexDirection: "row",
+        alignItems: "center"
+    },
+    tampimetro: {
+        width: "30%",
+        height: 14,
+        backgroundColor: "#ED4654",
+        marginLeft: 40,
+        borderBottomLeftRadius: 8,
+        borderTopLeftRadius: 8
+    },
+    tampimetroAux: {
+        height: 14,
+        width: "40%",
+        borderBottomRightRadius: 8,
+        borderTopRightRadius: 8,
+        backgroundColor: "#909090",
+        alignItems: "center",
+        justifyContent: "flex-end",
+        flexDirection: "row",
+        paddingRight: 6
+    },
+    star: {
+        color: "#FFFFFF",
+        marginRight: 6
+    },
+    infoPlayer: {
+        flexDirection: "column",
+        paddingHorizontal: 6,
+    },
+    tampa: {
+        fontSize: 14,
+        color: "#505050"
+    },
+    infoUsers: {
+        flexDirection: "column"
+    },
+    infoUsersAux: {
+        flexDirection: "row", 
+        marginTop: 8
+    },
+    boxCamisa: {
+        alignItems: "center", 
+        marginRight: 8
+    },
+    boxTampa: {
+        alignItems: "center"
+    }
 })
 
 export default styles;

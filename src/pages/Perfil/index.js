@@ -44,7 +44,7 @@ export default function Perfil() {
       <ScrollView>
 
         <View style={styles.boxPrincipal}>
-          <Image style={styles.userPhoto} source={require('../../assets/img/user_null.png')} resizeMode="contain" />
+          <Image style={styles.userPhoto} source={require('../../assets/img/userBig.png')} resizeMode="contain" />
           <View style={styles.boxPrincipalNames}>
             <Text style={styles.nameTitle}>{usuario[4]}</Text>
             <Text style={styles.organizerTitle}>{usuario[6]}</Text>

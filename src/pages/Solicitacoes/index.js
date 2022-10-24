@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Text, View, SafeAreaView, TouchableOpacity, Alert, FlatList } from 'react-native';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import styles from './styles';
-import Divider from '../../components/Divider/Divider'
 
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';

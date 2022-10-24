@@ -10,7 +10,8 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     back: {
-        backgroundColor: '#F1F1F1'
+        backgroundColor: '#FAFAFA',
+        height: '100%'
     },
     informationContent: {
         alignSelf: 'center', 

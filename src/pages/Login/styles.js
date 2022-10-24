@@ -1,8 +1,9 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#FFFFFF',
+    back: {
+        backgroundColor: '#FAFAFA',
+        height: '100%'
     },
     logoPosition: {
         alignSelf: 'center',
@@ -69,7 +70,12 @@ const styles = StyleSheet.create({
         marginTop: 92,
         marginBottom: 24
     },
-    
+    line: {
+        borderBottomWidth: 0.2,
+        borderColor: "#909090",
+        width: "70%",
+        alignSelf: "center"
+    }
 })
 
 export default styles;

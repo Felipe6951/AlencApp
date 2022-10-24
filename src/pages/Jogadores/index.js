@@ -114,7 +114,7 @@ const test = list.find((item)=> item.name === searchPlayer);
   }, [searchPlayer]);
 
   return (
-    <SafeAreaView style={{ backgroundColor: '#F1F1F1' }}>
+    <SafeAreaView style={{ backgroundColor: '#FAFAFA', height: '100%'}}>
       <FlatList
         ListHeaderComponent={
           <View >

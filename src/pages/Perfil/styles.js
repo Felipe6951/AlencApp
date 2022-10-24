@@ -2,13 +2,13 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     back: {
-        backgroundColor: '#F1F1F1'
+        backgroundColor: '#FAFAFA'
     },
     userPhoto: {
-        width: 280,
-        height: 280,
-        marginTop: -50,
-        marginBottom: -56
+        width: 120,
+        height: 120,
+        marginTop: "9%",
+        marginBottom: "6%"
     },
     boxPrincipal: {
         alignSelf: 'center',
@@ -28,9 +28,9 @@ const styles = StyleSheet.create({
         fontSize: 15
     },
     line: {
-        borderBottomWidth: 1, 
-        borderBottomColor: '#DDDDDD', 
-        width: '100%', 
+        borderBottomWidth: 0.25, 
+        borderBottomColor: '#909090', 
+        width: '80%', 
         alignSelf: 'center',
         marginBottom: 8
     }, 
@@ -53,11 +53,11 @@ const styles = StyleSheet.create({
     boxInformations: {
         backgroundColor: '#FFFFFF', 
         borderTopLeftRadius: 20, 
-        borderTopRightRadius: 20, 
-        elevation: 2, 
-        shadowColor: '#505050', 
+        borderTopRightRadius: 20,  
         marginTop: 8, 
-        paddingBottom: 24
+        paddingBottom: 24,
+        elevation: 5,
+        shadowColor: "#909090"
     },
     boxSole: {
         flexDirection: 'row', 

@@ -1,9 +1,8 @@
 import React, { useRef, useState } from 'react';
-import { View, Dimensions, Image, SafeAreaView, TouchableOpacity, Text, ScrollView, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View, Image, SafeAreaView, TouchableOpacity, Text, ScrollView, Alert } from 'react-native';
 import { Input, StatusBar, FormControl, Select, CheckIcon } from 'native-base';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
-import Divider from '../../components/Divider/Divider'
+import { TextInputMask } from 'react-native-masked-text';
 
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
@@ -13,13 +12,11 @@ import { getFirestore, setDoc, doc, getDocs, collection, query, onSnapshot, addD
 import { color, max } from 'react-native-reanimated';
 import styles from './styles';
 import { KeyboardAvoidingView } from 'react-native';
-
-
-const { width } = Dimensions.get("screen")
+import { useNavigation } from '@react-navigation/native';
 
 export default function Register() {
-  const navigation = useNavigation();
 
+  const navigation = useNavigation();
   const [service, setService] = React.useState("");
 
   const usarnameRef = useRef();
@@ -52,16 +49,30 @@ export default function Register() {
       password: password
     })
       .then(() => {
-        Alert.alert("Registro", "Conta enviada para análise da comissão")
+        Alert.alert(
+          "Sucesso!",
+          "Seu cadastro foi enviado para a análise da comissão.",
+          [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+        )
+        navigation.navigate('Login')
       })
       .catch(error => {
-        console.log(error)
-        Alert.alert(error.message)
+        Alert.alert(
+          "Erro!",
+          "Algo deu errado no seu cadastro.",
+          [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+        )
       })
   }
 
   const [tampa] = React.useState(['1', '2', '3', '4', '5', '6'])
   const [tampaSelected, setTampaSelected] = React.useState([])
+
+  const [day] = React.useState(['Seg, Qua', 'Seg, Sex', 'Qua, Sex', 'Seg, Qua, Sex'])
+  const [daySelected, setDaySelected] = React.useState([])
+
+  const [focus, setFocus] = useState(false);
+  const customInputTextMask = focus ? styles.textInputFocus : styles.textInput
 
   return (
     <SafeAreaView style={styles.back}>
@@ -115,7 +126,7 @@ export default function Register() {
 
             <View style={styles.formFields}>
               <FormControl.Label>Telefone</FormControl.Label>
-              <Input
+              <TextInputMask
                 placeholder="Seu telefone"
                 onChangeText={(text) => setPhone(text)}
                 fontSize={15}
@@ -123,6 +134,11 @@ export default function Register() {
                 keyboardType='phone-pad'
                 backgroundColor={'#F2F2F2'}
                 placeholderTextColor={'#888888'}
+                type={'cel-phone'}
+                value={phone}
+                style={customInputTextMask}
+                onFocus={() => setFocus(true)}
+                onBlur={()=> setFocus(false)}
               />
             </View>
 
@@ -155,6 +171,28 @@ export default function Register() {
               >
                 {
                   tampa.map(cr => {
+                    return <Select.Item label={cr} value={cr} />
+                  })
+                }
+              </Select>
+            </View>
+
+            <View style={styles.formFields}>
+              <FormControl.Label>Dias de presença</FormControl.Label>
+              <Select
+                placeholder="Selecione os dias de presença"
+                fontSize={15}
+                backgroundColor={'#F2F2F2'}
+                placeholderTextColor={'#888888'}
+                selectedValue={daySelected}
+                _selectedItem={{
+                  background: 'red.100',
+                  endIcon: <CheckIcon size="5" color="#C0212E" />
+                }}
+                onValueChange={(itemValue) => setDaySelected(itemValue)}
+              >
+                {
+                  day.map(cr => {
                     return <Select.Item label={cr} value={cr} />
                   })
                 }
@@ -210,17 +248,19 @@ export default function Register() {
             </View>
 
             <View style={styles.actionsBottom}>
-              <TouchableOpacity style={styles.buttonRegister} onPress={handleCreateAccount}>
+              <TouchableOpacity
+                style={styles.buttonRegister}
+                onPress={handleCreateAccount}>
                 <AntDesign name="check" size={18} style={styles.buttonIconRegister} />
                 <Text style={styles.register}>Cadastrar</Text>
               </TouchableOpacity>
 
-              <Divider />
+              <View style={styles.line} />
 
               <View style={styles.boxSignup}>
                 <Text style={styles.textSignup}>Já tem uma conta?</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                  <Text style={styles.buttonSignup}>Faça login</Text>
+                <TouchableOpacity>
+                  <Text style={styles.buttonSignup} onPress={() => navigation.navigate('Login')}>Faça login</Text>
                 </TouchableOpacity>
               </View>
 
@@ -228,6 +268,6 @@ export default function Register() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 }
