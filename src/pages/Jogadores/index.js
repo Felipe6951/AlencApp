@@ -86,7 +86,8 @@ export default function Jogadores() {
 
   const [searchPlayer, setSearchPlayer] = useState('');
   const [list, setList] = useState(DATA);
-const test = list.find((item)=> item.name === searchPlayer);
+  const test = list.find((item)=> item.name === searchPlayer);
+  
   useEffect(() => {
 
     onSnapshot(q, (querySnapshot) => {
