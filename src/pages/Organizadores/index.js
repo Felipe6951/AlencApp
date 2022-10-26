@@ -60,14 +60,15 @@ export default function Organizadores() {
 
       return (
         <View style={[styles.fabContent, this.props.style]}>
-          <TouchableWithoutFeedback onPress={() => navigation.navigate('NewOrganizer')}>
+          <TouchableWithoutFeedback
+            onPress={() => {navigation.navigate('NewOrganizer')}}>
             <Animated.View style={[styles.fabButton, styles.submenu, styles.teste, addStyle]}>
               <Text style={styles.fabText}> Novo organizador </Text>
               <Entypo name="plus" size={20} color="#FFFFFF" style={styles.submenuIcon} />
             </Animated.View>
           </TouchableWithoutFeedback>
 
-          <TouchableWithoutFeedback onPress={this.toggleOptions} >
+          <TouchableWithoutFeedback onPress={this.toggleOptions}>
             <Animated.View style={[styles.fabButton, styles.menu, rotation]}>
               <Entypo name="plus" size={24} color="#FFFFFF" />
             </Animated.View>
@@ -164,7 +165,7 @@ export default function Organizadores() {
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView style={{ backgroundColor: '#FAFAFA', height: '100%'}}>
+    <SafeAreaView style={{ backgroundColor: '#FAFAFA', height: '100%' }}>
       <FlatList
         ListHeaderComponent={
           <View>
@@ -175,7 +176,7 @@ export default function Organizadores() {
         renderItem={({ item }) => <Item name={item.name} tampa={item.tampa} camisa={item.camisa} />}
         keyExtractor={item => item.id}
       />
-      <FabOrganizer onPress={() => Alert.alert('clicou')}/>
+      <FabOrganizer />
     </SafeAreaView>
   );
 }
