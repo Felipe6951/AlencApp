@@ -46,7 +46,8 @@ export default function Register() {
       situacao: "Pendente",
       type: "membro",
       status: "Ativo",
-      password: password
+      password: password,
+      day: daySelected
     })
       .then(() => {
         Alert.alert(
@@ -79,6 +80,7 @@ export default function Register() {
   const inputTnumber = useRef();
   const inputPassword = useRef();
   const inputConfirmPassword = useRef();
+  const inputPhone = useRef();
 
   return (
     <SafeAreaView style={styles.back}>
@@ -136,6 +138,8 @@ export default function Register() {
                 backgroundColor={'#F2F2F2'}
                 placeholderTextColor={'#888888'}
                 returnKeyType="next"
+                onSubmitEditing={() => { inputPhone.current.focus(); }}
+                blurOnSubmit={false}
               />
             </View>
 
@@ -150,6 +154,7 @@ export default function Register() {
                 backgroundColor={'#F2F2F2'}
                 placeholderTextColor={'#888888'}
                 type={'cel-phone'}
+                ref={inputPhone}
                 value={phone}
                 style={customInputTextMask}
                 onFocus={() => setFocus(true)}
