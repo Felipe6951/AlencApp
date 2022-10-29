@@ -62,9 +62,9 @@ export default function Login() {
           </View>
 
           <View style={styles.formFields}>
-            <FormControl.Label>Email ou usuário</FormControl.Label>
+            <FormControl.Label>Email</FormControl.Label>
             <Input
-              placeholder="Seu email ou usuário"
+              placeholder="Seu email"
               variant="outline"
               autoCapitalize='none'
               keyboardType='email-address'
