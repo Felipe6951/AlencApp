@@ -73,7 +73,7 @@ export default function Jogadores() {
         </View>
 
         <View style={{ backgroundColor: '#FFFFFF', borderRadius: 50, width: 25, height: 25, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>{DATA.length}</Text>
+          <Text>{list.length}</Text>
         </View>
       </View>
 
@@ -96,9 +96,9 @@ export default function Jogadores() {
         members.push({ ...doc.data(), id: doc.id });
       })
 
-      setData(members);
+      setList(members);
     });
-
+/*
     if (searchPlayer === "") {
       setList(DATA);
     } else {
@@ -111,8 +111,8 @@ export default function Jogadores() {
           }
         })
       );
-    }
-  }, [searchPlayer]);
+    }*/
+  }, []);
 
   return (
     <SafeAreaView style={{ backgroundColor: '#FAFAFA', height: '100%'}}>

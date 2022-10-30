@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Image, SafeAreaView, TouchableOpacity, Text, Alert, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Input, FormControl, StatusBar, Button, Actionsheet, useDisclose } from 'native-base';
@@ -69,6 +69,11 @@ export default function Login() {
 
   const { isOpen, onOpen, onClose } = useDisclose();
 
+  const [focus, setFocus] = useState(false);
+  const customActionSheet = focus ? styles.actionSheetFocus : null
+
+  const inputPassword = useRef();
+
   return (
     <SafeAreaView style={styles.back}>
       <StatusBar />
@@ -80,15 +85,18 @@ export default function Login() {
           </View>
 
           <View style={styles.formFields}>
-            <FormControl.Label>Email ou usuário</FormControl.Label>
+            <FormControl.Label>Email</FormControl.Label>
             <Input
-              placeholder="Seu email ou usuário"
+              placeholder="Seu email"
               variant="outline"
               autoCapitalize='none'
               keyboardType='email-address'
               onChangeText={(text) => setEmail(text)}
               backgroundColor={'#F2F2F2'}
               style={styles.input}
+              returnKeyType='next'
+              onSubmitEditing={() => {inputPassword.current.focus(); }}
+              blurOnSubmit={false}
             />
           </View>
 
@@ -97,6 +105,7 @@ export default function Login() {
             <Input
               placeholder="Sua senha"
               onChangeText={(text) => setPassword(text)}
+              ref={inputPassword}
               variant="outline"
               autoCapitalize='none'
               secureTextEntry={hidePassword}
@@ -130,7 +139,7 @@ export default function Login() {
             </TouchableOpacity>
           </View>
 
-          <Actionsheet isOpen={isOpen} onClose={onClose}>
+          <Actionsheet isOpen={isOpen} onClose={onClose} style={customActionSheet}>
             <Actionsheet.Content style={{ paddingHorizontal: 24 }}>
               <Text style={{ fontSize: 18, fontWeight: 'bold', color: "#C0212E" }}>Recuperar acesso</Text>
               <Text style={{ color: "#505050", marginVertical: "4%", alignItems: 'center', fontSize: 14, textAlign: 'center' }}>Informe o seu email de cadastro para iniciar a recuperação de dados.</Text>
@@ -143,6 +152,8 @@ export default function Login() {
                 backgroundColor={'#F2F2F2'}
                 style={{ fontSize: 14 }}
                 width={"90%"}
+                onFocus={() => setFocus(true)}
+                onBlur={() => setFocus(false)}
               />
               <TouchableOpacity
                 onPress={onClose}
@@ -155,7 +166,7 @@ export default function Login() {
 
           <View style={styles.boxGlobal}>
 
-            <View style={styles.line}/>
+            <View style={styles.line} />
 
             <View style={styles.boxActions}>
               <Text style={styles.textActions}>Não tem uma conta?</Text>

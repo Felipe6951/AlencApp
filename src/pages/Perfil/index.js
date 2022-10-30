@@ -32,7 +32,7 @@ export default function Perfil() {
         members.push(doc.data().email);
         members.push(doc.data().type);
         members.push(doc.data().status);
-
+        members.push(doc.data().day);
       })
 
       setUser(members);
@@ -133,7 +133,7 @@ export default function Perfil() {
               <Text>Dias</Text>
             </View>
             <View>
-              <Text style={styles.informations}>Seg, Qua</Text>
+              <Text style={styles.informations}>{usuario[8]}</Text>
             </View>
           </View>
         </View>

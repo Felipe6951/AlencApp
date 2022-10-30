@@ -46,7 +46,8 @@ export default function Register() {
       situacao: "Pendente",
       type: "membro",
       status: "Ativo",
-      password: password
+      password: password,
+      day: daySelected
     })
       .then(() => {
         Alert.alert(
@@ -74,6 +75,13 @@ export default function Register() {
   const [focus, setFocus] = useState(false);
   const customInputTextMask = focus ? styles.textInputFocus : styles.textInput
 
+  const inputUsername = useRef();
+  const inputEmail = useRef();
+  const inputTnumber = useRef();
+  const inputPassword = useRef();
+  const inputConfirmPassword = useRef();
+  const inputPhone = useRef();
+
   return (
     <SafeAreaView style={styles.back}>
       <StatusBar />
@@ -94,6 +102,9 @@ export default function Register() {
                 variant="outline"
                 backgroundColor={'#F2F2F2'}
                 placeholderTextColor={'#888888'}
+                onSubmitEditing={() => { inputUsername.current.focus(); }}
+                blurOnSubmit={false}
+                returnKeyType="next"
               />
             </View>
 
@@ -102,11 +113,15 @@ export default function Register() {
               <Input
                 placeholder="Seu nome de usuário"
                 onChangeText={(text) => setUsername(text)}
+                ref={inputUsername}
                 fontSize={15}
                 variant="outline"
                 autoCapitalize='none'
                 backgroundColor={'#F2F2F2'}
                 placeholderTextColor={'#888888'}
+                onSubmitEditing={() => { inputEmail.current.focus(); }}
+                blurOnSubmit={false}
+                returnKeyType="next"
               />
             </View>
 
@@ -115,12 +130,16 @@ export default function Register() {
               <Input
                 placeholder="Seu email"
                 onChangeText={(text) => setEmail(text)}
+                ref={inputEmail}
                 fontSize={15}
                 variant="outline"
                 autoCapitalize='none'
                 keyboardType='email-address'
                 backgroundColor={'#F2F2F2'}
                 placeholderTextColor={'#888888'}
+                returnKeyType="next"
+                onSubmitEditing={() => { inputPhone.current.focus(); }}
+                blurOnSubmit={false}
               />
             </View>
 
@@ -135,10 +154,14 @@ export default function Register() {
                 backgroundColor={'#F2F2F2'}
                 placeholderTextColor={'#888888'}
                 type={'cel-phone'}
+                ref={inputPhone}
                 value={phone}
                 style={customInputTextMask}
                 onFocus={() => setFocus(true)}
-                onBlur={()=> setFocus(false)}
+                onBlur={() => setFocus(false)}
+                onSubmitEditing={() => { inputTnumber.current.focus(); }}
+                blurOnSubmit={false}
+                returnKeyType="next"
               />
             </View>
 
@@ -147,11 +170,13 @@ export default function Register() {
               <Input
                 placeholder="O número de sua camisa"
                 onChangeText={(text) => setShirtnum(text)}
+                ref={inputTnumber}
                 fontSize={15}
                 variant="outline"
                 keyboardType='numeric'
                 backgroundColor={'#F2F2F2'}
                 placeholderTextColor={'#888888'}
+                returnKeyType="next"
               />
             </View>
 
@@ -204,6 +229,10 @@ export default function Register() {
               <Input
                 placeholder="Sua senha"
                 onChangeText={(text) => setPassword(text)}
+                ref={inputPassword}
+                onSubmitEditing={() => { inputConfirmPassword.current.focus(); }}
+                blurOnSubmit={false}
+                returnKeyType="next"
                 fontSize={15}
                 backgroundColor={'#F2F2F2'}
                 placeholderTextColor={'#888888'}
@@ -228,6 +257,8 @@ export default function Register() {
               <Input
                 placeholder="Sua senha novamente"
                 onChangeText={(text) => setPassword(text)}
+                ref={inputConfirmPassword}
+                returnKeyType='done'
                 fontSize={15}
                 backgroundColor={'#F2F2F2'}
                 placeholderTextColor={'#888888'}

@@ -75,6 +75,9 @@ const styles = StyleSheet.create({
         borderColor: "#909090",
         width: "70%",
         alignSelf: "center"
+    },
+    actionSheetFocus: {
+        paddingBottom: "80%"
     }
 })
 

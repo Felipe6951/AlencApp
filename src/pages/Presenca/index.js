@@ -146,9 +146,10 @@ export default function Presenca() {
   const auth = getAuth(app);
 
   const q = query(collection(firestore, "membros"), where("email", "==", auth.currentUser.email));
-  const p = query(collection(firestore, "presence"));
+  const p = query(collection(firestore, "presence"), orderBy("timestamp", "asc"));
 
   const [usuario, setUser] = useState([])
+  const [present, setPresent] = useState(0)
 
   useEffect(() => {
     onSnapshot(q, (querySnapshot) => {
@@ -173,9 +174,11 @@ export default function Presenca() {
       timestamp: serverTimestamp(),
     })
       .then(() => {
+        setPresent(present+1)
         Alert.alert(
           "Sucesso!",
           "Presença confirmada!",
+          
           [{ text: "OK", onPress: () => console.log("OK Pressed") }]
         )
       })
@@ -197,7 +200,7 @@ export default function Presenca() {
 
       setOrder(presents);
     });
-  }, [presence]);
+  }, [present]);
 
   function Example() {
     const [index, setIndex] = React.useState(0);
