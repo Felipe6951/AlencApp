@@ -2,8 +2,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Login from '../pages/Login';
 import Register from '../pages/Register';
-import Auxiliar from '../pages/Auxiliar';
+import Admin from '../pages/Auxiliar/admin';
 import NewOrganizer from '../pages/Organizadores/NewOrganizer';
+import Geral from '../pages/Auxiliar/geral';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,8 +24,14 @@ export default function Authroutes() {
       />
 
       <Stack.Screen
-        name="Auxiliar"
-        component={Auxiliar}
+        name="Admin"
+        component={Admin}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="Geral"
+        component={Geral}
         options={{ headerShown: false }}
       />
 

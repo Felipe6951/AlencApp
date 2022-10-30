@@ -5,7 +5,8 @@ import { Input, FormControl, StatusBar, Button, Actionsheet, useDisclose } from 
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import styles from './styles';
 
-import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, setPersistence, browserLocalPersistence, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged } from 'firebase/auth';
+import { getFirestore, collection, query, onSnapshot, where, doc } from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
 
@@ -17,12 +18,27 @@ export default function Login() {
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app)
+  const firestore = getFirestore(app);
+
+  const [usuario, setUser] = useState([])
 
   const handleSignin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user)
+        console.log(user);
+
+        const q = query(collection(firestore, "membros"), where("email", "==", user.email));
+
+        onSnapshot(q, (querySnapshot) => {
+          const members = [];
+          querySnapshot.forEach((doc) => {
+            members.push(doc.data().type);
+          })
+
+          setUser(members);
+          console.log(usuario[0]);
+        })
       })
       .catch(error => {
         console.log(error)
@@ -33,10 +49,17 @@ export default function Login() {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigation.navigate('Auxiliar')
+        console.log(usuario[0])
+        if (usuario[0] === "Organizador") {
+          navigation.navigate("Admin")
+        } else {
+          if (usuario[0] === "Jogador") {
+            navigation.navigate("Geral")
+          }
+        }
       }
     })
-  }, []);
+  }, [usuario]);
 
   const forgotPassword = () => {
     sendPasswordResetEmail(auth, email)
