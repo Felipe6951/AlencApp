@@ -171,7 +171,7 @@ export default function Presenca() {
       user: usuario[0],
       camisa: usuario[2],
       tampa: usuario[1],
-      timestamp: serverTimestamp(),
+      created_at: serverTimestamp(Date)
     })
       .then(() => {
         setPresent(present+1)

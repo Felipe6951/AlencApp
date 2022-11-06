@@ -51,9 +51,11 @@ export default function Login() {
       if (user) {
         console.log(usuario[0])
         if (usuario[0] === "Organizador") {
+          setUser([])
           navigation.navigate("Admin")
         } else {
           if (usuario[0] === "Jogador") {
+            setUser([])
             navigation.navigate("Geral")
           }
         }

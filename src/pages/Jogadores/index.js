@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, FlatList, Alert
 import { Input } from 'native-base';
 import { Ionicons, AntDesign, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { useEffect } from 'react';
+import { useFocusEffect } from '@react-navigation/native'
 
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
@@ -87,18 +88,28 @@ export default function Jogadores() {
   const [searchPlayer, setSearchPlayer] = useState('');
   const [list, setList] = useState(DATA);
   const test = list.find((item)=> item.name === searchPlayer);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      
+      const unsubcribe = onSnapshot(q, (querySnapshot) => {
+        const members = [];
+        querySnapshot.forEach((doc) => {
+          members.push({ ...doc.data(), id: doc.id });
+        })
   
+        setData(members);
+      });
+
+      return () => {
+        unsubcribe();
+      };
+
+    },[])
+  );
+
   useEffect(() => {
 
-    onSnapshot(q, (querySnapshot) => {
-      const members = [];
-      querySnapshot.forEach((doc) => {
-        members.push({ ...doc.data(), id: doc.id });
-      })
-
-      setList(members);
-    });
-/*
     if (searchPlayer === "") {
       setList(DATA);
     } else {
@@ -111,8 +122,8 @@ export default function Jogadores() {
           }
         })
       );
-    }*/
-  }, []);
+    }
+  }, [searchPlayer]);
 
   return (
     <SafeAreaView style={{ backgroundColor: '#FAFAFA', height: '100%'}}>
