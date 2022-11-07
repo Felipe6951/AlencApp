@@ -95,13 +95,11 @@ export default function Home() {
         </View>
       </View>
 
-
-
       <ScrollView
         showsHorizontalScrollIndicator={false}
         horizontal={true}
         snapToAlignment='start'
-        style={{ width: width, height: width / 2.6, paddingHorizontal: 16, marginTop: 24 }}
+        style={{ width: width, height: width / 3, paddingHorizontal: 16, marginTop: 24, paddingVertical: 8}}
       >
 
         <TouchableOpacity
@@ -130,7 +128,7 @@ export default function Home() {
 
         <TouchableOpacity
           onPress={() => navigation.navigate('Sobre')}
-          style={{ marginHorizontal: 8, backgroundColor: '#C83844', width: width * 0.4, height: width / 4, borderRadius: 8, justifyContent: 'center', paddingLeft: 16 }}
+          style={{ marginLeft: 8, marginRight: 32, backgroundColor: '#C83844', width: width * 0.4, height: width / 4, borderRadius: 8, justifyContent: 'center', paddingHorizontal: 16 }}
         >
           <AntDesign name="questioncircle" size={20} color="#FFFFFF" style={{ marginRight: 6 }} />
           <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Sobre</Text>
@@ -140,7 +138,7 @@ export default function Home() {
       <Provider>
         <View>
           <Portal>
-            <Dialog visible={visible} onDismiss={hideDialog} style={{ borderRadius: 8 }}>
+            <Dialog visible={visible} onDismiss={hideDialog} style={{ borderRadius: 8, backgroundColor: 'white'}}>
               <Dialog.Title>Sucesso!</Dialog.Title>
               <Dialog.Content>
                 <View style={{borderWidth: 1, borderColor:  'red', borderRadius: 8, padding: 8}}>

@@ -146,7 +146,7 @@ export default function Presenca() {
   const auth = getAuth(app);
 
   const q = query(collection(firestore, "membros"), where("email", "==", auth.currentUser.email));
-  const p = query(collection(firestore, "presence"), orderBy("timestamp", "asc"));
+  const p = query(collection(firestore, "presence"), orderBy("created_at", "asc"));
 
   const [usuario, setUser] = useState([])
   const [present, setPresent] = useState(0)
@@ -171,7 +171,7 @@ export default function Presenca() {
       user: usuario[0],
       camisa: usuario[2],
       tampa: usuario[1],
-      created_at: serverTimestamp(Date)
+      created_at: serverTimestamp()
     })
       .then(() => {
         setPresent(present+1)
