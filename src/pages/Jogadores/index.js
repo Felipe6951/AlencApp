@@ -44,7 +44,7 @@ export default function Jogadores() {
 
   const CardHeader = () => (
     <View style={{ marginVertical: 24 }}>
-      <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 24, borderTopLeftRadius: 8, borderTopRightRadius: 8, paddingHorizontal: 16, flexDirection: 'row' }}>
+      <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: '5%', borderTopLeftRadius: 8, borderTopRightRadius: 8, paddingHorizontal: 16, flexDirection: 'row' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Ionicons name="filter" size={20} color="#FFFFFF" style={{ marginRight: 4 }} />
           <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Lista</Text>
@@ -55,7 +55,7 @@ export default function Jogadores() {
         </View>
       </View>
 
-      <View style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, elevation: 5, shadowColor: '#505050', backgroundColor: '#FFFFFF', marginHorizontal: 24, paddingHorizontal: 16, alignItems: 'center', paddingVertical: 12 }}>
+      <View style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, elevation: 5, shadowColor: '#505050', backgroundColor: '#FFFFFF', marginHorizontal: '5%', paddingHorizontal: 16, alignItems: 'center', paddingVertical: 12 }}>
         <Text style={{ color: '#505050', fontSize: 12, marginBottom: 16 }}>Busque os jogadores pelo nome, tampa, ou número da camisa.</Text>
         <InputSearch />
       </View>
@@ -121,17 +121,15 @@ export default function Jogadores() {
 const styles = StyleSheet.create({
   actionText: {
     color: 'gray',
-    fontSize: 20,
-    marginHorizontal: 16,
-    marginBottom: -12
+    fontSize: 14,
   },
   actionIcon: {
     color: 'gray',
-    fontSize: 20
+    fontSize: 26,
   },
   actionTextRemove: {
     color: "#FFFFFF",
-    fontSize: 16
+    fontSize: 14,
   }
 })
 
@@ -148,9 +146,9 @@ function LeftActions(progress, dragX) {
     <View>
       <TouchableOpacity
         onPress={() => Alert.alert('MUDAR ATIVIDADE', 'Tornar jogador inativo?')}
-        style={{ elevation: 5, shadowColor: '#505050', height: 103, alignItems: 'center', justifyContent: 'center', backgroundColor: '#F1F1F1', marginLeft: 24, borderTopLeftRadius: 8, borderBottomLeftRadius: 8, paddingLeft: 8, paddingRight: '5%', marginRight: -24 }}>
-        <Animated.Text style={[styles.actionText, { transform: [{ scale }] }]}>Opções</Animated.Text>
-        <Animated.Text style={[styles.actionIcon, { transform: [{ scale }] }]}>...</Animated.Text>
+        style={{ elevation: 5, shadowColor: '#505050', height: 103, alignItems: 'center', justifyContent: 'center', backgroundColor: '#F1F1F1', marginLeft: 24, borderTopLeftRadius: 8, borderBottomLeftRadius: 8, paddingLeft: 32, paddingRight: 40, marginRight: -24 }}>
+        <Animated.Text style={styles.actionIcon}>...</Animated.Text>
+        <Animated.Text style={styles.actionText}>Inativo</Animated.Text>
       </TouchableOpacity>
     </View>
   )
@@ -168,9 +166,9 @@ function RightActions(progress, dragX) {
     <View>
       <TouchableOpacity
         onPress={() => Alert.alert('EXCLUIR JOGADOR', 'Tem certeza que deseja excluir este jogador?')}
-        style={{ elevation: 5, shadowColor: '#505050', height: 103, alignItems: 'center', justifyContent: 'center', backgroundColor: '#ED4654', marginRight: 24, borderTopRightRadius: 8, borderBottomRightRadius: 8, paddingHorizontal: 32, marginLeft: -24 }}>
-        <Feather name="trash-2" size={24} color="white" />
-        <Animated.Text style={[styles.actionTextRemove, { transform: [{ scale }] }]}>Excluir</Animated.Text>
+        style={{ elevation: 5, shadowColor: '#505050', height: 103, alignItems: 'center', justifyContent: 'center', backgroundColor: '#ED4654', marginRight: 24, borderTopRightRadius: 8, borderBottomRightRadius: 8, paddingRight: 32, paddingLeft: 40, marginLeft: -32 }}>
+        <Feather name="trash-2" size={20} color="white" />
+        <Text style={styles.actionTextRemove}>Excluir</Text>
       </TouchableOpacity>
     </View>
   )

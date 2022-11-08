@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#FF4554"
     },
     boxItem: {
-        width: 312,
+        width: '90%',
         alignSelf: 'center',
         height: 104,
         backgroundColor: '#FFFFFF',

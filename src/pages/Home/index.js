@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, SafeAreaView, Alert, StatusBar, ScrollView, Dimensions } from 'react-native';
 import { MaterialIcons, Octicons, MaterialCommunityIcons, FontAwesome, AntDesign, Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native'
-import { Button, Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
+import { Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
 
 
 import { initializeApp } from 'firebase/app';
@@ -159,8 +159,6 @@ export default function Home() {
         </View>
       </Provider>
     </SafeAreaView >
-
-
   );
 }
 
