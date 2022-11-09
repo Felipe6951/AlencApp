@@ -104,7 +104,19 @@ const styles = StyleSheet.create({
     },
     teste: {
         flexDirection: 'row',
-    }
+    },
+    actionText: {
+        color: 'gray',
+        fontSize: 14,
+      },
+      actionIcon: {
+        color: 'gray',
+        fontSize: 26,
+      },
+      actionTextRemove: {
+        color: "#FFFFFF",
+        fontSize: 14,
+      }
 })
 
 export default styles;

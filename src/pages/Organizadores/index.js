@@ -1,9 +1,11 @@
 import React, { useState, useEffect, Component } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, FlatList, TouchableWithoutFeedback, Animated, Alert } from 'react-native';
 import { Input } from 'native-base';
-import { Ionicons, AntDesign, FontAwesome, MaterialIcons, Entypo } from '@expo/vector-icons';
+import { Ionicons, AntDesign, FontAwesome, MaterialIcons, Entypo, Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import styles from './stylesOrganizer';
+import { Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
+import { Swipeable } from 'react-native-gesture-handler';
 
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
@@ -17,6 +19,10 @@ export default function Organizadores() {
   const q = query(collection(firestore, "membros"), where("type", "==", "Organizador"));
 
   const [DATA, setData] = useState([]);
+
+  const [visibleDelete, setVisibleDelete] = React.useState(false);
+  const showDelete = () => setVisibleDelete(true);
+  const hideDelete = () => setVisibleDelete(false);
 
   class FabOrganizer extends Component {
     animation = new Animated.Value(0)
@@ -61,7 +67,10 @@ export default function Organizadores() {
       return (
         <View style={[styles.fabContent, this.props.style]}>
           <TouchableWithoutFeedback
-            onPress={() => {navigation.navigate('NewOrganizer')}}>
+            onPress={() => {
+              this.toggleOptions();
+              navigation.navigate('NewOrganizer');
+            }}>
             <Animated.View style={[styles.fabButton, styles.submenu, styles.teste, addStyle]}>
               <Text style={styles.fabText}> Novo organizador </Text>
               <Entypo name="plus" size={20} color="#FFFFFF" style={styles.submenuIcon} />
@@ -78,21 +87,45 @@ export default function Organizadores() {
     }
   }
 
+  function RightActions(progress, dragX) {
+
+    const scale = dragX.interpolate({
+      inputRange: [0, 100],
+      outputRange: [0, 1],
+      extrapolate: 'clamp'
+    })
+
+    return (
+      <View>
+        <TouchableOpacity
+          onPress={showDelete}
+          style={{ elevation: 5, shadowColor: '#505050', height: 103, alignItems: 'center', justifyContent: 'center', backgroundColor: '#ED4654', marginRight: 24, borderTopRightRadius: 8, borderBottomRightRadius: 8, paddingRight: 32, paddingLeft: 40, marginLeft: -32 }}>
+          <Feather name="trash-2" size={20} color="white" />
+          <Text style={styles.actionTextRemove}>Excluir</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
   const Item = ({ name, tampa, camisa }) => (
-    <View style={styles.boxItem}>
-      <View style={styles.boxItemName}>
-        <FontAwesome name="user-circle" size={24} style={styles.itemIcon} />
-        <View>
-          <Text style={styles.itemClass}>Organizador</Text>
-          <Text style={styles.itemName}>{name}</Text>
+    <Swipeable
+      renderRightActions={RightActions}
+    >
+      <View style={styles.boxItem}>
+        <View style={styles.boxItemName}>
+          <FontAwesome name="user-circle" size={24} style={styles.itemIcon} />
+          <View>
+            <Text style={styles.itemClass}>Organizador</Text>
+            <Text style={styles.itemName}>{name}</Text>
+          </View>
+        </View>
+        <View style={styles.line} />
+        <View style={styles.boxAlencar}>
+          <Text style={styles.tshirt}>Camisa {camisa}</Text>
+          <Text style={styles.cover}>Tampa: {tampa}</Text>
         </View>
       </View>
-      <View style={styles.line} />
-      <View style={styles.boxAlencar}>
-        <Text style={styles.tshirt}>Camisa {camisa}</Text>
-        <Text style={styles.cover}>Tampa: {tampa}</Text>
-      </View>
-    </View>
+    </Swipeable>
   );
 
   const InputSearch = () => (
@@ -126,7 +159,7 @@ export default function Organizadores() {
         </View>
       </View>
 
-      <View style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, elevation: 5, shadowColor: '#505050', backgroundColor: '#FFFFFF', marginHorizontal: '5%', paddingHorizontal: 16, alignItems: 'center', paddingVertical: 12 }}>
+      <View style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, elevation: 5, shadowColor: '#505050', backgroundColor: '#FFFFFF', marginHorizontal: '5%', paddingHorizontal: 16, alignItems: 'center', paddingVertical: 12  }}>
         <Text style={{ color: '#505050', fontSize: 12, marginBottom: 16 }}>Busque os organizadores pelo nome, tampa, ou número da camisa.</Text>
         <InputSearch />
       </View>
@@ -177,7 +210,27 @@ export default function Organizadores() {
         keyExtractor={item => item.id}
       />
       <FabOrganizer />
+
+      <Provider>
+        <View>
+          <Portal>
+            <Dialog visible={visibleDelete} onDismiss={hideDelete} style={{ borderRadius: 8, backgroundColor: 'white' }}>
+              <Dialog.Title>Deletar organizador</Dialog.Title>
+              <Dialog.Content>
+                <Paragraph>Tem certeza que deseja deletar este organizador?</Paragraph>
+              </Dialog.Content>
+              <Dialog.Actions>
+                <TouchableOpacity onPress={hideDelete}>
+                  <Text style={{ color: 'red', paddingHorizontal: 4 }}>CANCELAR</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={hideDelete}>
+                  <Text style={{ color: 'red', paddingHorizontal: 4 }}>CONFIRMAR</Text>
+                </TouchableOpacity>
+              </Dialog.Actions>
+            </Dialog>
+          </Portal>
+        </View>
+      </Provider>
     </SafeAreaView>
   );
 }
-

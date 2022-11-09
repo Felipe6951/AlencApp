@@ -40,9 +40,7 @@ export default function Home() {
 
 
   const [visible, setVisible] = React.useState(false);
-
   const showDialog = () => setVisible(true);
-
   const hideDialog = () => setVisible(false);
 
 
