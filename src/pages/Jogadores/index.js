@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, FlatList, Alert, Animated } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, FlatList, Alert, Animated, ScrollView } from 'react-native';
 import { Input } from 'native-base';
 import { Ionicons, AntDesign, FontAwesome, MaterialIcons, Feather } from '@expo/vector-icons';
-import { useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native'
+import { Swipeable } from 'react-native-gesture-handler';
+import { Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
 
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
 import { getFirestore, collection, query, onSnapshot, where } from 'firebase/firestore'
-import { Swipeable } from 'react-native-gesture-handler';
-import { Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
-
 
 export default function Jogadores() {
 
@@ -29,53 +27,19 @@ export default function Jogadores() {
   const showDelete = () => setVisibleDelete(true);
   const hideDelete = () => setVisibleDelete(false);
 
+  const [searchText, setSearchText] = useState('')
+  const [list, setList] = useState(DATA)
 
-  const InputSearch = () => (
-    <Input
-      placeholder="Buscar..."
-      fontSize={15}
-      variant="outline"
-      value={searchPlayer}
-      backgroundColor={'#F2F2F2'}
-      placeholderTextColor={'#888888'}
-      height={10}
-      onChangeText={(t) => setSearchPlayer(t)}
-      InputLeftElement={
-        <AntDesign name="search1" size={18} color="#585858" style={{ marginLeft: 8 }} />
-      }
-      InputRightElement={
-        <TouchableOpacity
-          onPress={() => setSearchPlayer('')}
-        >
-          <MaterialIcons name="highlight-remove" size={20} color="#585858" style={{ marginRight: 8 }} />
-        </TouchableOpacity>
-      }
-    />
-  );
+  useEffect(() => {
+    if (searchText === '') {
+      setList(DATA);
+    } else {
+      setList(
+        DATA.filter(item => (item.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1))
+      );
+    }
+  }, [searchText]);
 
-  const CardHeader = () => (
-    <View style={{ marginVertical: 24 }}>
-      <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: '5%', borderTopLeftRadius: 8, borderTopRightRadius: 8, paddingHorizontal: 16, flexDirection: 'row' }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Ionicons name="filter" size={20} color="#FFFFFF" style={{ marginRight: 4 }} />
-          <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Lista</Text>
-        </View>
-
-        <View style={{ backgroundColor: '#FFFFFF', borderRadius: 50, width: 25, height: 25, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>{list.length}</Text>
-        </View>
-      </View>
-
-      <View style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, elevation: 5, shadowColor: '#505050', backgroundColor: '#FFFFFF', marginHorizontal: '5%', paddingHorizontal: 16, alignItems: 'center', paddingVertical: 12 }}>
-        <Text style={{ color: '#505050', fontSize: 12, marginBottom: 16 }}>Busque os jogadores pelo nome, tampa, ou número da camisa.</Text>
-        <InputSearch />
-      </View>
-    </View>
-  );
-
-  const [searchPlayer, setSearchPlayer] = useState('');
-  const [list, setList] = useState(DATA);
-  const test = list.find((item) => item.name === searchPlayer);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -96,26 +60,7 @@ export default function Jogadores() {
     }, [])
   );
 
-  useEffect(() => {
-
-    if (searchPlayer === "") {
-      setList(DATA);
-    } else {
-      setList(
-        DATA.filter(item => {
-          if (item.name.toLowerCase().indexOf(searchPlayer.toLowerCase()) > -1) {
-            return true;
-          } else {
-            return false;
-          }
-        })
-      );
-    }
-  }, [searchPlayer]);
-
-
   function LeftActions(progress, dragX) {
-
     const scale = dragX.interpolate({
       inputRange: [0, 100],
       outputRange: [0, 1],
@@ -135,7 +80,6 @@ export default function Jogadores() {
   }
 
   function RightActions(progress, dragX) {
-
     const scale = dragX.interpolate({
       inputRange: [0, 100],
       outputRange: [0, 1],
@@ -181,15 +125,45 @@ export default function Jogadores() {
     <SafeAreaView style={{ backgroundColor: '#FAFAFA', height: '100%' }}>
       <FlatList
         ListHeaderComponent={
-          <View >
-            <CardHeader />
+          <View style={{ marginVertical: 24 }}>
+            <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: '5%', borderTopLeftRadius: 8, borderTopRightRadius: 8, paddingHorizontal: 16, flexDirection: 'row' }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Ionicons name="filter" size={20} color="#FFFFFF" style={{ marginRight: 4 }} />
+                <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Lista</Text>
+              </View>
+
+              <View style={{ backgroundColor: '#FFFFFF', borderRadius: 50, width: 25, height: 25, alignItems: 'center', justifyContent: 'center' }}>
+                <Text>{DATA.length}</Text>
+              </View>
+            </View>
+
+            <View style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, elevation: 5, shadowColor: '#505050', backgroundColor: '#FFFFFF', marginHorizontal: '5%', paddingHorizontal: 16, alignItems: 'center', paddingVertical: 12 }}>
+              <Text style={{ color: '#505050', fontSize: 12, marginBottom: 16 }}>Busque os jogadores pelo nome, tampa, ou número da camisa. {searchText}</Text>
+              <Input
+                placeholder="Buscar..."
+                fontSize={15}
+                variant="outline"
+                value={searchText}
+                backgroundColor={'#F2F2F2'}
+                placeholderTextColor={'#888888'}
+                height={10}
+                onChangeText={(t) => setSearchText(t)}
+                InputLeftElement={
+                  <AntDesign name="search1" size={18} color="#585858" style={{ marginLeft: 8 }} />
+                }
+                InputRightElement={
+                  <TouchableOpacity onPress={() => setSearchText('')}>
+                    <MaterialIcons name="highlight-remove" size={20} color="#585858" style={{ marginRight: 8 }} />
+                  </TouchableOpacity>
+                }
+              />
+            </View>
           </View>
         }
         data={list}
         renderItem={({ item }) => <Item name={item.name} tampa={item.tampa} camisa={item.camisa} />}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
       />
-
       <Provider>
         <View>
           <Portal>
@@ -203,7 +177,7 @@ export default function Jogadores() {
                   <Text style={{ color: 'red', paddingHorizontal: 4 }}>CANCELAR</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={hideInactive}>
-                    <Text style={{ color: 'red', paddingHorizontal: 8, paddingVertical: 4 }}>CONFIRMAR</Text>
+                  <Text style={{ color: 'red', paddingHorizontal: 8, paddingVertical: 4 }}>CONFIRMAR</Text>
                 </TouchableOpacity>
               </Dialog.Actions>
             </Dialog>
@@ -249,4 +223,3 @@ const styles = StyleSheet.create({
     fontSize: 14,
   }
 })
-
