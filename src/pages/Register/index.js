@@ -7,8 +7,8 @@ import { TextInputMask } from 'react-native-masked-text';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
+import { getFirestore, setDoc, doc } from 'firebase/firestore'
 
-import { getFirestore, setDoc, doc, getDocs, collection, query, onSnapshot, addDoc } from 'firebase/firestore'
 import { color, max } from 'react-native-reanimated';
 import styles from './styles';
 import { KeyboardAvoidingView } from 'react-native';
@@ -34,36 +34,39 @@ export default function Register() {
 
   const app = initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
+  const auth = getAuth(app)
 
   const handleCreateAccount = () => {
-    setDoc(doc(firestore, "membros", name), {
-      name: name,
-      user: username,
-      email: email,
-      telefone: phone,
-      camisa: shirtnum,
-      tampa: tampaSelected,
-      situacao: "Pendente",
-      type: "membro",
-      status: "Ativo",
-      password: password,
-      day: daySelected
+    createUserWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      setDoc(doc(firestore, "membros", name), {
+        name: name,
+        user: username,
+        email: email,
+        telefone: phone,
+        camisa: shirtnum,
+        tampa: tampaSelected,
+        situacao: "Pendente",
+        type: "membro",
+        status: "Ativo",
+        day: daySelected
+      })
+        .then(() => {
+          Alert.alert(
+            "Sucesso!",
+            "Seu cadastro foi enviado para a análise da comissão.",
+            [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+          )
+          navigation.navigate('Login')
+        })
+        .catch(error => {
+          Alert.alert(
+            "Erro!",
+            "Algo deu errado no seu cadastro.",
+            [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+          )
+        })
     })
-      .then(() => {
-        Alert.alert(
-          "Sucesso!",
-          "Seu cadastro foi enviado para a análise da comissão.",
-          [{ text: "OK", onPress: () => console.log("OK Pressed") }]
-        )
-        navigation.navigate('Login')
-      })
-      .catch(error => {
-        Alert.alert(
-          "Erro!",
-          "Algo deu errado no seu cadastro.",
-          [{ text: "OK", onPress: () => console.log("OK Pressed") }]
-        )
-      })
   }
 
   const [tampa] = React.useState(['1', '2', '3', '4', '5', '6'])

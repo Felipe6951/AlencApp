@@ -5,6 +5,8 @@ import Register from '../pages/Register';
 import Admin from '../pages/Auxiliar/admin';
 import NewOrganizer from '../pages/Organizadores/NewOrganizer';
 import Geral from '../pages/Auxiliar/geral';
+import Espera from '../pages/Espera';
+import Recusado from "../pages/Recusado";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +34,18 @@ export default function Authroutes() {
       <Stack.Screen
         name="Geral"
         component={Geral}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="Espera"
+        component={Espera}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="Recusado"
+        component={Recusado}
         options={{ headerShown: false }}
       />
 

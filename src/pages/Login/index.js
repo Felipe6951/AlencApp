@@ -57,6 +57,16 @@ export default function Login() {
           if (usuario[0] === "Jogador") {
             setUser([])
             navigation.navigate("Geral")
+          } else {
+            if (usuario[0] === "membro") {
+              setUser([])
+              navigation.navigate("Espera")
+            } else {
+              if (usuario[0] === "Recusado") {
+                setUser([])
+                navigation.navigate("Recusado")
+              } 
+            }
           }
         }
       }
