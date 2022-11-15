@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#FF4554"
     },
     boxItem: {
-        width: 312,
+        width: '90%',
         alignSelf: 'center',
         height: 104,
         backgroundColor: '#FFFFFF',
@@ -104,7 +104,19 @@ const styles = StyleSheet.create({
     },
     teste: {
         flexDirection: 'row',
-    }
+    },
+    actionText: {
+        color: 'gray',
+        fontSize: 14,
+      },
+      actionIcon: {
+        color: 'gray',
+        fontSize: 26,
+      },
+      actionTextRemove: {
+        color: "#FFFFFF",
+        fontSize: 14,
+      }
 })
 
 export default styles;

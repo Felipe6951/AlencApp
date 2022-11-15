@@ -67,7 +67,7 @@ export default function Estatuto() {
   }
 
   const Item = ({ year, url }) => (
-    <View style={{ height: 136, width: 312, elevation: 5, shadowColor: '#000000', backgroundColor: '#FFFFFF', marginHorizontal: 24, borderRadius: 8, paddingHorizontal: 16, paddingVertical: 16, marginBottom: 16 }}>
+    <View style={{ height: 136, elevation: 5, shadowColor: '#000000', backgroundColor: '#FFFFFF', marginHorizontal: '5%', borderRadius: 8, paddingHorizontal: 16, paddingVertical: 16, marginBottom: 16 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
         <Entypo name="book" size={20} color="#C0212E" style={{ marginRight: 8 }} />
         <View>
@@ -90,7 +90,7 @@ export default function Estatuto() {
 
   const CardHeader = () => (
     <View style={{ marginBottom: 24 }}>
-      <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 24, borderTopLeftRadius: 8, borderTopRightRadius: 8, marginTop: 24, paddingHorizontal: 16, flexDirection: 'row' }}>
+      <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: '5%', borderTopLeftRadius: 8, borderTopRightRadius: 8, marginTop: 24, paddingHorizontal: 16, flexDirection: 'row' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Entypo name="book" size={20} color="#FFFFFF" style={{ marginRight: 4 }} />
           <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Lista</Text>
@@ -101,7 +101,7 @@ export default function Estatuto() {
         </View>
       </View>
 
-      <View style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, elevation: 5, shadowColor: '#505050', backgroundColor: '#FFFFFF', marginHorizontal: 24, paddingHorizontal: 16, paddingTop: 24, paddingBottom: 16 }}>
+      <View style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, elevation: 5, shadowColor: '#505050', backgroundColor: '#FFFFFF', marginHorizontal: '5%', paddingHorizontal: 16, paddingTop: 24, paddingBottom: 16 }}>
         <Text style={{ color: '#505050', fontSize: 12 }}>Estatutos internos do Alencar Futebol Clube (AFC)</Text>
       </View>
     </View>

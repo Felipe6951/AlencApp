@@ -13,11 +13,19 @@ import { color, max } from 'react-native-reanimated';
 import styles from './styles';
 import { KeyboardAvoidingView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
 
 export default function Register() {
 
   const navigation = useNavigation();
   const [service, setService] = React.useState("");
+
+  const [visibleAlertSuccess, setVisibleAlertSuccess] = React.useState(false);
+  const showAlertSuccess = () => setVisibleAlertSuccess(true);
+  const hideAlertSuccess = () => setVisibleAlertSuccess(false);
+  const [visibleAlertError, setVisibleAlertError] = React.useState(false);
+  const showAlertError = () => setVisibleAlertError(true);
+  const hideAlertError = () => setVisibleAlertError(false);
 
   const usarnameRef = useRef();
   const emailRef = useRef();
@@ -37,37 +45,23 @@ export default function Register() {
   const auth = getAuth(app)
 
   const handleCreateAccount = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      setDoc(doc(firestore, "membros", name), {
-        name: name,
-        user: username,
-        email: email,
-        telefone: phone,
-        camisa: shirtnum,
-        tampa: tampaSelected,
-        situacao: "Pendente",
-        type: "membro",
-        status: "Ativo",
-        day: daySelected
-      })
-        .then(() => {
-          Alert.alert(
-            "Sucesso!",
-            "Seu cadastro foi enviado para a análise da comissão.",
-            [{ text: "OK", onPress: () => console.log("OK Pressed") }]
-          )
-          navigation.navigate('Login')
-        })
-        .catch(error => {
-          Alert.alert(
-            "Erro!",
-            "Algo deu errado no seu cadastro.",
-            [{ text: "OK", onPress: () => console.log("OK Pressed") }]
-          )
-        })
+    setDoc(doc(firestore, "membros", name), {
+      name: name,
+      user: username,
+      email: email,
+      telefone: phone,
+      camisa: shirtnum,
+      tampa: tampaSelected,
+      situacao: "Pendente",
+      type: "membro",
+      status: "Ativo",
+      password: password,
+      day: daySelected
     })
+      .then(showAlertSuccess)
+      .catch(error => showAlertError) 
   }
+
 
   const [tampa] = React.useState(['1', '2', '3', '4', '5', '6'])
   const [tampaSelected, setTampaSelected] = React.useState([])
@@ -302,6 +296,42 @@ export default function Register() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
+
+      <Provider>
+        <View>
+          <Portal>
+            <Dialog visible={visibleAlertSuccess} onDismiss={hideAlertSuccess} style={{ borderRadius: 8, backgroundColor: 'white' }}>
+              <Dialog.Title>Sucesso!</Dialog.Title>
+              <Dialog.Content>
+                <Paragraph>Sua conta foi enviada para análise da comissão.</Paragraph>
+              </Dialog.Content>
+              <Dialog.Actions>
+                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                  <Text style={{ color: 'red', paddingHorizontal: 4 }}>CONFIRMAR</Text>
+                </TouchableOpacity>
+              </Dialog.Actions>
+            </Dialog>
+          </Portal>
+        </View>
+      </Provider>
+
+      <Provider>
+        <View>
+          <Portal>
+            <Dialog visible={visibleAlertError} onDismiss={hideAlertError} style={{ borderRadius: 8, backgroundColor: 'white' }}>
+              <Dialog.Title>Erro!</Dialog.Title>
+              <Dialog.Content>
+                <Paragraph>Algo deu errado no seu cadastro.</Paragraph>
+              </Dialog.Content>
+              <Dialog.Actions>
+                <TouchableOpacity onPress={hideAlertError}>
+                  <Text style={{ color: 'red', paddingHorizontal: 4 }}>CONFIRMAR</Text>
+                </TouchableOpacity>
+              </Dialog.Actions>
+            </Dialog>
+          </Portal>
+        </View>
+      </Provider>
     </SafeAreaView >
   );
 }

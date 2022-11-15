@@ -21,7 +21,7 @@ export default function NewOrganizer() {
     const Item = ({ name, user, email, telefone }) => (
         
         <TouchableWithoutFeedback onPress={() => Alert.alert("Organizador", "Tornar organizador?", [{ text: "Não" }, { text: "Sim", onPress: () => updateDoc(doc(firestore, "membros", name), {type: "Organizador"}).then(() => {Alert.alert("Organizadores", name + "Agora é um organizador!")})}])}>
-            <View style={{ marginHorizontal: 24, backgroundColor: '#FFFFFF', padding: 24, borderRadius: 8, marginBottom: 16, elevation: 5, shadowColor: '#505050' }}>
+            <View style={{ marginHorizontal: '5%', backgroundColor: '#FFFFFF', padding: 24, borderRadius: 8, marginBottom: 16, elevation: 5, shadowColor: '#505050' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ marginRight: 12 }}>
                         <FontAwesome name="user" size={22} color="#C0212E" />
@@ -51,7 +51,7 @@ export default function NewOrganizer() {
     );
 
     const CardHeader = () => (
-        <View style={{paddingHorizontal: 24}}>
+        <View style={{marginHorizontal: '5%'}}>
             <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', borderTopLeftRadius: 8, borderTopRightRadius: 8, marginTop: 24, paddingHorizontal: 16, flexDirection: 'row' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Ionicons name="filter" size={20} color="#FFFFFF" style={{ marginRight: 4 }} />
