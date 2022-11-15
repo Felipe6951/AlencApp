@@ -6,7 +6,7 @@ import styles from './styles';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
 import { getFirestore, collection, query, onSnapshot, where, doc, updateDoc, deleteDoc, deleteField } from 'firebase/firestore'
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, deleteUser } from 'firebase/auth';
 
 
 export default function Solicitacoes() {
@@ -30,7 +30,7 @@ export default function Solicitacoes() {
     });
   }, [])
 
-  const Item = ({ name, email, password }) => (
+  const Item = ({ name, email }) => (
     <View style={styles.itemCard}>
       <View style={styles.itemContent}>
         <FontAwesome name="user-circle" size={24} style={styles.itemIcon} />
@@ -45,14 +45,14 @@ export default function Solicitacoes() {
      
       <View style={[styles.direction, styles.buttonChoosesPosition]}>
         <TouchableOpacity style={styles.buttonChooses}
-          onPress={() => deleteDoc(doc(firestore, "membros", name)).then(() => {
+          onPress={() => updateDoc(doc(firestore, "membros", name), { situacao: "Recusado", type: "Recusado" }).then(() => {
             Alert.alert("Solicitações", name + " recusado!")
           })}>
           <Text style={styles.textButtonChooses}>Recusar</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.buttonChooses}
-          onPress={() => updateDoc(doc(firestore, "membros", name), { situacao: "Aceito", type: "Jogador", password: deleteField() }) && createUserWithEmailAndPassword(auth, email, password).then(() => {
+          onPress={() => updateDoc(doc(firestore, "membros", name), { situacao: "Aceito", type: "Jogador" }).then(() => {
             Alert.alert("Solicitações", name + " aceito!")
           })}>
           <Text style={styles.textButtonChooses}>Aceitar</Text>

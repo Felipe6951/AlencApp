@@ -7,8 +7,8 @@ import { TextInputMask } from 'react-native-masked-text';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
+import { getFirestore, setDoc, doc } from 'firebase/firestore'
 
-import { getFirestore, setDoc, doc, getDocs, collection, query, onSnapshot, addDoc } from 'firebase/firestore'
 import { color, max } from 'react-native-reanimated';
 import styles from './styles';
 import { KeyboardAvoidingView } from 'react-native';
@@ -42,6 +42,7 @@ export default function Register() {
 
   const app = initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
+  const auth = getAuth(app)
 
   const handleCreateAccount = () => {
     setDoc(doc(firestore, "membros", name), {
