@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Alert, Dimensions, StatusBar, Animated, SafeAreaView, Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
-import { Box, Center, useColorModeValue } from 'native-base';
+import { Box, useColorModeValue } from 'native-base';
 import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import styles from "./styles";
+import { useNavigation } from '@react-navigation/native'
+
 
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
 import { getFirestore, collection, query, onSnapshot, where, serverTimestamp, orderBy, setDoc, doc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { useEffect } from 'react';
 
 export default function Presenca() {
+
+  const navigation = useNavigation()
 
   const [ORDER, setOrder] = useState([])
 
@@ -165,20 +168,21 @@ export default function Presenca() {
     });
   }, []);
 
+
   const presence = () => {
     setDoc(doc(firestore, "presence", usuario[3]), {
       name: usuario[3],
       user: usuario[0],
       camisa: usuario[2],
-      tampa: usuario[1],
+      tampa: parseInt(usuario[1]),
       created_at: serverTimestamp()
     })
       .then(() => {
-        setPresent(present+1)
+        setPresent(present + 1)
         Alert.alert(
           "Sucesso!",
           "Presença confirmada!",
-          
+
           [{ text: "OK", onPress: () => console.log("OK Pressed") }]
         )
       })
@@ -191,7 +195,7 @@ export default function Presenca() {
       })
   }
 
-  useEffect (() => {
+  useEffect(() => {
     onSnapshot(p, (querySnapshot) => {
       const presents = [];
       querySnapshot.forEach((doc) => {
@@ -242,35 +246,43 @@ export default function Presenca() {
     <SafeAreaView style={{ flex: 1, backgroundColor: "#FAFAFA" }}>
       <StatusBar />
       <View style={styles.boxHeader}>
-      
-          <Image style={styles.userPhoto} source={require('../../assets/img/userBig.png')} resizeMode="contain" />
-          <View style={styles.infoUsers}>
-            <Text style={styles.username}>{usuario[0]}</Text>
-            <View style={styles.infoUsersAux}>
-              <View style={styles.boxCamisa}>
-                <Text>CAMISA</Text>
-                <Text>{usuario[2]}</Text>
-              </View>
-              <View style={styles.boxTampa}>
-                <Text>TAMPA</Text>
-                <Text>{usuario[1]}</Text>
-              </View>
+
+        <Image style={styles.userPhoto} source={require('../../assets/img/userBig.png')} resizeMode="contain" />
+        <View style={styles.infoUsers}>
+          <Text style={styles.username}>{usuario[0]}</Text>
+          <View style={styles.infoUsersAux}>
+            <View style={styles.boxCamisa}>
+              <Text>CAMISA</Text>
+              <Text>{usuario[2]}</Text>
+            </View>
+            <View style={styles.boxTampa}>
+              <Text>TAMPA</Text>
+              <Text>{usuario[1]}</Text>
             </View>
           </View>
-       
-        <View style={{marginLeft: 24}}>
-          <TouchableOpacity 
-          style={{backgroundColor: '#ED4654', paddingVertical: 10, paddingHorizontal: 16, alignItems: "center", borderRadius: 8}}
-          onPress={presence}>
-            <MaterialCommunityIcons name="qrcode-scan" size={24} color="#FFFFFF" />
-            <Text style={{color: '#FFFFFF', marginTop: 8}}>Check-in</Text>
-          </TouchableOpacity>
         </View>
 
+        <View style={{ marginLeft: 24, justifyContent: "center", flexDirection: 'column' }}>
+          <View>
+            <TouchableOpacity
+              style={{ backgroundColor: '#ED4654', paddingVertical: 10, paddingHorizontal: 16, alignItems: "center", borderRadius: 8 }}
+              onPress={() => navigation.navigate('Scanner')}>
+              <MaterialCommunityIcons name="qrcode-scan" size={24} color="#FFFFFF" />
+              <Text style={{ color: '#FFFFFF', marginTop: 8 }}>Check-in</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity
+              style={{ backgroundColor: '#ED4654', paddingVertical: 10, paddingHorizontal: 16, alignItems: "center", borderRadius: 8 }}
+              onPress={() => navigation.navigate('QRCode')}>
+              <MaterialCommunityIcons name="qrcode-scan" size={24} color="#FFFFFF" />
+              <Text style={{ color: '#FFFFFF', marginTop: 8 }}>QRCODE</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
       <Example />
     </SafeAreaView >
   );
 }
 
-/**/

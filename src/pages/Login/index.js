@@ -49,29 +49,10 @@ export default function Login() {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log(usuario[0])
-        if (usuario[0] === "Organizador") {
-          setUser([])
-          navigation.navigate("Admin")
-        } else {
-          if (usuario[0] === "Jogador") {
-            setUser([])
-            navigation.navigate("Geral")
-          } else {
-            if (usuario[0] === "membro") {
-              setUser([])
-              navigation.navigate("Espera")
-            } else {
-              if (usuario[0] === "Recusado") {
-                setUser([])
-                navigation.navigate("Recusado")
-              } 
-            }
-          }
-        }
+        navigation.navigate("Admin")
       }
     })
-  }, [usuario]);
+  }, []);
 
   const forgotPassword = () => {
     sendPasswordResetEmail(auth, email)

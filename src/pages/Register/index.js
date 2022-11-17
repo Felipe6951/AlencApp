@@ -45,23 +45,30 @@ export default function Register() {
   const auth = getAuth(app)
 
   const handleCreateAccount = () => {
-    setDoc(doc(firestore, "membros", name), {
-      name: name,
-      user: username,
-      email: email,
-      telefone: phone,
-      camisa: shirtnum,
-      tampa: tampaSelected,
-      situacao: "Pendente",
-      type: "membro",
-      status: "Ativo",
-      password: password,
-      day: daySelected
+    createUserWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      setDoc(doc(firestore, "membros", name), {
+        name: name,
+        user: username,
+        email: email,
+        telefone: phone,
+        camisa: shirtnum,
+        tampa: tampaSelected,
+        situacao: "Pendente",
+        type: "membro",
+        status: "Ativo",
+        password: password,
+        day: daySelected
+      })
+        .then(showAlertSuccess)
+        .catch(error => showAlertError)
     })
-      .then(showAlertSuccess)
-      .catch(error => showAlertError) 
+    .catch((error) => {
+      Alert.alert(error)
+    })  
   }
 
+  console.log(tampaSelected);
 
   const [tampa] = React.useState(['1', '2', '3', '4', '5', '6'])
   const [tampaSelected, setTampaSelected] = React.useState([])
