@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Button, StatusBar, Alert, TouchableOpacity, Saf
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native'
-import { Camera } from 'expo-camera';
+// import { Camera } from 'expo-camera';
 
 export default function Scanner() {
     const [hasPermission, setHasPermission] = useState(null); // Permissão de acesso a câmera

@@ -1,11 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, Image, SafeAreaView, TouchableOpacity, Text, Alert, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Input, FormControl, StatusBar, Button, Actionsheet, useDisclose } from 'native-base';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import styles from './styles';
 
-import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged } from 'firebase/auth';
+import { getFirestore, collection, query, onSnapshot, where, doc } from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
 
@@ -16,6 +17,7 @@ export default function Login() {
   const [hidePassword, setHidePassword] = useState(true);
 
   const app = initializeApp(firebaseConfig);
+  const firestore = getFirestore(app)
   const auth = getAuth(app)
 
   const handleSignin = () => {
@@ -29,6 +31,41 @@ export default function Login() {
         Alert.alert(error.message);
       })
   }
+
+  useEffect(() => {
+    const subscriber = onAuthStateChanged(auth, (user) => {
+      if (user) {
+
+        const q = query(collection(firestore, "membros"), where("email", "==", user.email));
+
+        onSnapshot(q, (querySnapshot) => {
+          const members = [];
+          querySnapshot.forEach((doc) => {
+            members.push(doc.data().type);
+          })
+
+          if (members[0] === "Organizador") {
+            navigation.navigate("Admin")
+          } else {
+            if (members[0] === "Jogador") {
+              navigation.navigate("Geral")
+            } else {
+              if (members[0] === "membro") {
+                navigation.navigate("Espera")
+              } else {
+                if (members[0] === "Recusado") {
+                  navigation.navigate("Recusado")
+                } 
+              }
+            }
+          }
+        })
+      }
+    })
+
+    return subscriber;
+
+  }, []);
 
   const forgotPassword = () => {
     sendPasswordResetEmail(auth, email)

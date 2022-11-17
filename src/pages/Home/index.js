@@ -4,7 +4,6 @@ import { MaterialIcons, Octicons, MaterialCommunityIcons, FontAwesome, AntDesign
 import { useNavigation } from '@react-navigation/native'
 import { Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
 
-
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
 import { getFirestore, collection, query, onSnapshot, where } from 'firebase/firestore';
