@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Image, SafeAreaView, TouchableOpacity, Text, Alert, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Input, FormControl, StatusBar, Button, Actionsheet, useDisclose } from 'native-base';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import styles from './styles';
 
-import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, collection, query, onSnapshot, where, doc } from 'firebase/firestore';
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
 
@@ -18,60 +17,18 @@ export default function Login() {
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app)
-  const firestore = getFirestore(app);
-
-  const [usuario, setUser] = useState([])
 
   const handleSignin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
-
-        const q = query(collection(firestore, "membros"), where("email", "==", user.email));
-
-        onSnapshot(q, (querySnapshot) => {
-          const members = [];
-          querySnapshot.forEach((doc) => {
-            members.push(doc.data().type);
-          })
-
-          setUser(members);
-          console.log(usuario[0]);
-        })
       })
       .catch(error => {
         console.log(error)
         Alert.alert(error.message);
       })
   }
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log(usuario[0])
-        if (usuario[0] === "Organizador") {
-          setUser([])
-          navigation.navigate("Admin")
-        } else {
-          if (usuario[0] === "Jogador") {
-            setUser([])
-            navigation.navigate("Geral")
-          } else {
-            if (usuario[0] === "membro") {
-              setUser([])
-              navigation.navigate("Espera")
-            } else {
-              if (usuario[0] === "Recusado") {
-                setUser([])
-                navigation.navigate("Recusado")
-              } 
-            }
-          }
-        }
-      }
-    })
-  }, [usuario]);
 
   const forgotPassword = () => {
     sendPasswordResetEmail(auth, email)
