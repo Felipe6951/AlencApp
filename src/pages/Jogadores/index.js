@@ -49,7 +49,6 @@ export default function Jogadores() {
         querySnapshot.forEach((doc) => {
           members.push({ ...doc.data(), id: doc.id });
         })
-
         setData(members);
         setList(members);
         console.log("entrou");

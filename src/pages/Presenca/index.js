@@ -18,7 +18,12 @@ export default function Presenca() {
   const navigation = useNavigation()
 
   const [ORDER, setOrder] = useState([])
-  const espera = []
+  const espera = [{
+    id: 1,
+    user: 'Marcos',
+    tampa: 2,
+    camisa: 10
+  }]
   const TIMES = [
     {
       id: 1,
@@ -49,9 +54,8 @@ export default function Presenca() {
   ]
 
 
-  const ItemOrder = ({ username, tampa, number }) => (
+  const ItemOrder = ({ username, tampa }) => (
     <View style={styles.boxOrder}>
-      <Text style={styles.orderNumber}>{number}°</Text>
       <Image style={styles.user} source={require('../../assets/img/user.png')} resizeMode="contain" />
       <View style={styles.orderInfo}>
         <Text style={styles.players}>{username}</Text>
@@ -142,7 +146,26 @@ export default function Presenca() {
     my="4"
     showsVerticalScrollIndicator={false}
     data={TIMES}
-    renderItem={({ item }) => <ItemTimes player1={item.player1} player2={item.player2} player3={item.player3} player4={item.player4} player5={item.player5} />}
+    renderItem={({ item }) => <ItemTimes player1={item.player1} tampa2={item.tampa2} player3={item.player3} tampa3={item.tampa3} player4={item.player4} tampa4={item.tampa4} player5={item.player5} tampa5={item.tampa5} />}
+    keyExtractor={item => item.id}
+  />;
+
+  const ItemWait = ({ username, tampa }) => (
+    <View style={styles.boxOrder}>
+      <Image style={styles.user} source={require('../../assets/img/user.png')} resizeMode="contain" />
+      <View style={styles.orderInfo}>
+        <Text style={styles.players}>{username}</Text>
+        <Text style={styles.tampa}>Tampa {tampa}</Text>
+      </View>
+    </View>
+  );
+
+  const ThirdRoute = () => <FlatList
+    flex={1}
+    my="4"
+    showsVerticalScrollIndicator={false}
+    data={espera}
+    renderItem={({ item }) => <ItemWait username={item.user} tampa={item.tampa} number={item.number} />}
     keyExtractor={item => item.id}
   />;
 
@@ -152,236 +175,236 @@ export default function Presenca() {
 
   const renderScene = SceneMap({
     first: FirstRoute,
-    second: SecondRoute
+    second: SecondRoute,
+    third: ThirdRoute
   });
 
- 
-  
-  for (var i = 0; i < ORDER.length; i++) {
-    if (TIMES[0].player1 === null && TIMES[0].player2 === null && TIMES[0].player3 === null && TIMES[0].player4 === null && TIMES[0].player5 === null) {
-      TIMES[0].player1 = ORDER[i].name
-      TIMES[0].tampa1 = ORDER[i].tampa
-    } else {
-      if (TIMES[0].player2 === null && TIMES[0].player3 === null && TIMES[0].player4 === null && TIMES[0].player5 === null) {
-        if (TIMES[1].player1 === null) {
-          if (TIMES[0].tampa1 === ORDER[i].tampa) {
-            TIMES[1].player1 = ORDER[i].name
-            TIMES[1].tampa1 = ORDER[i].tampa
-          } else {
-            TIMES[0].player2 = ORDER[i].name
-            TIMES[0].tampa2 = ORDER[i].name
-          }
-        } else {
-          if (TIMES[0].tampa1 === ORDER[i].tampa) {
-            espera.push(ORDER[i])
-          } else {
-            TIMES[0].player2 = ORDER[i].name
-            TIMES[0].tampa2 = ORDER[i].name
-          }
-        }
-      } else {
-        if (TIMES[0].player3 === null && TIMES[0].player4 === null && TIMES[0].player5 === null) {
-          if (TIMES[1].player1 === null) {
-            if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa) {
-              TIMES[1].player1 = ORDER[i].name
-              TIMES[1].tampa1 = ORDER[i].tampa
-            } else {
-              TIMES[0].player3 = ORDER[i].name
-              TIMES[0].tampa3 = ORDER[i].tampa
-            } 
-          } else {
-            if (TIMES[1].player2 === null) {
-              if (TIMES[1].tampa1 === ORDER[i].tampa) {
-                espera.push(ORDER[i])
-              } else {
-                if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa) {
-                  TIMES[1].player2 = ORDER[i].name
-                  TIMES[1].tampa2 = ORDER[i].tampa
-                } else {
-                  TIMES[0].player3 = ORDER[i].name
-                  TIMES[0].tampa3 = ORDER[i].tampa
-                }
-              }   
-            } else {
-              if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa) {
-                espera.push(ORDER[i])
-              } else {
-                TIMES[0].player3 = ORDER[i].name
-                TIMES[0].tampa3 = ORDER[i].tampa
-              }
-            }
-          }
-        } else {
-          if (TIMES[0].player4 === null && TIMES[0].player5 === null) {
-            if (TIMES[1].player1 === null) {
-              if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa) {
-                TIMES[1].player1 = ORDER[i].name
-                TIMES[1].tampa1 = ORDER[i].tampa
-              } else {
-                TIMES[0].player4 = ORDER[i].name
-                TIMES[0].tampa4 = ORDER[i].tampa
-              }
-            } else {
-              if (TIMES[1].player2 === null) {
-                if (TIMES[1].tampa1 === ORDER[i].tampa) {
-                  espera.push(ORDER[i])
-                } else {
-                  if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa) {
-                    TIMES[1].player2 = ORDER[i].name
-                    TIMES[1].tampa2 = ORDER[i].tampa
-                  } else {
-                    TIMES[0].player4 = ORDER[i].name
-                    TIMES[0].tampa4 = ORDER[i].tampa
-                  } 
-                }
-              } else {
-                if (TIMES[1].player3 === null) {
-                  if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa) {
-                    espera.push(ORDER[i])
-                  } else {
-                    if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa) {
-                      TIMES[1].player3 = ORDER[i].name
-                      TIMES[1].tampa3 = ORDER[i].tampa
-                    } else {
-                      TIMES[0].player4 = ORDER[i].name
-                      TIMES[0].tampa4 = ORDER[i].tampa
-                    }
-                  }
-                } else {
-                  if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa) {
-                    espera.push(ORDER[i])
-                  } else {
-                    TIMES[0].player4 = ORDER[i].name
-                    TIMES[0].tampa4 = ORDER[i].tampa
-                  }
-                }
-              }
-            }
-          } else {
-            if (TIMES[0].player5 === null) {
-              if (TIMES[1].player1 === null) {
-                if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
-                  TIMES[1].player1 = ORDER[i].name
-                  TIMES[1].tampa1 = ORDER[i].tampa
-                } else {
-                  TIMES[0].player5 = ORDER[i].name
-                  TIMES[0].tampa5 = ORDER[i].tampa
-                }
-              } else {
-                if (TIMES[1].player2 === null) {
-                  if (TIMES[1].tampa1 === ORDER[i].tampa) {
-                    espera.push(ORDER[i])
-                  } else {
-                    if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
-                      TIMES[1].player2 = ORDER[i].name
-                      TIMES[1].tampa2 = ORDER[i].tampa
-                    } else {
-                      TIMES[0].player5 = ORDER[i].name
-                      TIMES[0].tampa5 = ORDER[i].tampa
-                    } 
-                  }    
-                } else {
-                  if (TIMES[1].player3 === null) {
-                    if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa) {
-                      espera.push(ORDER[i])
-                    } else {
-                      if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
-                        TIMES[1].player3 = ORDER[i].name
-                        TIMES[1].tampa3 = ORDER[i].tampa
-                      } else {
-                        TIMES[0].player5 = ORDER[i].name
-                        TIMES[0].tampa5 = ORDER[i].tampa
-                      }
-                    }
-                  } else {
-                    if (TIMES[1].player4 === null) {
-                      if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa || TIMES[1].tampa3 === ORDER[i].tampa) {
-                        espera.push(ORDER[i])
-                      } else {
-                        if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
-                          TIMES[1].player4 = ORDER[i].name
-                          TIMES[1].tampa4 = ORDER[i].tampa
-                        } else {
-                          TIMES[0].player5 = ORDER[i].name
-                          TIMES[0].tampa5 = ORDER[i].tampa
-                        }    
-                      }
-                    } else {
-                      if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
-                        espera.push(ORDER[i])
-                      } else {
-                        TIMES[0].player5 = ORDER[i].name
-                        TIMES[0].tampa5 = ORDER[i].tampa
-                      }
-                    }
-                  }    
-                }
-              }
-            } else {
-              if (TIMES[1].player1 === null) {
-                if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
-                  TIMES[1].player1 = ORDER[i].name
-                  TIMES[1].tampa1 = ORDER[i].tampa
-                } else {
-                  espera.push(ORDER[i])
-                }
-              } else {
-                if (TIMES[1].player2 === null) {
-                  if (TIMES[1].tampa1 === ORDER[i].tampa) {
-                    espera.push(ORDER[i])
-                  } else {
-                    if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
-                      TIMES[1].player2 = ORDER[i].name
-                      TIMES[1].tampa2 = ORDER[i].tampa
-                    } else {
-                      espera.push(ORDER[i])
-                    } 
-                  }    
-                } else {
-                  if (TIMES[1].player3 === null) {
-                    if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa) {
-                      espera.push(ORDER[i])
-                    } else {
-                      if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
-                        TIMES[1].player3 = ORDER[i].name
-                        TIMES[1].tampa3 = ORDER[i].tampa
-                      } else {
-                        espera.push(ORDER[i])
-                      }
-                    }
-                  } else {
-                    if (TIMES[1].player4 === null) {
-                      if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa || TIMES[1].tampa3 === ORDER[i].tampa) {
-                        espera.push(ORDER[i])
-                      } else {
-                        if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
-                          TIMES[1].player4 = ORDER[i].name
-                          TIMES[1].tampa4 = ORDER[i].tampa
-                        } else {
-                          espera.push(ORDER[i])
-                        }    
-                      }
-                    } else {
-                      if (TIMES[1].player5 === null) {
-                        if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
-                          espera.push(ORDER[i])
-                        } else {
-                          TIMES[0].player5 = ORDER[i].name
-                          TIMES[0].tampa5 = ORDER[i].tampa
-                        }
-                      } else {
-                        espera.push(ORDER[i])
-                      }
-                    }
-                  }    
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+
+  // for (var i = 0; i < ORDER.length; i++) {
+  //   if (TIMES[0].player1 === null && TIMES[0].player2 === null && TIMES[0].player3 === null && TIMES[0].player4 === null && TIMES[0].player5 === null) {
+  //     TIMES[0].player1 = ORDER[i].name
+  //     TIMES[0].tampa1 = ORDER[i].tampa
+  //   } else {
+  //     if (TIMES[0].player2 === null && TIMES[0].player3 === null && TIMES[0].player4 === null && TIMES[0].player5 === null) {
+  //       if (TIMES[1].player1 === null) {
+  //         if (TIMES[0].tampa1 === ORDER[i].tampa) {
+  //           TIMES[1].player1 = ORDER[i].name
+  //           TIMES[1].tampa1 = ORDER[i].tampa
+  //         } else {
+  //           TIMES[0].player2 = ORDER[i].name
+  //           TIMES[0].tampa2 = ORDER[i].tampa
+  //         }
+  //       } else {
+  //         if (TIMES[0].tampa1 === ORDER[i].tampa) {
+  //           espera.push(ORDER[i])
+  //         } else {
+  //           TIMES[0].player2 = ORDER[i].name
+  //           TIMES[0].tampa2 = ORDER[i].tampa
+  //         }
+  //       }
+  //     } else {
+  //       if (TIMES[0].player3 === null && TIMES[0].player4 === null && TIMES[0].player5 === null) {
+  //         if (TIMES[1].player1 === null) {
+  //           if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa) {
+  //             TIMES[1].player1 = ORDER[i].name
+  //             TIMES[1].tampa1 = ORDER[i].tampa
+  //           } else {
+  //             TIMES[0].player3 = ORDER[i].name
+  //             TIMES[0].tampa3 = ORDER[i].tampa
+  //           }
+  //         } else {
+  //           if (TIMES[1].player2 === null) {
+  //             if (TIMES[1].tampa1 === ORDER[i].tampa) {
+  //               espera.push(ORDER[i])
+  //             } else {
+  //               if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa) {
+  //                 TIMES[1].player2 = ORDER[i].name
+  //                 TIMES[1].tampa2 = ORDER[i].tampa
+  //               } else {
+  //                 TIMES[0].player3 = ORDER[i].name
+  //                 TIMES[0].tampa3 = ORDER[i].tampa
+  //               }
+  //             }
+  //           } else {
+  //             if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa) {
+  //               espera.push(ORDER[i])
+  //             } else {
+  //               TIMES[0].player3 = ORDER[i].name
+  //               TIMES[0].tampa3 = ORDER[i].tampa
+  //             }
+  //           }
+  //         }
+  //       } else {
+  //         if (TIMES[0].player4 === null && TIMES[0].player5 === null) {
+  //           if (TIMES[1].player1 === null) {
+  //             if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa) {
+  //               TIMES[1].player1 = ORDER[i].name
+  //               TIMES[1].tampa1 = ORDER[i].tampa
+  //             } else {
+  //               TIMES[0].player4 = ORDER[i].name
+  //               TIMES[0].tampa4 = ORDER[i].tampa
+  //             }
+  //           } else {
+  //             if (TIMES[1].player2 === null) {
+  //               if (TIMES[1].tampa1 === ORDER[i].tampa) {
+  //                 espera.push(ORDER[i])
+  //               } else {
+  //                 if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa) {
+  //                   TIMES[1].player2 = ORDER[i].name
+  //                   TIMES[1].tampa2 = ORDER[i].tampa
+  //                 } else {
+  //                   TIMES[0].player4 = ORDER[i].name
+  //                   TIMES[0].tampa4 = ORDER[i].tampa
+  //                 }
+  //               }
+  //             } else {
+  //               if (TIMES[1].player3 === null) {
+  //                 if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa) {
+  //                   espera.push(ORDER[i])
+  //                 } else {
+  //                   if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa) {
+  //                     TIMES[1].player3 = ORDER[i].name
+  //                     TIMES[1].tampa3 = ORDER[i].tampa
+  //                   } else {
+  //                     TIMES[0].player4 = ORDER[i].name
+  //                     TIMES[0].tampa4 = ORDER[i].tampa
+  //                   }
+  //                 }
+  //               } else {
+  //                 if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa) {
+  //                   espera.push(ORDER[i])
+  //                 } else {
+  //                   TIMES[0].player4 = ORDER[i].name
+  //                   TIMES[0].tampa4 = ORDER[i].tampa
+  //                 }
+  //               }
+  //             }
+  //           }
+  //         } else {
+  //           if (TIMES[0].player5 === null) {
+  //             if (TIMES[1].player1 === null) {
+  //               if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
+  //                 TIMES[1].player1 = ORDER[i].name
+  //                 TIMES[1].tampa1 = ORDER[i].tampa
+  //               } else {
+  //                 TIMES[0].player5 = ORDER[i].name
+  //                 TIMES[0].tampa5 = ORDER[i].tampa
+  //               }
+  //             } else {
+  //               if (TIMES[1].player2 === null) {
+  //                 if (TIMES[1].tampa1 === ORDER[i].tampa) {
+  //                   espera.push(ORDER[i])
+  //                 } else {
+  //                   if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
+  //                     TIMES[1].player2 = ORDER[i].name
+  //                     TIMES[1].tampa2 = ORDER[i].tampa
+  //                   } else {
+  //                     TIMES[0].player5 = ORDER[i].name
+  //                     TIMES[0].tampa5 = ORDER[i].tampa
+  //                   }
+  //                 }
+  //               } else {
+  //                 if (TIMES[1].player3 === null) {
+  //                   if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa) {
+  //                     espera.push(ORDER[i])
+  //                   } else {
+  //                     if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
+  //                       TIMES[1].player3 = ORDER[i].name
+  //                       TIMES[1].tampa3 = ORDER[i].tampa
+  //                     } else {
+  //                       TIMES[0].player5 = ORDER[i].name
+  //                       TIMES[0].tampa5 = ORDER[i].tampa
+  //                     }
+  //                   }
+  //                 } else {
+  //                   if (TIMES[1].player4 === null) {
+  //                     if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa || TIMES[1].tampa3 === ORDER[i].tampa) {
+  //                       espera.push(ORDER[i])
+  //                     } else {
+  //                       if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
+  //                         TIMES[1].player4 = ORDER[i].name
+  //                         TIMES[1].tampa4 = ORDER[i].tampa
+  //                       } else {
+  //                         TIMES[0].player5 = ORDER[i].name
+  //                         TIMES[0].tampa5 = ORDER[i].tampa
+  //                       }
+  //                     }
+  //                   } else {
+  //                     if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
+  //                       espera.push(ORDER[i])
+  //                     } else {
+  //                       TIMES[0].player5 = ORDER[i].name
+  //                       TIMES[0].tampa5 = ORDER[i].tampa
+  //                     }
+  //                   }
+  //                 }
+  //               }
+  //             }
+  //           } else {
+  //             if (TIMES[1].player1 === null) {
+  //               if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
+  //                 TIMES[1].player1 = ORDER[i].name
+  //                 TIMES[1].tampa1 = ORDER[i].tampa
+  //               } else {
+  //                 espera.push(ORDER[i])
+  //               }
+  //             } else {
+  //               if (TIMES[1].player2 === null) {
+  //                 if (TIMES[1].tampa1 === ORDER[i].tampa) {
+  //                   espera.push(ORDER[i])
+  //                 } else {
+  //                   if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
+  //                     TIMES[1].player2 = ORDER[i].name
+  //                     TIMES[1].tampa2 = ORDER[i].tampa
+  //                   } else {
+  //                     espera.push(ORDER[i])
+  //                   }
+  //                 }
+  //               } else {
+  //                 if (TIMES[1].player3 === null) {
+  //                   if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa) {
+  //                     espera.push(ORDER[i])
+  //                   } else {
+  //                     if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
+  //                       TIMES[1].player3 = ORDER[i].name
+  //                       TIMES[1].tampa3 = ORDER[i].tampa
+  //                     } else {
+  //                       espera.push(ORDER[i])
+  //                     }
+  //                   }
+  //                 } else {
+  //                   if (TIMES[1].player4 === null) {
+  //                     if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa || TIMES[1].tampa3 === ORDER[i].tampa) {
+  //                       espera.push(ORDER[i])
+  //                     } else {
+  //                       if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
+  //                         TIMES[1].player4 = ORDER[i].name
+  //                         TIMES[1].tampa4 = ORDER[i].tampa
+  //                       } else {
+  //                         espera.push(ORDER[i])
+  //                       }
+  //                     }
+  //                   } else {
+  //                     if (TIMES[1].player5 === null) {
+  //                       if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa || TIMES[1].tampa3 === ORDER[i].tampa || TIMES[1].tampa4 === ORDER[i].tampa) {
+  //                         espera.push(ORDER[i])
+  //                       } else {
+  //                         TIMES[0].player5 = ORDER[i].name
+  //                         TIMES[0].tampa5 = ORDER[i].tampa
+  //                       }
+  //                     } else {
+  //                       espera.push(ORDER[i])
+  //                     }
+  //                   }
+  //                 }
+  //               }
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
   const app = initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
@@ -407,6 +430,8 @@ export default function Presenca() {
     });
   }, []);
 
+  var dia = new Date(Date.UTC);
+  var timestamp = new Date().getTime();
 
   const presence = () => {
     setDoc(doc(firestore, "presence", usuario[3]), {
@@ -414,7 +439,8 @@ export default function Presenca() {
       user: usuario[0],
       camisa: usuario[2],
       tampa: usuario[1],
-      created_at: serverTimestamp()
+      created_at: timestamp,
+      day: dia
     })
       .then(() => {
         setPresent(present + 1)
@@ -449,10 +475,14 @@ export default function Presenca() {
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([{
       key: 'first',
-      title: 'ORDEM DE CHEGADA'
+      title: 'CHEGADA'
     }, {
       key: 'second',
       title: 'TIMES'
+    },
+    {
+      key: 'third',
+      title: 'ESPERA'
     }]);
 
     TouchableOpacity.defaultProps = { activeOpacity: 0.9 };
@@ -504,7 +534,7 @@ export default function Presenca() {
         <View style={{ marginLeft: 24, justifyContent: "center", flexDirection: 'column' }}>
           <TouchableOpacity
             style={{ backgroundColor: '#ED4654', paddingVertical: 10, paddingHorizontal: 16, alignItems: "center", borderRadius: 8 }}
-            onPress={() => navigation.navigate('Scanner')}>
+            onPress={() => presence()}>
             <MaterialCommunityIcons name="qrcode-scan" size={24} color="#FFFFFF" />
             <Text style={{ color: '#FFFFFF', marginTop: 8 }}>Check-in</Text>
           </TouchableOpacity>

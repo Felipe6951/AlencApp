@@ -28,7 +28,16 @@ export default function Login() {
       })
       .catch(error => {
         console.log(error)
-        Alert.alert(error.message);
+        Alert.alert(
+          "ERROR",
+          "Email ou senha incorretos.",
+          [
+            {
+              text: "FECHAR",
+              onPress: () => null,
+            },
+          ]
+        );
       })
   }
 
@@ -55,7 +64,7 @@ export default function Login() {
               } else {
                 if (members[0] === "Recusado") {
                   navigation.navigate("Recusado")
-                } 
+                }
               }
             }
           }
@@ -101,7 +110,7 @@ export default function Login() {
               backgroundColor={'#F2F2F2'}
               style={styles.input}
               returnKeyType='next'
-              onSubmitEditing={() => {inputPassword.current.focus(); }}
+              onSubmitEditing={() => { inputPassword.current.focus(); }}
               blurOnSubmit={false}
             />
           </View>

@@ -35,27 +35,30 @@ export default function Scanner() {
     const handleBarCodeScanned = ({ data }) => {
         setScanned(true);
         setValue(`${data}`);
-        Alert.alert(
-            "SCANNER",
-            "Presença registrada com sucesso!",
-            [
-                {
-                    text: "Cancel",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel",
-                },
-                {
-                    text: "OK",
-                    onPress: () => console.log('Navegar'),
-                    style: 'default',
-                },
-            ],
-            {
-                cancelable: true,
-                onDismiss: () => console.log('Destrutive')
-            }
-        );
+
+        // Alert.alert(
+        //     "SCANNER",
+        //     "Presença registrada com sucesso!",
+        //     [
+        //         {
+        //             text: "Cancel",
+        //             onPress: () => console.log("Cancel Pressed"),
+        //             style: "cancel",
+        //         },
+        //         {
+        //             text: "OK",
+        //             onPress: () => console.log('Navegar'),
+        //             style: 'default',
+        //         },
+        //     ],
+        //     {
+        //         cancelable: true,
+        //         onDismiss: () => console.log('Destrutive')
+        //     }
+        // );
     };
+
+    console.log(value)
 
     // Se o usuário não responder a permissão de acesso a câmera, a tela retorna a mensagem "Pedido de autorização de câmara."
     if (hasPermission === null) {
@@ -87,8 +90,6 @@ export default function Scanner() {
                     onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
                     style={styles.camera}
                 />
-
-                    
             </View>
             {scanned && <ScanAgain />}
         </SafeAreaView>

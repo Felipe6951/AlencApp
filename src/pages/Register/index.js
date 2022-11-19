@@ -1,13 +1,13 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Image, SafeAreaView, TouchableOpacity, Text, ScrollView, Alert } from 'react-native';
-import { Input, StatusBar, FormControl, Select, CheckIcon } from 'native-base';
+import { Input, StatusBar, FormControl, Select, CheckIcon, ShareIcon } from 'native-base';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { TextInputMask } from 'react-native-masked-text';
 
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
-import { getFirestore, setDoc, doc } from 'firebase/firestore'
+import { getFirestore, setDoc, doc, query, collection, onSnapshot } from 'firebase/firestore'
 
 import { color, max } from 'react-native-reanimated';
 import styles from './styles';
@@ -32,43 +32,71 @@ export default function Register() {
   const phoneRef = useRef();
   const shirtNumberRef = useRef();
 
+  const [users, setUsers] = useState([])
+
   const [name, setName] = React.useState('');
   const [username, setUsername] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [phone, setPhone] = React.useState('');
   const [shirtnum, setShirtnum] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [confirmPassword, setConfirmPassword] = React.useState('');
   const [hidePassword, setHidePassword] = useState(true);
 
   const app = initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
   const auth = getAuth(app)
 
-  const handleCreateAccount = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      setDoc(doc(firestore, "membros", name), {
-        name: name,
-        user: username,
-        email: email,
-        telefone: phone,
-        camisa: shirtnum,
-        tampa: tampaSelected,
-        situacao: "Pendente",
-        type: "membro",
-        status: "Ativo",
-        password: password,
-        day: daySelected
-      })
-        .then(showAlertSuccess)
-        .catch(error => showAlertError)
-    })
-    .catch((error) => {
-      Alert.alert(error)
-    })  
-  }
+  const q = query(collection(firestore, "membros"))
 
-  console.log(tampaSelected);
+  useEffect(() => {
+    onSnapshot(q, (querySnapshot) => {
+      const members = [];
+      querySnapshot.forEach((doc) => {
+        members.push({ ...doc.data(), id: doc.id });
+      })
+
+      setUsers(members);
+    });
+  })
+
+  const handleCreateAccount = () => {
+    if (name === '' || username === '' || email === '' || phone === '' || shirtnum === '' || password === '' || confirmPassword === '') {
+      alert("Preencha todos os campos")
+    } else {
+      for (var i = 0; i < users.length; i++) {
+        if(users[i].user === username || users[i].telefone === phone || users[i].camisa === shirtnum) {
+          alert("ERRO")
+        } else {
+          if (password === confirmPassword) {
+            createUserWithEmailAndPassword(auth, email, password)
+            .then(() => {
+              setDoc(doc(firestore, "membros", email), {
+                name: name,
+                user: username, //
+                email: email, 
+                telefone: phone, //
+                camisa: shirtnum, //
+                tampa: tampaSelected, 
+                situacao: "Pendente",
+                type: "membro",
+                status: "Ativo",
+                password: password,
+                day: daySelected
+              })
+                .then(showAlertSuccess)
+                .catch(error => showAlertError)
+            })
+            .catch((error) => {
+              Alert.alert(error)
+            })
+          } else {
+            alert("Senhas diferentes!!!")
+          }
+        }
+      }
+    }
+  }
 
   const [tampa] = React.useState(['1', '2', '3', '4', '5', '6'])
   const [tampaSelected, setTampaSelected] = React.useState([])
@@ -260,7 +288,7 @@ export default function Register() {
               <FormControl.Label>Confirmar senha</FormControl.Label>
               <Input
                 placeholder="Sua senha novamente"
-                onChangeText={(text) => setPassword(text)}
+                onChangeText={(text) => setConfirmPassword(text)}
                 ref={inputConfirmPassword}
                 returnKeyType='done'
                 fontSize={15}
