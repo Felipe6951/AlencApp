@@ -42,7 +42,6 @@ export default function Home() {
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
 
-
   return (
     <SafeAreaView style={{ backgroundColor: '#FAFAFA', paddingBottom: "100%" }}>
       <StatusBar />
@@ -96,7 +95,7 @@ export default function Home() {
         showsHorizontalScrollIndicator={false}
         horizontal={true}
         snapToAlignment='start'
-        style={{ width: width, height: width / 3, paddingHorizontal: 16, marginTop: 24, paddingVertical: 8}}
+        style={{ width: width, height: width / 3, paddingHorizontal: 16, marginTop: 24, paddingVertical: 8 }}
       >
 
         <TouchableOpacity
@@ -135,10 +134,10 @@ export default function Home() {
       <Provider>
         <View>
           <Portal>
-            <Dialog visible={visible} onDismiss={hideDialog} style={{ borderRadius: 8, backgroundColor: 'white'}}>
+            <Dialog visible={visible} onDismiss={hideDialog} style={{ borderRadius: 8, backgroundColor: 'white' }}>
               <Dialog.Title>Sucesso!</Dialog.Title>
               <Dialog.Content>
-                <View style={{borderWidth: 1, borderColor:  'red', borderRadius: 8, padding: 8}}>
+                <View style={{ borderWidth: 1, borderColor: 'red', borderRadius: 8, padding: 8 }}>
                   <Text>Motivo tal</Text>
                 </View>
                 <Paragraph>A presença foi capturada com sucesso.</Paragraph>
