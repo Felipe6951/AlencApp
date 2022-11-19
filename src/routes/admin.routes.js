@@ -1,6 +1,8 @@
+import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { Text, View, TouchableWithoutFeedback, Alert } from 'react-native';
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Text, View, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
 
 import Home from '../pages/Home'
 import Sobre from '../pages/Sobre'
@@ -23,7 +25,7 @@ export default function AdminRoutes() {
         name="AlencApp"
         component={Home}
         options={
-          ({ navigation }) => ({ //Esse navigation está sendo
+          () => ({ //Esse navigation está sendo usado?
             title: 'AlencApp',
             headerStyle: {
               backgroundColor: '#8C1F28',
@@ -35,8 +37,8 @@ export default function AdminRoutes() {
             headerTitleAlign: "center",
             headerTintColor: '#FFFFFF',
             headerRight: () => (
-              <View style={{marginRight: 16}}>
-                <TouchableWithoutFeedback onPress={() => Alert.alert('Avisos')}>
+              <View style={{ marginRight: 16 }}>
+                <TouchableWithoutFeedback onPress={() => alert('Aviso personalizado!')}>
                   <MaterialCommunityIcons name="bell" size={24} color="#FFFFFF" />
                 </TouchableWithoutFeedback>
               </View>
@@ -44,6 +46,7 @@ export default function AdminRoutes() {
           })
         }
       />
+
       <Screen
         name="Perfil"
         component={Perfil}
