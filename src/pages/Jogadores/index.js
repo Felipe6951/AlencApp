@@ -28,7 +28,7 @@ export default function Jogadores() {
   const hideDelete = () => setVisibleDelete(false);
 
   const [searchText, setSearchText] = useState('')
-  const [list, setList] = useState(DATA)
+  const [list, setList] = useState([])
 
   useEffect(() => {
     if (searchText === '') {
@@ -51,6 +51,8 @@ export default function Jogadores() {
         })
 
         setData(members);
+        setList(members);
+        console.log("entrou");
       });
 
       return () => {
