@@ -8,8 +8,6 @@ import Geral from '../pages/Auxiliar/geral';
 import Espera from '../pages/Espera';
 import Recusado from '../pages/Recusado';
 import Scanner from '../pages/Presenca/scanner';
-import CodeQR from '../pages/Presenca/codeQR';
-
 
 const Stack = createNativeStackNavigator();
 
@@ -74,23 +72,6 @@ export default function Authroutes() {
         component={Scanner}
         options={() => ({
           title: 'Scanner',
-          headerStyle: {
-            backgroundColor: '#8C1F28',
-          },
-          headerTitleStyle: {
-            color: '#FFFFFF',
-            fontSize: 18
-          },
-          headerTintColor: '#FFFFFF'
-        })
-        }
-      />
-
-      <Stack.Screen
-        name="QRCode"
-        component={CodeQR}
-        options={() => ({
-          title: 'QR Code',
           headerStyle: {
             backgroundColor: '#8C1F28',
           },

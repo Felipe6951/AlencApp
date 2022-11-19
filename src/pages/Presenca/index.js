@@ -263,22 +263,12 @@ export default function Presenca() {
         </View>
 
         <View style={{ marginLeft: 24, justifyContent: "center", flexDirection: 'column' }}>
-          <View>
-            <TouchableOpacity
-              style={{ backgroundColor: '#ED4654', paddingVertical: 10, paddingHorizontal: 16, alignItems: "center", borderRadius: 8 }}
-              onPress={() => navigation.navigate('Scanner')}>
-              <MaterialCommunityIcons name="qrcode-scan" size={24} color="#FFFFFF" />
-              <Text style={{ color: '#FFFFFF', marginTop: 8 }}>Check-in</Text>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <TouchableOpacity
-              style={{ backgroundColor: '#ED4654', paddingVertical: 10, paddingHorizontal: 16, alignItems: "center", borderRadius: 8 }}
-              onPress={() => navigation.navigate('QRCode')}>
-              <MaterialCommunityIcons name="qrcode-scan" size={24} color="#FFFFFF" />
-              <Text style={{ color: '#FFFFFF', marginTop: 8 }}>QRCODE</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={{ backgroundColor: '#ED4654', paddingVertical: 10, paddingHorizontal: 16, alignItems: "center", borderRadius: 8 }}
+            onPress={() => navigation.navigate('Scanner')}>
+            <MaterialCommunityIcons name="qrcode-scan" size={24} color="#FFFFFF" />
+            <Text style={{ color: '#FFFFFF', marginTop: 8 }}>Check-in</Text>
+          </TouchableOpacity>
         </View>
       </View>
       <Example />

@@ -13,6 +13,7 @@ import Estatuto from '../pages/Estatuto'
 import Jogadores from '../pages/Jogadores'
 import Solicitacoes from '../pages/Solicitacoes'
 import Organizadores from '../pages/Organizadores'
+import QRcode from '../pages/Presenca/QRcode'
 
 import { CustomDrawer } from '../components/customDrawer/index';
 
@@ -148,6 +149,21 @@ export default function AdminRoutes() {
       <Screen
         name="Sobre"
         component={Sobre}
+        options={({ navigation }) => ({
+          headerStyle: {
+            backgroundColor: '#8C1F28',
+          },
+          headerTitleStyle: {
+            color: '#FFFFFF',
+            fontSize: 18
+          },
+          headerTintColor: '#FFFFFF'
+        })}
+      />
+
+      <Screen
+        name="QR Code"
+        component={QRcode}
         options={({ navigation }) => ({
           headerStyle: {
             backgroundColor: '#8C1F28',

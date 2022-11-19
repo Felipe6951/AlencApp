@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { Drawer } from 'react-native-paper';
-import { AntDesign, FontAwesome, MaterialIcons, Ionicons, FontAwesome5, Entypo } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, MaterialIcons, Ionicons, FontAwesome5, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 
 import { getAuth, signOut } from "firebase/auth";
@@ -19,9 +19,9 @@ export function CustomDrawer(props) {
 
     const handleSignout = () => {
         signOut(auth)
-        .then(() => navigation.navigate("Login"))
-        .catch(error => console.log(error))
-      }
+            .then(() => navigation.navigate("Login"))
+            .catch(error => console.log(error))
+    }
 
     return (
         <View style={{ flex: 1 }}>
@@ -70,6 +70,14 @@ export function CustomDrawer(props) {
                         <Text style={{ backgroundColor: '#F2F2F2', paddingLeft: 16, paddingVertical: 12, fontSize: 12, color: '#505050' }}>MENU ADMINISTRATIVO</Text>
 
                         <View>
+                            <TouchableOpacity
+                                style={{ flexDirection: 'row', alignItems: "center", paddingVertical: 16, paddingHorizontal: 16 }}
+                                onPress={() => navigation.navigate('QR Code')}
+                            >
+                                <FontAwesome5 name="qrcode" size={20} color="#8C1F28" style={{ marginRight: 6 }} />
+                                <Text style={{ fontSize: 16 }}>QR Code</Text>
+                            </TouchableOpacity>
+
                             <TouchableOpacity
                                 style={{ flexDirection: 'row', alignItems: "center", paddingVertical: 16, paddingHorizontal: 16 }}
                                 onPress={() => navigation.navigate('Jogadores')}
@@ -126,13 +134,13 @@ export function CustomDrawer(props) {
                         </View>
                     </View>
 
-                    <View style={{marginTop: 40}}>
+                    <View style={{ marginTop: 40 }}>
                         <TouchableOpacity
                             style={{ backgroundColor: '#C0212E', flexDirection: 'row', alignItems: "center", paddingVertical: 12, paddingHorizontal: 16 }}
                             onPress={handleSignout}
                         >
                             <AntDesign name="logout" size={20} color="#FFFFFF" style={{ marginRight: 6 }} />
-                            <Text style={{ fontSize: 16, color: '#FFFFFF', fontWeight: '500'}}>Sair</Text>
+                            <Text style={{ fontSize: 16, color: '#FFFFFF', fontWeight: '500' }}>Sair</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
