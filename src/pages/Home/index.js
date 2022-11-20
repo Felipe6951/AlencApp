@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, SafeAreaView, Alert, StatusBar, ScrollView, Dimensions } from 'react-native';
+import { View, Text, Image, TouchableOpacity, SafeAreaView, StatusBar, ScrollView, Dimensions } from 'react-native';
 import { MaterialIcons, Octicons, MaterialCommunityIcons, FontAwesome, AntDesign, Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native'
 import { Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
@@ -44,7 +44,7 @@ export default function Home() {
 
   return (
     <SafeAreaView style={{ backgroundColor: '#FAFAFA', paddingBottom: "100%" }}>
-      <StatusBar />
+      <StatusBar backgroundColor={"#97353D"}/>
       <View style={{ backgroundColor: '#FFFFFF', height: "55%", paddingHorizontal: 24, paddingVertical: 16, elevation: 5, shadowColor: "#909090", borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }}>
         <TouchableOpacity
           onPress={() => navigation.navigate('Perfil')}

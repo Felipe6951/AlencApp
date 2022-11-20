@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, SafeAreaView, Dimensions, TouchableWithoutFeedback, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { Input } from 'native-base';
 import { Ionicons, AntDesign, FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native'
 
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
@@ -13,14 +14,46 @@ export default function NewOrganizer() {
 
     const app = initializeApp(firebaseConfig);
     const firestore = getFirestore(app);
-  
-    const q = query(collection(firestore, "membros"), where ("type", "==", "Jogador"));
-  
-    const [DATA, setData] = useState([]);  
+
+    const q = query(collection(firestore, "membros"), where("type", "==", "Jogador"));
+
+    const [DATA, setData] = useState([]);
+
+    const [searchText, setSearchText] = useState('');
+    const [list, setList] = useState(DATA);
+
+    useEffect(() => {
+        if (searchText === '') {
+            setList(DATA);
+        } else {
+            setList(
+                DATA.filter(item => (item.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1))
+            );
+        }
+    }, [searchText]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+
+            const unsubcribe = onSnapshot(q, (querySnapshot) => {
+                const members = [];
+                querySnapshot.forEach((doc) => {
+                    members.push({ ...doc.data(), id: doc.id });
+                })
+                setData(members);
+                setList(members);
+                console.log("entrou");
+            });
+
+            return () => {
+                unsubcribe();
+            };
+
+        }, [])
+    );
 
     const Item = ({ name, user, email, telefone }) => (
-        
-        <TouchableWithoutFeedback onPress={() => Alert.alert("Organizador", "Tornar organizador?", [{ text: "Não" }, { text: "Sim", onPress: () => updateDoc(doc(firestore, "membros", name), {type: "Organizador"}).then(() => {Alert.alert("Organizadores", name + "Agora é um organizador!")})}])}>
+        <TouchableWithoutFeedback onPress={() => Alert.alert("Organizador", "Tornar organizador?", [{ text: "Não" }, { text: "Sim", onPress: () => updateDoc(doc(firestore, "membros", name), { type: "Organizador" }).then(() => { Alert.alert("Organizadores", name + "Agora é um organizador!") }) }])}>
             <View style={{ marginHorizontal: '5%', backgroundColor: '#FFFFFF', padding: 24, borderRadius: 8, marginBottom: 16, elevation: 5, shadowColor: '#505050' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ marginRight: 12 }}>
@@ -50,78 +83,40 @@ export default function NewOrganizer() {
         </TouchableWithoutFeedback>
     );
 
-    const CardHeader = () => (
-        <View style={{marginHorizontal: '5%'}}>
-            <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', borderTopLeftRadius: 8, borderTopRightRadius: 8, marginTop: 24, paddingHorizontal: 16, flexDirection: 'row' }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Ionicons name="filter" size={20} color="#FFFFFF" style={{ marginRight: 4 }} />
-                    <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Lista</Text>
-                </View>
-                <View style={{ backgroundColor: '#FFFFFF', borderRadius: 50, width: 25, height: 25, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text>{DATA.length}</Text>
-                </View>
-            </View>
-            <View style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, elevation: 5, shadowColor: '#505050', backgroundColor: '#FFFFFF', paddingHorizontal: 16, alignItems: 'center', paddingVertical: 12 }}>
-                <Text style={{ color: '#505050', fontSize: 12, marginBottom: 16 }}>Busque os jogadores pelo usuário, nome, email ou telefone para adicioná-lo aos organizadores.</Text>
-                <InputSearch />
-            </View>
-        </View>
-    );
-
-    const InputSearch = () => (
-        <Input
-            placeholder="Buscar..."
-            fontSize={15}
-            variant="outline"
-            backgroundColor={'#F2F2F2'}
-            placeholderTextColor={'#888888'}
-            height={10}
-            value={searchPlayer}
-            onChangeText={(t) => setSearchPlayer(t)}
-            InputLeftElement={<AntDesign name="search1" size={18} color="#585858" style={{ marginLeft: 8 }} />}
-            InputRightElement={
-                <TouchableOpacity onPress={() => setSearchPlayer('')}>
-                    <MaterialIcons name="highlight-remove" size={20} color="#585858" style={{ marginRight: 8 }} />
-                </TouchableOpacity>
-            }
-        />
-    );
-
-    const [searchPlayer, setSearchPlayer] = useState('');
-    const [list, setList] = useState(DATA);
-
-    useEffect(() => {
-        onSnapshot(q, (querySnapshot) => {
-            const members = [];
-            querySnapshot.forEach((doc) => {
-              members.push({ ...doc.data(), id: doc.id });
-            })
-            
-            setData(members);
-        });
-        
-        if (searchPlayer === "") {
-            setList(DATA);
-        } else {
-            setList(
-                DATA.filter(item => {
-                    if (item.name.toLowerCase().indexOf(searchPlayer.toLowerCase()) > -1) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                })
-            );
-        }
-    }, [searchPlayer]);
-
     return (
-        <SafeAreaView style={{ backgroundColor: '#FAFAFA', height: '100%'}}>
+        <SafeAreaView style={{ backgroundColor: '#FAFAFA', height: '100%' }}>
             <FlatList
                 showsVerticalScrollIndicator={false}
                 ListHeaderComponent={
-                    <View style={{ marginBottom: 16 }}>
-                        <CardHeader />
+                    <View style={{ marginHorizontal: '5%', marginBottom: 16 }}>
+                        <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', borderTopLeftRadius: 8, borderTopRightRadius: 8, marginTop: 24, paddingHorizontal: 16, flexDirection: 'row' }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Ionicons name="filter" size={20} color="#FFFFFF" style={{ marginRight: 4 }} />
+                                <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Lista</Text>
+                            </View>
+                            <View style={{ backgroundColor: '#FFFFFF', borderRadius: 50, width: 25, height: 25, alignItems: 'center', justifyContent: 'center' }}>
+                                <Text>{DATA.length}</Text>
+                            </View>
+                        </View>
+                        <View style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, elevation: 5, shadowColor: '#505050', backgroundColor: '#FFFFFF', paddingHorizontal: 16, alignItems: 'center', paddingVertical: 12 }}>
+                            <Text style={{ color: '#505050', fontSize: 12, marginBottom: 16 }}>Busque os jogadores pelo usuário, nome, email ou telefone para adicioná-lo aos organizadores.</Text>
+                            <Input
+                                placeholder="Buscar..."
+                                fontSize={15}
+                                variant="outline"
+                                backgroundColor={'#F2F2F2'}
+                                placeholderTextColor={'#888888'}
+                                height={10}
+                                value={searchText}
+                                onChangeText={(text) => setSearchText(text)}
+                                InputLeftElement={<AntDesign name="search1" size={18} color="#585858" style={{ marginLeft: 8 }} />}
+                                InputRightElement={
+                                    <TouchableOpacity onPress={() => setSearchText('')}>
+                                        <MaterialIcons name="highlight-remove" size={20} color="#585858" style={{ marginRight: 8 }} />
+                                    </TouchableOpacity>
+                                }
+                            />
+                        </View>
                     </View>
                 }
                 data={list}

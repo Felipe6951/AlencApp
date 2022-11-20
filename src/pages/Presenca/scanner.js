@@ -35,27 +35,6 @@ export default function Scanner() {
     const handleBarCodeScanned = ({ data }) => {
         setScanned(true);
         setValue(`${data}`);
-
-        // Alert.alert(
-        //     "SCANNER",
-        //     "Presença registrada com sucesso!",
-        //     [
-        //         {
-        //             text: "Cancel",
-        //             onPress: () => console.log("Cancel Pressed"),
-        //             style: "cancel",
-        //         },
-        //         {
-        //             text: "OK",
-        //             onPress: () => console.log('Navegar'),
-        //             style: 'default',
-        //         },
-        //     ],
-        //     {
-        //         cancelable: true,
-        //         onDismiss: () => console.log('Destrutive')
-        //     }
-        // );
     };
 
     console.log(value)
@@ -91,6 +70,7 @@ export default function Scanner() {
                     style={styles.camera}
                 />
             </View>
+            {/* <Text> {value} </Text> */}
             {scanned && <ScanAgain />}
         </SafeAreaView>
     );

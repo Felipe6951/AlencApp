@@ -27,9 +27,9 @@ export default function Avisos() {
               accessibilityLabel="Selecione o motivo"
               placeholder="Selecione o motivo"
               _selectedItem={{
-                bg: "#C0212E",
-                endIcon: <CheckIcon size="5" color="#FFFFFF" />,
-              }}
+                bg: "red.100",
+                endIcon: <CheckIcon size="5" color="#C0212E" />,
+              }} 
               backgroundColor={'#F2F2F2'}
               placeholderTextColor={'#888888'}
               fontSize={15}

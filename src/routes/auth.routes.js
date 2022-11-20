@@ -8,6 +8,7 @@ import Geral from '../pages/Auxiliar/geral';
 import Espera from '../pages/Espera';
 import Recusado from '../pages/Recusado';
 import Scanner from '../pages/Presenca/scanner';
+import Notifications from '../pages/Avisos/Notifications';
 
 const Stack = createNativeStackNavigator();
 
@@ -72,6 +73,23 @@ export default function Authroutes() {
         component={Scanner}
         options={() => ({
           title: 'Scanner',
+          headerStyle: {
+            backgroundColor: '#8C1F28',
+          },
+          headerTitleStyle: {
+            color: '#FFFFFF',
+            fontSize: 18
+          },
+          headerTintColor: '#FFFFFF'
+        })
+        }
+      />
+
+      <Stack.Screen
+        name="Notifications"
+        component={Notifications}
+        options={() => ({
+          title: 'Notificações',
           headerStyle: {
             backgroundColor: '#8C1F28',
           },

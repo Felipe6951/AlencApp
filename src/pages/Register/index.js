@@ -58,7 +58,7 @@ export default function Register() {
 
       setUsers(members);
     });
-  })
+  }, [])
 
   const handleCreateAccount = () => {
     if (name === '' || username === '' || email === '' || phone === '' || shirtnum === '' || password === '' || confirmPassword === '') {

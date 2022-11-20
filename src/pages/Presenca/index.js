@@ -430,8 +430,8 @@ export default function Presenca() {
     });
   }, []);
 
-  var dia = new Date(Date.UTC);
-  var timestamp = new Date().getTime();
+  // var dia = new Date(Date.UTC);
+  // var timestamp = new Date().getTime();
 
   const presence = () => {
     setDoc(doc(firestore, "presence", usuario[3]), {
@@ -439,8 +439,8 @@ export default function Presenca() {
       user: usuario[0],
       camisa: usuario[2],
       tampa: usuario[1],
-      created_at: timestamp,
-      day: dia
+      created_at: serverTimestamp(),
+      // day: dia
     })
       .then(() => {
         setPresent(present + 1)
@@ -534,7 +534,7 @@ export default function Presenca() {
         <View style={{ marginLeft: 24, justifyContent: "center", flexDirection: 'column' }}>
           <TouchableOpacity
             style={{ backgroundColor: '#ED4654', paddingVertical: 10, paddingHorizontal: 16, alignItems: "center", borderRadius: 8 }}
-            onPress={() => presence()}>
+            onPress={() => navigation.navigate('Scanner')}>
             <MaterialCommunityIcons name="qrcode-scan" size={24} color="#FFFFFF" />
             <Text style={{ color: '#FFFFFF', marginTop: 8 }}>Check-in</Text>
           </TouchableOpacity>

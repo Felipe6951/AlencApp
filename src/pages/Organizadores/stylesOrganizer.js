@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         right: 55
     },
     menu: {
-        backgroundColor: "#C0212E"
+        backgroundColor: "#C0212E", 
     },
     submenu: {
         width: 48,
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
         marginRight: 8
     },
     boxCard: {
-        marginBottom: 24
+        marginBottom: 24,
     },
     teste: {
         flexDirection: 'row',

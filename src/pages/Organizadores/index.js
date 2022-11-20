@@ -2,7 +2,7 @@ import React, { useState, useEffect, Component } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, FlatList, TouchableWithoutFeedback, Animated, Alert } from 'react-native';
 import { Input } from 'native-base';
 import { Ionicons, AntDesign, FontAwesome, MaterialIcons, Entypo, Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import styles from './stylesOrganizer';
 import { Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
 import { Swipeable } from 'react-native-gesture-handler';
@@ -23,6 +23,22 @@ export default function Organizadores() {
   const [visibleDelete, setVisibleDelete] = React.useState(false);
   const showDelete = () => setVisibleDelete(true);
   const hideDelete = () => setVisibleDelete(false);
+
+  const [searchText, setSearchText] = useState('');
+  const [list, setList] = useState(DATA);
+
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    if (searchText === '') {
+      setList(DATA);
+    } else {
+      setList(
+        DATA.filter(item => (item.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1))
+      );
+    }
+  }, [searchText]);
+
 
   class FabOrganizer extends Component {
     animation = new Animated.Value(0)
@@ -128,109 +144,90 @@ export default function Organizadores() {
     </Swipeable>
   );
 
-  const InputSearch = () => (
-    <Input
-      placeholder="Buscar..."
-      fontSize={15}
-      variant="outline"
-      backgroundColor={'#F2F2F2'}
-      placeholderTextColor={'#888888'}
-      height={10}
-      value={searchOrganizer}
-      onChangeText={(t) => setSearchOrganizer(t)}
-      InputLeftElement={<AntDesign name="search1" size={18} style={styles.searchIcons} />}
-      InputRightElement={
-        <TouchableOpacity onPress={() => setSearchOrganizer('')}>
-          <MaterialIcons name="highlight-remove" size={20} style={styles.searchIconClean} />
-        </TouchableOpacity>
-      } />
-  );
+  useFocusEffect(
+    React.useCallback(() => {
 
-  const CardHeader = () => (
-    <View style={styles.boxCard}>
-      <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: '5%', borderTopLeftRadius: 8, borderTopRightRadius: 8, marginTop: 24, paddingHorizontal: 16, flexDirection: 'row' }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Ionicons name="filter" size={20} color="#FFFFFF" style={{ marginRight: 4 }} />
-          <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Lista</Text>
-        </View>
-
-        <View style={{ backgroundColor: '#FFFFFF', borderRadius: 50, width: 25, height: 25, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>{DATA.length}</Text>
-        </View>
-      </View>
-
-      <View style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, elevation: 5, shadowColor: '#505050', backgroundColor: '#FFFFFF', marginHorizontal: '5%', paddingHorizontal: 16, alignItems: 'center', paddingVertical: 12  }}>
-        <Text style={{ color: '#505050', fontSize: 12, marginBottom: 16 }}>Busque os organizadores pelo nome, tampa, ou número da camisa.</Text>
-        <InputSearch />
-      </View>
-    </View>
-  );
-
-  const [searchOrganizer, setSearchOrganizer] = useState('');
-  const [list, setList] = useState(DATA);
-
-  useEffect(() => {
-
-    onSnapshot(q, (querySnapshot) => {
-      const members = [];
-      querySnapshot.forEach((doc) => {
-        members.push({ ...doc.data(), id: doc.id });
-      })
-
-      setData(members);
-    });
-
-    if (searchOrganizer === '') {
-      setList(DATA);
-    } else {
-      setList(
-        DATA.filter(item => {
-          if (item.name.toLowerCase().indexOf(searchOrganizer.toLowerCase()) > -1) {
-            return true;
-          } else {
-            return false;
-          }
+      const unsubcribe = onSnapshot(q, (querySnapshot) => {
+        const members = [];
+        querySnapshot.forEach((doc) => {
+          members.push({ ...doc.data(), id: doc.id });
         })
-      );
-    }
-  }, [searchOrganizer]);
+        setData(members);
+        setList(members);
+        console.log("entrou");
+      });
 
-  const navigation = useNavigation();
+      return () => {
+        unsubcribe();
+      };
 
-  return (
-    <SafeAreaView style={{ backgroundColor: '#FAFAFA', height: '100%' }}>
-      <FlatList
-        ListHeaderComponent={
-          <View>
-            <CardHeader />
-          </View>
-        }
-        data={list}
-        renderItem={({ item }) => <Item name={item.name} tampa={item.tampa} camisa={item.camisa} />}
-        keyExtractor={item => item.id}
-      />
-      <FabOrganizer />
-
-      <Provider>
-        <View>
-          <Portal>
-            <Dialog visible={visibleDelete} onDismiss={hideDelete} style={{ borderRadius: 8, backgroundColor: 'white' }}>
-              <Dialog.Title>Deletar organizador</Dialog.Title>
-              <Dialog.Content>
-                <Paragraph>Tem certeza que deseja deletar este organizador?</Paragraph>
-              </Dialog.Content>
-              <Dialog.Actions>
-                <TouchableOpacity onPress={hideDelete}>
-                  <Text style={{ color: 'red', paddingHorizontal: 4 }}>CANCELAR</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={hideDelete}>
-                  <Text style={{ color: 'red', paddingHorizontal: 4 }}>CONFIRMAR</Text>
-                </TouchableOpacity>
-              </Dialog.Actions>
-            </Dialog>
-          </Portal>
-        </View>
-      </Provider>
-    </SafeAreaView>
+    }, [])
   );
-}
+
+    return (
+      <SafeAreaView style={{ backgroundColor: '#FAFAFA', height: '100%' }}>
+        <FlatList
+          ListHeaderComponent={
+            <View style={styles.boxCard}>
+              <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: '5%', borderTopLeftRadius: 8, borderTopRightRadius: 8, marginTop: 24, paddingHorizontal: 16, flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Ionicons name="filter" size={20} color="#FFFFFF" style={{ marginRight: 4 }} />
+                  <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Lista</Text>
+                </View>
+
+                <View style={{ backgroundColor: '#FFFFFF', borderRadius: 50, width: 25, height: 25, alignItems: 'center', justifyContent: 'center' }}>
+                  <Text>{DATA.length}</Text>
+                </View>
+              </View>
+
+              <View style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, elevation: 5, shadowColor: '#505050', backgroundColor: '#FFFFFF', marginHorizontal: '5%', paddingHorizontal: 16, alignItems: 'center', paddingVertical: 12 }}>
+                <Text style={{ color: '#505050', fontSize: 12, marginBottom: 16 }}>Busque os organizadores pelo nome, tampa, ou número da camisa.</Text>
+                <Input
+                  placeholder="Buscar..."
+                  fontSize={15}
+                  variant="outline"
+                  backgroundColor={'#F2F2F2'}
+                  placeholderTextColor={'#888888'}
+                  height={10}
+                  value={searchText}
+                  onChangeText={(text) => setSearchText(text)}
+                  InputLeftElement={<AntDesign name="search1" size={18} style={styles.searchIcons} />}
+                  InputRightElement={
+                    <TouchableOpacity onPress={() => setSearchText('')}>
+                      <MaterialIcons name="highlight-remove" size={20} style={styles.searchIconClean} />
+                    </TouchableOpacity>
+                  }
+                />
+              </View>
+            </View>
+          }
+          data={list}
+          renderItem={({ item }) => <Item name={item.name} tampa={item.tampa} camisa={item.camisa} />}
+          keyExtractor={item => item.id}
+        />
+
+        <FabOrganizer />
+
+        <Provider>
+          <View>
+            <Portal>
+              <Dialog visible={visibleDelete} onDismiss={hideDelete} style={{ borderRadius: 8, backgroundColor: 'white' }}>
+                <Dialog.Title>Deletar organizador</Dialog.Title>
+                <Dialog.Content>
+                  <Paragraph>Tem certeza que deseja deletar este organizador?</Paragraph>
+                </Dialog.Content>
+                <Dialog.Actions>
+                  <TouchableOpacity onPress={hideDelete}>
+                    <Text style={{ color: 'red', paddingHorizontal: 4 }}>CANCELAR</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={hideDelete}>
+                    <Text style={{ color: 'red', paddingHorizontal: 4 }}>CONFIRMAR</Text>
+                  </TouchableOpacity>
+                </Dialog.Actions>
+              </Dialog>
+            </Portal>
+          </View>
+        </Provider>
+      </SafeAreaView>
+    );
+  }

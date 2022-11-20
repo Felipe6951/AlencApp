@@ -1,8 +1,9 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { Text, View, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableWithoutFeedback } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native'
+import { CustomDrawer } from '../components/customDrawer/index';
 
 import Home from '../pages/Home'
 import Sobre from '../pages/Sobre'
@@ -15,11 +16,12 @@ import Solicitacoes from '../pages/Solicitacoes'
 import Organizadores from '../pages/Organizadores'
 import QRcode from '../pages/Presenca/QRcode'
 
-import { CustomDrawer } from '../components/customDrawer/index';
-
 const { Screen, Navigator } = createDrawerNavigator();
 
 export default function AdminRoutes() {
+
+  const navigation = useNavigation();
+
   return (
     <Navigator drawerContent={props => <CustomDrawer {...props} />}>
       <Screen
@@ -39,7 +41,7 @@ export default function AdminRoutes() {
             headerTintColor: '#FFFFFF',
             headerRight: () => (
               <View style={{ marginRight: 16 }}>
-                <TouchableWithoutFeedback onPress={() => alert('Aviso personalizado!')}>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate('Notifications')}>
                   <MaterialCommunityIcons name="bell" size={24} color="#FFFFFF" />
                 </TouchableWithoutFeedback>
               </View>
