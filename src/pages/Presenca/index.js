@@ -411,7 +411,7 @@ export default function Presenca() {
   const auth = getAuth(app);
 
   const q = query(collection(firestore, "membros"), where("email", "==", auth.currentUser.email));
-  const p = query(collection(firestore, "presence"), orderBy("created_at", "asc"));
+  const p = query(collection(firestore, "presence"), where("day", "==", dataTotal), orderBy("created_at", "asc"));
 
   const [usuario, setUser] = useState([])
   const [present, setPresent] = useState(0)
@@ -430,8 +430,11 @@ export default function Presenca() {
     });
   }, []);
 
-  // var dia = new Date(Date.UTC);
-  // var timestamp = new Date().getTime();
+  var dataAtual = new Date();
+  var dia = dataAtual.getDate;
+  var mes = (dataAtual.getMonth() + 1);
+  var ano = dataAtual.getFullYear();
+  var dataTotal = (dia + '/' + mes + '/' + ano);
 
   const presence = () => {
     setDoc(doc(firestore, "presence", usuario[3]), {
@@ -440,7 +443,7 @@ export default function Presenca() {
       camisa: usuario[2],
       tampa: usuario[1],
       created_at: serverTimestamp(),
-      // day: dia
+      day: dataTotal
     })
       .then(() => {
         setPresent(present + 1)

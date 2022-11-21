@@ -3,11 +3,33 @@ import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Alert } from 'r
 import { Ionicons } from '@expo/vector-icons';
 import { Input, FormControl, Select, CheckIcon } from 'native-base';
 
+import { initializeApp } from 'firebase/app';
+import { getFirestore, serverTimestamp, setDoc } from 'firebase/firestore';
+import { firebaseConfig } from '../../../firebase-config';
+
 export default function Avisos() {
   const [motive] = React.useState(["Jogo cancelado", "Mudança de horário", "Outro"])
   const [motiveSelected, setMotiveSelected] = React.useState([])
 
   const [description, setDescription] = useState('');
+
+  const app = initializeApp(firebaseConfig);
+  const firestore = getFirestore(app);
+  var i = 1;
+
+  const createWarnig = () => {
+    setDoc(doc(firestore, "avisos", i++), {
+      motive: motiveSelected,
+      description: description,
+      created_at: serverTimestamp()
+    })
+    .then(() => {
+      Alert.alert("Aviso enviado!")
+    })
+    .catch((error) => {
+      Alert.alert(error)
+    })
+  }
 
   return (
     <SafeAreaView style={{ backgroundColor: '#FAFAFA', paddingBottom: "100%"}}>
@@ -69,7 +91,7 @@ export default function Avisos() {
               <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#C0212E', marginRight: 24 }}>Limpar</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => Alert.alert('Enviou!')}>
+            <TouchableOpacity onPress={() => createWarnig()}>
               <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#C0212E' }}>Enviar</Text>
             </TouchableOpacity>
           </View>

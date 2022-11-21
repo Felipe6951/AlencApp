@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { getAuth, signOut } from "firebase/auth";
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
+import { Alert } from "native-base";
 
 export function CustomDrawer(props) {
 
@@ -18,9 +19,11 @@ export function CustomDrawer(props) {
     const auth = getAuth(app)
 
     const handleSignout = () => {
-        signOut(auth)
-            .then(() => navigation.navigate("Login"))
-            .catch(error => console.log(error))
+        signOut(auth).then(() => {
+            navigation.navigate("Login")
+          }).catch((error) => {
+            Alert.alert(error)
+          });
     }
 
     return (

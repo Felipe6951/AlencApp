@@ -18,10 +18,12 @@ export function GeralCustomDrawer(props) {
     const auth = getAuth(app)
 
     const handleSignout = () => {
-        signOut(auth)
-        .then(() => navigation.navigate("Login"))
-        .catch(error => console.log(error))
-      }
+        signOut(auth).then(() => {
+            navigation.navigate("Login")
+          }).catch((error) => {
+            Alert.alert(error)
+          });
+    }
 
     return (
         <View style={{ flex: 1 }}>

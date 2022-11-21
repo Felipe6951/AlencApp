@@ -45,13 +45,15 @@ export default function Login() {
     const subscriber = onAuthStateChanged(auth, (user) => {
       if (user) {
 
-        const q = query(collection(firestore, "membros"), where("email", "==", user.email));
+        const q = query(collection(firestore, "membros"), where("email", "==", auth.currentUser.email));
 
         onSnapshot(q, (querySnapshot) => {
           const members = [];
           querySnapshot.forEach((doc) => {
             members.push(doc.data().type);
           })
+
+          console.log(members[0]);
 
           if (members[0] === "Organizador") {
             navigation.navigate("Admin")

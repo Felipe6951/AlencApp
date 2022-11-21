@@ -4,7 +4,6 @@ import { View, Text } from 'react-native';
 
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
-import { getFirestore, collection, query, onSnapshot, where, doc, deleteDoc } from 'firebase/firestore'
 import { getAuth, deleteUser } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 
@@ -12,35 +11,36 @@ export default function Espera() {
 
     const navigation = useNavigation();
     const app = initializeApp(firebaseConfig);
-    const firestore = getFirestore(app);
     const auth = getAuth(app)
 
     const user = auth.currentUser;
 
-    const q = query(collection(firestore, "membros"), where("email", "==", user.email));
-    
-    const [usuario, setUser] = useState([])
+    const handleSignout = () => {
+        signOut(auth).then(() => {
+            navigation.navigate("Login")
+          }).catch((error) => {
+            Alert.alert(error)
+          });
+    }
 
-    useEffect(() => {
-        onSnapshot(q, (querySnapshot) => {
-            const members = [];
-            querySnapshot.forEach((doc) => {
-              members.push(doc.data().name);
-            })
-    
-            setUser(members);
-            console.log(usuario[0]);
+    const delete_user = () => {
+        deleteUser(user)
+        .then(() => {
+            navigation.navigate("Register")
         })
-    }, [])
+    }
 
     return (
         <View>
             <Text>A sua solicitaçãofoi recusada</Text>
             <TouchableOpacity 
-            onPress={deleteUser(user) && deleteDoc(firestore, "membros", usuario[0]).then(() => {
-                navigation.navigate("Register")
-            })}>
+            onPress={delete_user}>
                 <Text>Clique aqui para poder tentar novamente</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+            onPress={handleSignout}
+            >
+                <Text>Sair</Text>
             </TouchableOpacity>
         </View>
     );
