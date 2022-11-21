@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, StyleSheet, SafeAreaView, Image } from 'react-n
 
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
-import { getAuth, deleteUser } from 'firebase/auth';
+import { getAuth, deleteUser, signOut } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Espera() {
