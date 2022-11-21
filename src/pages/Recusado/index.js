@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
-import { TouchableOpacity } from 'react-native';
-import { View, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Text, TouchableOpacity, StyleSheet, SafeAreaView, Image } from 'react-native';
 
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
@@ -31,17 +30,40 @@ export default function Espera() {
     }
 
     return (
-        <View>
-            <Text>A sua solicitaçãofoi recusada</Text>
-            <TouchableOpacity 
-            onPress={delete_user}>
-                <Text>Clique aqui para poder tentar novamente</Text>
+        <SafeAreaView style={styles.container}>
+            <Image
+                source={require('../../assets/img/logo_afc.png')}
+                style={{ width: 160, height: 180 }}
+                resizeMode="contain"
+            />
+            <Text style={styles.message}>Seu cadastro foi recusado pela comissão organizadora.</Text>
+
+            <TouchableOpacity
+                onPress={delete_user}
+            >
+                <Text>Tentar novamente</Text>
             </TouchableOpacity>
             <TouchableOpacity 
             onPress={handleSignout}
             >
                 <Text>Sair</Text>
             </TouchableOpacity>
-        </View>
+        </SafeAreaView>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#8C1F28',
+        paddingHorizontal: 24,
+        flexDirection: 'column'
+    },
+    message: {
+        textAlign: 'center',
+        color: '#FFFFFF',
+        fontSize: 18
+    }
+})

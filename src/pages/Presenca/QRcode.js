@@ -10,39 +10,43 @@ export default function CodeQR() {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar />
-            <View>
-                <QRCode
-                    value={qrValue ? qrValue : 'NA'}
-                    size={310}
-                    color="black"
-                    backgroundColor="#FAFAFA"
-                    logoSize={30}
-                    logoMargin={2}
-                    logoBorderRadius={15}
-                    logoBackgroundColor="yellow"
-                />
-            </View>
+            <KeyboardAvoidingView behavior='height' keyboardVerticalOffset={1}>
+                {/* <ScrollView showsVerticalScrollIndicator={false}> */}
+                <View>
+                    <QRCode
+                        value={qrValue ? qrValue : 'NA'}
+                        size={310}
+                        color="black"
+                        backgroundColor="#FAFAFA"
+                        logoSize={30}
+                        logoMargin={2}
+                        logoBorderRadius={15}
+                        logoBackgroundColor="yellow"
+                    />
+                </View>
 
-            <View style={styles.formContent}>
-                <Input
-                    onChangeText={(text) => setInput(text)}
-                    value={input}
-                    placeholder='Digite o valor do QRcode'
-                    variant="outline"
-                    backgroundColor={'#F2F2F2'}
-                    placeholderTextColor={'#888888'}
-                    fontSize={15}
-                />
-                <TouchableOpacity
-                    style={styles.btnCreate}
-                    onPress={() => {
-                        setQrValue(input);
-                        setInput('');
-                    }}
-                >
-                    <Text style={styles.btnCreateText}>Gerar QR Code</Text>
-                </TouchableOpacity>
-            </View>
+                <View style={styles.formContent}>
+                    <Input
+                        onChangeText={(text) => setInput(text)}
+                        value={input}
+                        placeholder='Digite o valor do QRcode'
+                        variant="outline"
+                        backgroundColor={'#F2F2F2'}
+                        placeholderTextColor={'#888888'}
+                        fontSize={15}
+                    />
+                    <TouchableOpacity
+                        style={styles.btnCreate}
+                        onPress={() => {
+                            setQrValue(input);
+                            setInput('');
+                        }}
+                    >
+                        <Text style={styles.btnCreateText}>Gerar QR Code</Text>
+                    </TouchableOpacity>
+                </View>
+                {/* </ScrollView> */}
+            </KeyboardAvoidingView>
         </SafeAreaView>
     );
 };

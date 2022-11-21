@@ -62,9 +62,11 @@ export default function Login() {
               navigation.navigate("Geral")
             } else {
               if (members[0] === "membro") {
+                // alert('Espera')
                 navigation.navigate("Espera")
               } else {
                 if (members[0] === "Recusado") {
+                  // alert('Recusado')
                   navigation.navigate("Recusado")
                 }
               }
@@ -73,9 +75,7 @@ export default function Login() {
         })
       }
     })
-
     return subscriber;
-
   }, []);
 
   const forgotPassword = () => {

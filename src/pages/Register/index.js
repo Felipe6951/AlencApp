@@ -20,13 +20,6 @@ export default function Register() {
   const navigation = useNavigation();
   const [service, setService] = React.useState("");
 
-  const [visibleAlertSuccess, setVisibleAlertSuccess] = React.useState(false);
-  const showAlertSuccess = () => setVisibleAlertSuccess(true);
-  const hideAlertSuccess = () => setVisibleAlertSuccess(false);
-  const [visibleAlertError, setVisibleAlertError] = React.useState(false);
-  const showAlertError = () => setVisibleAlertError(true);
-  const hideAlertError = () => setVisibleAlertError(false);
-
   const usarnameRef = useRef();
   const emailRef = useRef();
   const phoneRef = useRef();
@@ -92,6 +85,7 @@ export default function Register() {
       }
     }
   }
+
 
   const [tampa] = React.useState(['1', '2', '3', '4', '5', '6'])
   const [tampaSelected, setTampaSelected] = React.useState([])
@@ -326,42 +320,6 @@ export default function Register() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-
-      <Provider>
-        <View>
-          <Portal>
-            <Dialog visible={visibleAlertSuccess} onDismiss={hideAlertSuccess} style={{ borderRadius: 8, backgroundColor: 'white' }}>
-              <Dialog.Title>Sucesso!</Dialog.Title>
-              <Dialog.Content>
-                <Paragraph>Sua conta foi enviada para análise da comissão.</Paragraph>
-              </Dialog.Content>
-              <Dialog.Actions>
-                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                  <Text style={{ color: 'red', paddingHorizontal: 4 }}>CONFIRMAR</Text>
-                </TouchableOpacity>
-              </Dialog.Actions>
-            </Dialog>
-          </Portal>
-        </View>
-      </Provider>
-
-      <Provider>
-        <View>
-          <Portal>
-            <Dialog visible={visibleAlertError} onDismiss={hideAlertError} style={{ borderRadius: 8, backgroundColor: 'white' }}>
-              <Dialog.Title>Erro!</Dialog.Title>
-              <Dialog.Content>
-                <Paragraph>Algo deu errado no seu cadastro.</Paragraph>
-              </Dialog.Content>
-              <Dialog.Actions>
-                <TouchableOpacity onPress={hideAlertError}>
-                  <Text style={{ color: 'red', paddingHorizontal: 4 }}>CONFIRMAR</Text>
-                </TouchableOpacity>
-              </Dialog.Actions>
-            </Dialog>
-          </Portal>
-        </View>
-      </Provider>
     </SafeAreaView >
   );
 }

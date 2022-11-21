@@ -35,11 +35,10 @@ export default function Jogadores() {
       setList(DATA);
     } else {
       setList(
-        DATA.filter(item => (item.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1))
+        DATA.filter(item => (item.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1 || item.camisa.indexOf(searchText) > -1 || item.tampa.indexOf(searchText) > -1))
       );
     }
   }, [searchText]);
-
 
   useFocusEffect(
     React.useCallback(() => {
@@ -115,7 +114,7 @@ export default function Jogadores() {
         </View>
         <View style={{ borderBottomWidth: 1, borderBottomColor: '#DDDDDD', width: 288, alignSelf: 'center', marginBottom: 8 }} />
         <View style={{ flexDirection: 'row', marginLeft: 4 }}>
-          <Text style={{ marginRight: 20, color: '#505050' }}>Camisa {camisa}</Text>
+          <Text style={{ marginRight: 20, color: '#505050' }}>Camisa: {camisa}</Text>
           <Text style={{ color: '#505050' }}>Tampa: {tampa}</Text>
         </View>
       </View>
