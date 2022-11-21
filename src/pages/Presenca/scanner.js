@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button, StatusBar, Alert, TouchableOpacity, SafeAreaView } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-// import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 // import { Camera } from 'expo-camera';
 
 export default function Scanner() {
     const [hasPermission, setHasPermission] = useState(null); // Permissão de acesso a câmera
     const [scanned, setScanned] = useState(false); // Verifica se o valor já foi escaneado, estado = false > não foi escaneado
     const [value, setValue] = useState('') // Recebe valor do QRcode
-    // const navigation = useNavigation() // Navegação
+    const navigation = useNavigation() // Navegação
 
     // Componente de botão para novo Scan
     const ScanAgain = () => (
@@ -57,6 +57,11 @@ export default function Scanner() {
                 <Text>Sem acesso à câmara.</Text>
             </SafeAreaView>
         );
+    }
+
+    // Verifica se o QR Code foi lido. Caso seja VERDADEIRO (leu), ele encaminha o usuário para a tela de presença
+    if (scanned == true){
+        navigation.navigate('Presenças')
     }
 
     // Se o usuário ACEITAR a permissão de acesso a câmera, a tela retorna as funcionalidades adequadas

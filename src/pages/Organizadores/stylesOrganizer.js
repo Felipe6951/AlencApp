@@ -6,8 +6,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         position: 'absolute',
         left: 300,
-        top: 580,
-        backgroundColor: 'black'
+        top: 580
     },
     fabButton: {
         position: 'absolute',

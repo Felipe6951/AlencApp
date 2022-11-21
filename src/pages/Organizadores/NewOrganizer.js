@@ -24,13 +24,13 @@ export default function NewOrganizer() {
 
     useEffect(() => {
         if (searchText === '') {
-            setList(DATA);
+          setList(DATA);
         } else {
-            setList(
-                DATA.filter(item => (item.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1))
-            );
+          setList(
+            DATA.filter(item => (item.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1 || item.user.toLowerCase().indexOf(searchText.toLowerCase()) > -1 || item.email.toLowerCase().indexOf(searchText.toLowerCase()) > -1 || item.telefone.indexOf(searchText) > -1))
+          );
         }
-    }, [searchText]);
+      }, [searchText]);
 
     useFocusEffect(
         React.useCallback(() => {
