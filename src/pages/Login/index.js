@@ -44,9 +44,7 @@ export default function Login() {
   useEffect(() => {
     const subscriber = onAuthStateChanged(auth, (user) => {
       if (user) {
-
         const q = query(collection(firestore, "membros"), where("email", "==", user.email));
-
         onSnapshot(q, (querySnapshot) => {
           const members = [];
           querySnapshot.forEach((doc) => {
@@ -60,9 +58,11 @@ export default function Login() {
               navigation.navigate("Geral")
             } else {
               if (members[0] === "membro") {
+                // alert('Espera')
                 navigation.navigate("Espera")
               } else {
                 if (members[0] === "Recusado") {
+                  // alert('Recusado')
                   navigation.navigate("Recusado")
                 }
               }
@@ -71,9 +71,7 @@ export default function Login() {
         })
       }
     })
-
     return subscriber;
-
   }, []);
 
   const forgotPassword = () => {

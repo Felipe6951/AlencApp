@@ -20,13 +20,6 @@ export default function Register() {
   const navigation = useNavigation();
   const [service, setService] = React.useState("");
 
-  const [visibleAlertSuccess, setVisibleAlertSuccess] = React.useState(false);
-  const showAlertSuccess = () => setVisibleAlertSuccess(true);
-  const hideAlertSuccess = () => setVisibleAlertSuccess(false);
-  const [visibleAlertError, setVisibleAlertError] = React.useState(false);
-  const showAlertError = () => setVisibleAlertError(true);
-  const hideAlertError = () => setVisibleAlertError(false);
-
   const usarnameRef = useRef();
   const emailRef = useRef();
   const phoneRef = useRef();
@@ -65,31 +58,47 @@ export default function Register() {
       alert("Preencha todos os campos")
     } else {
       for (var i = 0; i < users.length; i++) {
-        if(users[i].user === username || users[i].telefone === phone || users[i].camisa === shirtnum) {
+        if (users[i].user === username || users[i].telefone === phone || users[i].camisa === shirtnum) {
           alert("ERRO")
         } else {
           if (password === confirmPassword) {
             createUserWithEmailAndPassword(auth, email, password)
-            .then(() => {
-              setDoc(doc(firestore, "membros", email), {
-                name: name,
-                user: username, //
-                email: email, 
-                telefone: phone, //
-                camisa: shirtnum, //
-                tampa: tampaSelected, 
-                situacao: "Pendente",
-                type: "membro",
-                status: "Ativo",
-                password: password,
-                day: daySelected
+              .then(() => {
+                setDoc(doc(firestore, "membros", email), {
+                  name: name,
+                  user: username, //
+                  email: email,
+                  telefone: phone, //
+                  camisa: shirtnum, //
+                  tampa: tampaSelected,
+                  situacao: "Pendente",
+                  type: "membro",
+                  status: "Ativo",
+                  password: password,
+                  day: daySelected
+                })
+                  .then(
+                    Alert.alert(
+                      'Cadastro',
+                      'Sua conta foi enviada para análise da comissão.',
+                      [
+                        {
+                          text: "FECHAR",
+                          onPress: () => console.log('Fechar')
+                
+                        }
+                      ]),
+                    navigation.navigate('Login')
+                  )
+                  .catch(
+                    error => error,
+                    console.log('error primeiro catch')
+                  )
               })
-                .then(showAlertSuccess)
-                .catch(error => showAlertError)
-            })
-            .catch((error) => {
-              Alert.alert(error)
-            })
+              .catch((error) => {
+                Alert.alert(error)
+                console.log('error 2 catch')
+              })
           } else {
             alert("Senhas diferentes!!!")
           }
@@ -97,6 +106,7 @@ export default function Register() {
       }
     }
   }
+
 
   const [tampa] = React.useState(['1', '2', '3', '4', '5', '6'])
   const [tampaSelected, setTampaSelected] = React.useState([])
@@ -331,42 +341,6 @@ export default function Register() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-
-      <Provider>
-        <View>
-          <Portal>
-            <Dialog visible={visibleAlertSuccess} onDismiss={hideAlertSuccess} style={{ borderRadius: 8, backgroundColor: 'white' }}>
-              <Dialog.Title>Sucesso!</Dialog.Title>
-              <Dialog.Content>
-                <Paragraph>Sua conta foi enviada para análise da comissão.</Paragraph>
-              </Dialog.Content>
-              <Dialog.Actions>
-                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                  <Text style={{ color: 'red', paddingHorizontal: 4 }}>CONFIRMAR</Text>
-                </TouchableOpacity>
-              </Dialog.Actions>
-            </Dialog>
-          </Portal>
-        </View>
-      </Provider>
-
-      <Provider>
-        <View>
-          <Portal>
-            <Dialog visible={visibleAlertError} onDismiss={hideAlertError} style={{ borderRadius: 8, backgroundColor: 'white' }}>
-              <Dialog.Title>Erro!</Dialog.Title>
-              <Dialog.Content>
-                <Paragraph>Algo deu errado no seu cadastro.</Paragraph>
-              </Dialog.Content>
-              <Dialog.Actions>
-                <TouchableOpacity onPress={hideAlertError}>
-                  <Text style={{ color: 'red', paddingHorizontal: 4 }}>CONFIRMAR</Text>
-                </TouchableOpacity>
-              </Dialog.Actions>
-            </Dialog>
-          </Portal>
-        </View>
-      </Provider>
     </SafeAreaView >
   );
 }

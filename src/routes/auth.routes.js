@@ -6,7 +6,7 @@ import Admin from '../pages/Auxiliar/admin';
 import NewOrganizer from '../pages/Organizadores/NewOrganizer';
 import Geral from '../pages/Auxiliar/geral';
 import Espera from '../pages/Espera';
-import Recusado from '../pages/Recusado';
+import Recusado from '../pages/Recusado/index';
 import Scanner from '../pages/Presenca/scanner';
 import Notifications from '../pages/Avisos/Notifications';
 

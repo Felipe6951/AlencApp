@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
-import { TouchableOpacity } from 'react-native';
-import { View, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Text, TouchableOpacity, StyleSheet, SafeAreaView, Image } from 'react-native';
 
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
@@ -18,30 +17,51 @@ export default function Espera() {
     const user = auth.currentUser;
 
     const q = query(collection(firestore, "membros"), where("email", "==", user.email));
-    
+
     const [usuario, setUser] = useState([])
 
     useEffect(() => {
         onSnapshot(q, (querySnapshot) => {
             const members = [];
             querySnapshot.forEach((doc) => {
-              members.push(doc.data().name);
+                members.push(doc.data().name);
             })
-    
+
             setUser(members);
             console.log(usuario[0]);
         })
     }, [])
 
     return (
-        <View>
-            <Text>A sua solicitaçãofoi recusada</Text>
-            <TouchableOpacity 
-            onPress={deleteUser(user) && deleteDoc(firestore, "membros", usuario[0]).then(() => {
-                navigation.navigate("Register")
-            })}>
-                <Text>Clique aqui para poder tentar novamente</Text>
+        <SafeAreaView style={styles.container}>
+            <Image
+                source={require('../../assets/img/logo_afc.png')}
+                style={{ width: 160, height: 180 }}
+                resizeMode="contain"
+            />
+            <Text style={styles.message}>Seu cadastro foi recusado pela comissão organizadora.</Text>
+
+            <TouchableOpacity
+                onPress={deleteUser(user) && deleteDoc(firestore, "membros", usuario[0]).then(() => {navigation.navigate("Register")})}
+            >
+                <Text>Tentar novamente</Text>
             </TouchableOpacity>
-        </View>
+        </SafeAreaView>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#8C1F28',
+        paddingHorizontal: 24,
+        flexDirection: 'column'
+    },
+    message: {
+        textAlign: 'center',
+        color: '#FFFFFF',
+        fontSize: 18
+    }
+})

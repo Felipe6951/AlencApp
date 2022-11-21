@@ -87,7 +87,6 @@ export default function Presenca() {
       <TouchableOpacity
         style={styles.boxPlayer}
         onPress={() => Alert.alert(player1, "Jogador caro", [{ text: "Cancelar", onPress: () => console.log("Cancel Pressed") }, { text: "OK", onPress: () => console.log("OK Pressed") }])}>
-        <Text style={styles.orderNumber}>1°</Text>
         <Image style={styles.user} source={require('../../assets/img/user.png')} resizeMode="contain" />
         <View style={styles.infoPlayer}>
           <Text style={styles.players}>{player1}</Text>
