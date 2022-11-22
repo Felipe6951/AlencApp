@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native'
 
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
-import { getFirestore, collection, query, onSnapshot, where, serverTimestamp, orderBy, setDoc, doc } from 'firebase/firestore';
+import { getFirestore, collection, query, onSnapshot, where, serverTimestamp, orderBy, setDoc, doc, addDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { Orient } from "react-native-svg";
 
@@ -55,6 +55,7 @@ export default function Presenca() {
 
 
   const ItemOrder = ({ username, tampa }) => (
+
     <View style={styles.boxOrder}>
       <Image style={styles.user} source={require('../../assets/img/user.png')} resizeMode="contain" />
       <View style={styles.orderInfo}>
@@ -400,6 +401,12 @@ export default function Presenca() {
   //     }
   //   }
   // }
+  
+  var dataAtual = new Date();
+  var dia = dataAtual.getDate;
+  var mes = (dataAtual.getMonth() + 1);
+  var ano = dataAtual.getFullYear();
+  var dataTotal = (dia + '/' + mes + '/' + ano);
 
   const app = initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
@@ -424,12 +431,6 @@ export default function Presenca() {
       setUser(members);
     });
   }, []);
-
-  var dataAtual = new Date();
-  var dia = dataAtual.getDate;
-  var mes = (dataAtual.getMonth() + 1);
-  var ano = dataAtual.getFullYear();
-  var dataTotal = (dia + '/' + mes + '/' + ano);
 
   const presence = () => {
     setDoc(doc(firestore, "presence", usuario[3]), {
@@ -456,6 +457,17 @@ export default function Presenca() {
           [{ text: "OK", onPress: () => console.log("OK Pressed") }]
         )
       })
+
+    addDoc(collection(firestore, "historic"), {
+      name: usuario[3],
+      day: serverTimestamp()
+    })
+    .then(() => {
+      console.log("Criou")
+    })
+    .catch((error) => {
+      console.log(error)
+    })
   }
 
   useEffect(() => {

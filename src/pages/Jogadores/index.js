@@ -18,9 +18,12 @@ export default function Jogadores() {
   const q = query(collection(firestore, "membros"), where("situacao", "==", "Aceito"));
 
   const [DATA, setData] = useState([]);
+  var NAME = [];
 
   const [visibleInactive, setVisibleInactive] = React.useState(false);
-  const showInactive = () => setVisibleInactive(true);
+  const showInactive = () => {
+    console.log(DATA);
+  }
   const hideInactive = () => setVisibleInactive(false);
 
   const [visibleDelete, setVisibleDelete] = React.useState(false);
@@ -98,7 +101,9 @@ export default function Jogadores() {
     )
   }
 
+
   const Item = ({ name, tampa, camisa }) => (
+
     <Swipeable
       renderLeftActions={LeftActions}
       renderRightActions={RightActions}
@@ -120,6 +125,7 @@ export default function Jogadores() {
       </View>
     </Swipeable>
   );
+
 
   return (
     <SafeAreaView style={{ backgroundColor: '#FAFAFA', height: '100%' }}>

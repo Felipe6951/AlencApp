@@ -68,6 +68,8 @@ export default function Login() {
                 if (members[0] === "Recusado") {
                   // alert('Recusado')
                   navigation.navigate("Recusado")
+                } else {
+                  console.log("Erro");
                 }
               }
             }

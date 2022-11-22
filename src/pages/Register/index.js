@@ -36,8 +36,6 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = React.useState('');
   const [hidePassword, setHidePassword] = useState(true);
 
-  const [exist, setExist] = useState(false)
-
   const app = initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
   const auth = getAuth(app)
@@ -56,34 +54,30 @@ export default function Register() {
   }, [])
 
   const handleCreateAccount = () => {
-    if (name === '' || username === '' || email === '' || phone === '' || shirtnum === '' || password === '' || confirmPassword === '') {
-      alert("Preencha todos os campos")
-    } else {
-      if (password === confirmPassword) {
-        createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          setDoc(doc(firestore, "membros", email), {
-            name: name,
-            user: username, //
-            email: email, 
-            telefone: phone, //
-            camisa: shirtnum, //
-            tampa: tampaSelected, 
-            situacao: "Pendente",
-            type: "membro",
-            status: "Ativo",
-            day: daySelected
-          })
-          .then(showAlertSuccess)
-          .catch(error => showAlertError)
-          })
-          .catch((error) => {
-          Alert.alert(error)
-          })    
-      } else {
-        alert("Senhas não compativeis")
-      }
-    }
+    createUserWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      setDoc(doc(firestore, "membros", email), {
+        name: name,
+        user: username,
+        email: email, 
+        telefone: phone,
+        camisa: shirtnum,
+        tampa: tampaSelected, 
+        situacao: "Pendente",
+        type: "membro",
+        status: "Ativo",
+        day: daySelected
+      })
+      .then(() => {
+        Alert.alert("Pedido enviado para a comissão")
+      })
+      .catch(error => {
+        Alert.alert(error.message)
+      })
+    })
+    .catch((error) => {
+    Alert.alert(error.message)
+    })    
   }
 
 
