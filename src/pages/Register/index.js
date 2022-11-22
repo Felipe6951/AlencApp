@@ -1,32 +1,42 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Image, SafeAreaView, TouchableOpacity, Text, ScrollView, Alert } from 'react-native';
-import { Input, StatusBar, FormControl, Select, CheckIcon, ShareIcon } from 'native-base';
+import { View, Image, SafeAreaView, TouchableOpacity, Text, ScrollView, Alert, KeyboardAvoidingView } from 'react-native';
+import { Input, StatusBar, FormControl, Select, CheckIcon } from 'native-base';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { TextInputMask } from 'react-native-masked-text';
+import { useNavigation } from '@react-navigation/native';
+import styles from './styles';
 
+// Importações do FireBase
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
 import { getFirestore, setDoc, doc, query, collection, onSnapshot } from 'firebase/firestore'
 
-import { color, max } from 'react-native-reanimated';
-import styles from './styles';
-import { KeyboardAvoidingView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
-
 export default function Register() {
 
+  // Constante de navegação
   const navigation = useNavigation();
-  const [service, setService] = React.useState("");
 
-  const usarnameRef = useRef();
-  const emailRef = useRef();
-  const phoneRef = useRef();
-  const shirtNumberRef = useRef();
+  // Valores do Select 
+  const [tampa] = React.useState(['1', '2', '3', '4', '5', '6'])
+  const [tampaSelected, setTampaSelected] = React.useState([])
+  const [day] = React.useState(['Seg, Qua', 'Seg, Sex', 'Qua, Sex'])
+  const [daySelected, setDaySelected] = React.useState([])
+
+  // Estilização de Input de telefone (<TextInputMask />)
+  const [focus, setFocus] = useState(false);
+  const customInputTextMask = focus ? styles.textInputFocus : styles.textInput
+
+  // Referências de Inputs
+  const inputUsername = useRef();
+  const inputEmail = useRef();
+  const inputTnumber = useRef();
+  const inputPassword = useRef();
+  const inputConfirmPassword = useRef();
 
   const [users, setUsers] = useState([])
 
+  // Valores dos Inputs
   const [name, setName] = React.useState('');
   const [username, setUsername] = React.useState('');
   const [email, setEmail] = React.useState('');
@@ -36,23 +46,24 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = React.useState('');
   const [hidePassword, setHidePassword] = useState(true);
 
+  // Inicializando o FireBase
   const app = initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
   const auth = getAuth(app)
-
   const q = query(collection(firestore, "membros"))
 
+  // 
   useEffect(() => {
     onSnapshot(q, (querySnapshot) => {
       const members = [];
       querySnapshot.forEach((doc) => {
         members.push({ ...doc.data(), id: doc.id });
       })
-
       setUsers(members);
     });
   }, [])
 
+  //
   const handleCreateAccount = () => {
     createUserWithEmailAndPassword(auth, email, password)
     .then(() => {
@@ -80,27 +91,9 @@ export default function Register() {
     })    
   }
 
-
-  const [tampa] = React.useState(['1', '2', '3', '4', '5', '6'])
-  const [tampaSelected, setTampaSelected] = React.useState([])
-
-  const [day] = React.useState(['Seg, Qua', 'Seg, Sex', 'Qua, Sex', 'Seg, Qua, Sex'])
-  const [daySelected, setDaySelected] = React.useState([])
-
-  const [focus, setFocus] = useState(false);
-  const customInputTextMask = focus ? styles.textInputFocus : styles.textInput
-
-  const inputUsername = useRef();
-  const inputEmail = useRef();
-  const inputTnumber = useRef();
-  const inputPassword = useRef();
-  const inputConfirmPassword = useRef();
-  const inputPhone = useRef();
-
   return (
     <SafeAreaView style={styles.back}>
       <StatusBar />
-
       <KeyboardAvoidingView behavior='height' keyboardVerticalOffset={30}>
         <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
           <View style={styles.logoPosition}>
@@ -153,8 +146,6 @@ export default function Register() {
                 backgroundColor={'#F2F2F2'}
                 placeholderTextColor={'#888888'}
                 returnKeyType="next"
-                onSubmitEditing={() => { inputPhone.current.focus(); }}
-                blurOnSubmit={false}
               />
             </View>
 
@@ -169,7 +160,6 @@ export default function Register() {
                 backgroundColor={'#F2F2F2'}
                 placeholderTextColor={'#888888'}
                 type={'cel-phone'}
-                ref={inputPhone}
                 value={phone}
                 style={customInputTextMask}
                 onFocus={() => setFocus(true)}
@@ -296,7 +286,8 @@ export default function Register() {
             <View style={styles.actionsBottom}>
               <TouchableOpacity
                 style={styles.buttonRegister}
-                onPress={handleCreateAccount}>
+                onPress={handleCreateAccount}
+              >
                 <AntDesign name="check" size={18} style={styles.buttonIconRegister} />
                 <Text style={styles.register}>Cadastrar</Text>
               </TouchableOpacity>
@@ -309,7 +300,6 @@ export default function Register() {
                   <Text style={styles.buttonSignup} onPress={() => navigation.navigate('Login')}>Faça login</Text>
                 </TouchableOpacity>
               </View>
-
             </View>
           </View>
         </ScrollView>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Text, View, SafeAreaView, Image, ScrollView } from 'react-native';
 import { FontAwesome, MaterialIcons, Ionicons } from '@expo/vector-icons';
 import styles from './styles';
@@ -7,8 +7,6 @@ import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
 import { getFirestore, collection, query, onSnapshot, where } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { useState } from 'react';
-import { useEffect } from 'react';
 
 export default function Perfil() {
 

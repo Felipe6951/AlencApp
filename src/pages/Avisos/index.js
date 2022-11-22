@@ -1,38 +1,62 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Alert, Keyboard } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Input, FormControl, Select, CheckIcon } from 'native-base';
 
 import { initializeApp } from 'firebase/app';
-import { getFirestore, serverTimestamp, setDoc } from 'firebase/firestore';
+import { getFirestore, serverTimestamp, setDoc, doc, collection } from 'firebase/firestore';
 import { firebaseConfig } from '../../../firebase-config';
 
 export default function Avisos() {
   const [motive] = React.useState(["Jogo cancelado", "Mudança de horário", "Outro"])
   const [motiveSelected, setMotiveSelected] = React.useState([])
-
   const [description, setDescription] = useState('');
+  const [id, setId] = useState(0)
 
   const app = initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
-  var i = 1;
+
+  function created() {
+    var day = new Date().getDate();
+    var month = (new Date().getMonth() + 1);
+    var year = new Date().getFullYear();
+    var hour = new Date().getHours();
+    var minutes = new Date().getMinutes();
+
+    if (minutes >= 0 && minutes < 10) {
+      minutes = "0" + minutes;
+    }
+
+    var date = (hour + ":" + minutes + " - " + day + "/" + month + "/" + year);
+
+    return date;
+  }
 
   const createWarnig = () => {
-    setDoc(doc(firestore, "avisos", i++), {
-      motive: motiveSelected,
-      description: description,
-      created_at: serverTimestamp()
-    })
-    .then(() => {
-      Alert.alert("Aviso enviado!")
-    })
-    .catch((error) => {
-      Alert.alert(error)
-    })
+    console.log(motiveSelected)
+    if (motiveSelected === '' || description === '') {
+      Alert.alert('ERROR', 'Preencha todos os campos.')
+    } else {
+      setDoc(doc(firestore, "notificacoes", id.toString()), {
+        motive: motiveSelected,
+        description: description,
+        created: created(),
+        stamp: serverTimestamp()
+      })
+        .then(() => {
+          Alert.alert("Aviso enviado!");
+          setMotiveSelected([]);
+          setDescription('');
+          setId(id + 1);
+        })
+        .catch((error) => {
+          Alert.alert(error)
+        })
+    }
   }
 
   return (
-    <SafeAreaView style={{ backgroundColor: '#FAFAFA', paddingBottom: "100%"}}>
+    <SafeAreaView style={{ backgroundColor: '#FAFAFA', paddingBottom: "100%" }}>
       <View>
         <View style={{ elevation: 5, shadowColor: '#505050', backgroundColor: '#8C1F28', height: 48, alignItems: 'center', justifyContent: 'space-between', marginHorizontal: '5%', borderTopLeftRadius: 8, borderTopRightRadius: 8, marginTop: 24, paddingHorizontal: 16, flexDirection: 'row' }}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -51,7 +75,7 @@ export default function Avisos() {
               _selectedItem={{
                 bg: "red.100",
                 endIcon: <CheckIcon size="5" color="#C0212E" />,
-              }} 
+              }}
               backgroundColor={'#F2F2F2'}
               placeholderTextColor={'#888888'}
               fontSize={15}
@@ -82,16 +106,24 @@ export default function Avisos() {
             />
           </View>
 
-          <View style={{ justifyContent: 'flex-end', marginRight: 16, marginTop: 24, flexDirection: 'row' }}>
+          <View style={{ justifyContent: 'flex-end', marginRight: 8, marginTop: 16, flexDirection: 'row', marginBottom: 8 }}>
             <TouchableOpacity
+              style={{ paddingHorizontal: 8, paddingTop: 8 }}
               onPress={() => {
                 setDescription('')
                 setMotiveSelected([])
-              }}>
+              }}
+            >
               <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#C0212E', marginRight: 24 }}>Limpar</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => createWarnig()}>
+            <TouchableOpacity
+              style={{ paddingHorizontal: 8, paddingTop: 8 }}
+              onPress={() => {
+                Keyboard.dismiss();
+                createWarnig();
+              }}
+            >
               <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#C0212E' }}>Enviar</Text>
             </TouchableOpacity>
           </View>
@@ -104,6 +136,6 @@ export default function Avisos() {
 
 const card = StyleSheet.create({
   container: {
-    
+    backgroundColor: 'white'
   }
 })

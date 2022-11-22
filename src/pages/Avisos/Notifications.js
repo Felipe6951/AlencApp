@@ -1,48 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, SafeAreaView, StatusBar, FlatList } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 
-// Informa a hora e data atual
-// function DateTime() {
-//     var dataAtual = new Date();
-//     var dia = dataAtual.getDate();
-//     var mes = (dataAtual.getMonth() + 1);
-//     var ano = dataAtual.getFullYear();
-//     var horas = dataAtual.getHours();
-//     var minutos = dataAtual.getMinutes();
-//     var date = (horas + ":" + minutos + " - " + dia + "/" + mes + "/" + ano);
-//     return date;
-// }
-
-// Dados do FireBase
-const NOTIFICATIONS = [
-    {
-        id: 1,
-        motive: 'Jogo cancelado',
-        description: 'O jogo foi cancelado, pois o tempo de chuva está nos impedindo de jogar. Até o próximo jogo.',
-        // date: DateTime(),
-        date: '18:34 - 18/11/2022'
-    },
-    {
-        id: 2,
-        motive: 'Mudança de horário',
-        description: 'Em virtude das festa da FINECAP, a realização do nosso racha, especialmente hoje, será as 17:30. Obrigado pela compreensão!',
-        // date: DateTime(),
-        date: '18:48 - 18/11/2022'
-    },
-    {
-        id: 3,
-        motive: 'Outro',
-        description: 'Decisão da comissão organizadora.',
-        // date: DateTime(),
-        date: '22:26 - 19/11/2022'
-    }
-];
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from '../../../firebase-config';
+import { getFirestore, collection, query, onSnapshot, orderBy, limit, doc } from 'firebase/firestore';
 
 export default function Notifications() {
 
+    const app = initializeApp(firebaseConfig);
+    const firestore = getFirestore(app);
+    const q = query(collection(firestore, "notificacoes"), orderBy("stamp", "desc"), limit(4));
+
+    const [notification, setNotification] = useState([])
+
+    useEffect(() => {
+        onSnapshot(q, (querySnapshot) => {
+            const alert = [];
+            querySnapshot.forEach((doc) => {
+                alert.push({ ...doc.data(), id: doc.id });
+            })
+            setNotification(alert);
+        });
+    }, []);
+
     // Item renderizado na FlatList
-    const Item = ({ motive, description, date }) => (
+    const Item = ({ motive, description, created }) => (
         <View style={styles.notification}>
             <View style={styles.headerNotification}>
                 <Ionicons name="alert-circle" size={22} color="#FFFFFF" style={{ marginRight: 4 }} />
@@ -50,7 +33,7 @@ export default function Notifications() {
             </View>
             <View style={styles.boxDescription}>
                 <Text style={styles.description}>{description}</Text>
-                <Text style={styles.date}>{date}</Text>
+                <Text style={styles.date}>{created}</Text>
             </View>
         </View>
     );
@@ -59,14 +42,12 @@ export default function Notifications() {
         <SafeAreaView style={styles.container}>
             <StatusBar />
             <FlatList
-                data={NOTIFICATIONS}
-                renderItem={({ item }) => <Item motive={item.motive} description={item.description} date={item.date} />}
+                data={notification}
+                renderItem={({ item }) => <Item motive={item.motive} description={item.description} created={item.created} />}
                 keyExtractor={(item) => item.id}
             />
         </SafeAreaView>
     );
-
-    console.log(dataAtual)
 }
 
 // Estilização de componentes

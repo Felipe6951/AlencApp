@@ -27,16 +27,9 @@ export default function Login() {
         console.log(user);
       })
       .catch(error => {
-        console.log(error)
         Alert.alert(
           "ERROR",
-          "Email ou senha incorretos.",
-          [
-            {
-              text: "FECHAR",
-              onPress: () => null,
-            },
-          ]
+          "Email ou senha incorretos."
         );
       })
   }
@@ -52,7 +45,7 @@ export default function Login() {
           querySnapshot.forEach((doc) => {
             members.push(doc.data().type);
           })
-
+  
           console.log(members[0]);
 
           if (members[0] === "Organizador") {
