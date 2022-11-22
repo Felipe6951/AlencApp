@@ -18,7 +18,7 @@ export default function Scanner() {
             <MaterialCommunityIcons name="restart" size={24} color="#FFFFFF" />
             <Text style={styles.btnScanAgainText}>REINICIAR SCAN</Text>
         </TouchableOpacity>
-    );
+    ); 
 
     // Monitora a permissão de acesso a câmera
     useEffect(() => {

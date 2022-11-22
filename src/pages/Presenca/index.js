@@ -53,7 +53,6 @@ export default function Presenca() {
     },
   ]
 
-
   const ItemOrder = ({ username, tampa }) => (
     <View style={styles.boxOrder}>
       <Image style={styles.user} source={require('../../assets/img/user.png')} resizeMode="contain" />

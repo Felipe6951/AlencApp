@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, Text, View, StyleSheet, TouchableOpacity, StatusBar, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { SafeAreaView, Text, View, StyleSheet, TouchableOpacity, StatusBar, KeyboardAvoidingView, Keyboard } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { Input } from 'native-base';
 
@@ -38,6 +38,7 @@ export default function CodeQR() {
                     <TouchableOpacity
                         style={styles.btnCreate}
                         onPress={() => {
+                            Keyboard.dismiss();  
                             setQrValue(input);
                             setInput('');
                         }}

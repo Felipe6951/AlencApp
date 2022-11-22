@@ -39,7 +39,7 @@ export default function Home() {
 
   return (
     <SafeAreaView style={{ backgroundColor: '#FAFAFA', paddingBottom: "100%" }}>
-      <StatusBar backgroundColor={"#97353D"}/>
+      <StatusBar />
       <View style={{ backgroundColor: '#FFFFFF', height: "55%", paddingHorizontal: 24, paddingVertical: 16, elevation: 5, shadowColor: "#909090", borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }}>
         <TouchableOpacity
           onPress={() => navigation.navigate('Perfil')}
