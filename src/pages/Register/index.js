@@ -66,29 +66,29 @@ export default function Register() {
   //
   const handleCreateAccount = () => {
     createUserWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      setDoc(doc(firestore, "membros", email), {
-        name: name,
-        user: username,
-        email: email, 
-        telefone: phone,
-        camisa: shirtnum,
-        tampa: tampaSelected, 
-        situacao: "Pendente",
-        type: "membro",
-        status: "Ativo",
-        day: daySelected
-      })
       .then(() => {
-        Alert.alert("Pedido enviado para a comissão")
+        setDoc(doc(firestore, "membros", email), {
+          name: name,
+          user: username,
+          email: email,
+          telefone: phone,
+          camisa: shirtnum,
+          tampa: tampaSelected,
+          situacao: "Pendente",
+          type: "membro",
+          status: "Ativo",
+          day: daySelected
+        })
+          .then(() => {
+            console.log('Sucesso! Conta enviada para análise da comissão organizadora')
+          })
+          .catch(() => {
+            Alert.alert('Error', 'Preencha todos os campos.', [{ text: 'FECHAR' }])
+          })
       })
-      .catch(error => {
-        Alert.alert(error.message)
+      .catch(() => {
+        Alert.alert('Error', 'Algo deu errado no seu cadastro.', [{ text: 'FECHAR' }])
       })
-    })
-    .catch((error) => {
-    Alert.alert(error.message)
-    })    
   }
 
   return (

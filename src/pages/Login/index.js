@@ -27,10 +27,7 @@ export default function Login() {
         console.log(user);
       })
       .catch(error => {
-        Alert.alert(
-          "ERROR",
-          "Email ou senha incorretos."
-        );
+        Alert.alert("ERROR", "Email ou senha incorretos.", [{text: 'FECHAR'}]);
       })
   }
 

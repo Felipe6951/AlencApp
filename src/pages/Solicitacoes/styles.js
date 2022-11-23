@@ -6,7 +6,7 @@ const { width } = Dimensions.get('screen')
 const styles = StyleSheet.create({
     back: {
         backgroundColor: '#FAFAFA',
-        height: '100%'
+        height: '100%',
     },
     descriptionContent: {
         backgroundColor: '#FFFFFF',
@@ -119,6 +119,11 @@ const styles = StyleSheet.create({
         width: '100%', 
         alignSelf: 'center',
         marginBottom: 8
+    },
+    txtZero: {
+        color: 'gray',
+        textAlign: "center",
+        marginTop: 16
     }
 });
 

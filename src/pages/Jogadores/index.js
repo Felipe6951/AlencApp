@@ -126,7 +126,6 @@ export default function Jogadores() {
     </Swipeable>
   );
 
-
   return (
     <SafeAreaView style={{ backgroundColor: '#FAFAFA', height: '100%' }}>
       <FlatList
@@ -227,5 +226,14 @@ const styles = StyleSheet.create({
   actionTextRemove: {
     color: "#FFFFFF",
     fontSize: 14,
+  },
+  containerZero: {
+    alignItems: "center",
+    paddingVertical: 24,
+    backgroundColor: "#FAFAFA",
+    height: '100%'
+  },
+  txtZero: {
+    color: 'gray'
   }
 })

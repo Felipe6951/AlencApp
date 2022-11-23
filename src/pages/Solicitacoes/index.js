@@ -75,20 +75,20 @@ export default function Solicitacoes() {
     name: "Irlan",
     data: "29 / 9 / 2022"
   }
-]
+  ]
 
-const HISTORIC = []
+  const HISTORIC = []
 
-function historico(name) {
+  function historico(name) {
 
-  for (var i = 0; i < historic.length; i++) {
-    if (historic[i].name == name) {
-      console.log(historic[i].name)      
+    for (var i = 0; i < historic.length; i++) {
+      if (historic[i].name == name) {
+        console.log(historic[i].name)
+      }
     }
-  }
 
-  return console.log("Deu certo");
-}
+    return console.log("Deu certo");
+  }
 
   const Item = ({ name, email }) => (
     <View style={styles.itemCard}>
@@ -100,50 +100,105 @@ function historico(name) {
         </View>
       </View>
 
-      <View style={styles.line}/>
+      <View style={styles.line} />
 
-     
+
       <View style={[styles.direction, styles.buttonChoosesPosition]}>
-        <TouchableOpacity style={styles.buttonChooses}
-          onPress={() => historico(name)}>
+        <TouchableOpacity
+          style={styles.buttonChooses}
+          onPress={() => {
+            Alert.alert(
+              "Solicitações",
+              "Recusar solicitação de cadastro de " + name + "?",
+              [
+                {
+                  text: 'CANCELAR',
+                  style: 'cancel'
+                },
+                {
+                  text: 'CONFIRMAR',
+                  onPress: () => updateDoc(doc(firestore, "membros", email), { situacao: "Recusado", type: "Recusado" }).then(() => {
+                    console.log(name + " recusado.")
+                  })
+                }
+              ]
+            )
+          }}
+        >
           <Text style={styles.textButtonChooses}>Recusar</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.buttonChooses}
-          onPress={() => updateDoc(doc(firestore, "membros", email), { situacao: "Aceito", type: "Jogador" }).then(() => {
-            Alert.alert("Solicitações", name + " aceito!")
-          })}>
+          onPress={() => {
+            Alert.alert(
+              "Solicitações",
+              "Aceitar solicitação de cadastro de " + name + "?",
+              [
+                {
+                  text: 'CANCELAR',
+                  style: 'cancel'
+                },
+                {
+                  text: 'CONFIRMAR',
+                  onPress: () => updateDoc(doc(firestore, "membros", email), { situacao: "Aceito", type: "Jogador" }).then(() => { console.log(name + " aceito.") })
+                }
+              ]
+            )
+          }
+
+          }>
           <Text style={styles.textButtonChooses}>Aceitar</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </View >
   );
 
-  const CardHeader = () => (
-    <View style={styles.cardForItems}>
-      <View style={styles.cardRed}>
-        <View style={styles.direction}>
-          <MaterialIcons name="new-releases" size={20} style={styles.cardIcon} />
-          <Text style={styles.cardTitle}>Novos cadastros</Text>
-        </View>
 
-        <View style={styles.counter}>
-          <Text>{DATA.length}</Text>
-        </View>
-      </View>
+  if (DATA == '') {
+    return (
+      <SafeAreaView style={styles.back}>
+        <View style={styles.cardForItems}>
+          <View style={styles.cardRed}>
+            <View style={styles.direction}>
+              <MaterialIcons name="new-releases" size={20} style={styles.cardIcon} />
+              <Text style={styles.cardTitle}>Novos cadastros</Text>
+            </View>
 
-      <View style={styles.descriptionContent}>
-        <Text style={styles.cardDescription}>Solicitações de cadastro no Alencar Futebol Clube</Text>
-      </View>
-    </View>
-  );
+            <View style={styles.counter}>
+              <Text>{DATA.length}</Text>
+            </View>
+          </View>
+
+          <View style={styles.descriptionContent}>
+            <Text style={styles.cardDescription}>Solicitações de cadastro no Alencar Futebol Clube</Text>
+          </View>
+        </View>
+        
+          <Text style={styles.txtZero}>Nenhuma solicitação.</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.back}>
       <FlatList
         ListHeaderComponent={
-          <CardHeader />
-        }
+          <View style={styles.cardForItems}>
+            <View style={styles.cardRed}>
+              <View style={styles.direction}>
+                <MaterialIcons name="new-releases" size={20} style={styles.cardIcon} />
+                <Text style={styles.cardTitle}>Novos cadastros</Text>
+              </View>
+
+              <View style={styles.counter}>
+                <Text>{DATA.length}</Text>
+              </View>
+            </View>
+
+            <View style={styles.descriptionContent}>
+              <Text style={styles.cardDescription}>Solicitações de cadastro no Alencar Futebol Clube</Text>
+            </View>
+          </View>}
         data={DATA}
         renderItem={({ item }) => <Item name={item.name} email={item.email} password={item.password} />}
         keyExtractor={item => item.id}

@@ -27,6 +27,10 @@ export default function Avisos() {
       minutes = "0" + minutes;
     }
 
+    if (hour >= 0 && hour < 10) {
+      hour = "0" + hour;
+    }
+
     var date = (hour + ":" + minutes + " - " + day + "/" + month + "/" + year);
 
     return date;
@@ -44,7 +48,7 @@ export default function Avisos() {
         stamp: serverTimestamp()
       })
         .then(() => {
-          Alert.alert("Aviso enviado!");
+          Alert.alert("Avisos", "Aviso enviado!", [{text: 'FECHAR'}]);
           setMotiveSelected([]);
           setDescription('');
           setId(id + 1);

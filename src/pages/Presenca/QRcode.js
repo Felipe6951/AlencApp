@@ -14,7 +14,7 @@ export default function CodeQR() {
                 {/* <ScrollView showsVerticalScrollIndicator={false}> */}
                 <View>
                     <QRCode
-                        value={qrValue ? qrValue : 'NA'}
+                        value={qrValue ? qrValue : 'Alencar Futebol Clube'}
                         size={310}
                         color="black"
                         backgroundColor="#FAFAFA"
