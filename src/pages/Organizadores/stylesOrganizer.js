@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         right: 75,
         fontSize: 12,
         width: 110,
-        backgroundColor: "#FFFFFF", 
+        backgroundColor: "#FFFFFF",
         color: '#FF4554',
         borderRadius: 4,
         padding: 4
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         right: 55
     },
     menu: {
-        backgroundColor: "#C0212E", 
+        backgroundColor: "#C0212E",
     },
     submenu: {
         width: 48,
@@ -101,21 +101,21 @@ const styles = StyleSheet.create({
     boxCard: {
         marginBottom: 24,
     },
-    teste: {
+    align: {
         flexDirection: 'row',
     },
     actionText: {
         color: 'gray',
         fontSize: 14,
-      },
-      actionIcon: {
+    },
+    actionIcon: {
         color: 'gray',
         fontSize: 26,
-      },
-      actionTextRemove: {
+    },
+    actionTextRemove: {
         color: "#FFFFFF",
         fontSize: 14,
-      }
+    }
 })
 
-export default styles;
+export default styles; 

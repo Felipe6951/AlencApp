@@ -1,30 +1,49 @@
-import React, { useState, useEffect } from "react";
-import { Alert, Dimensions, StatusBar, Animated, SafeAreaView, Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
+import React, { useState, useEffect, Component } from "react";
+import { Alert, Dimensions, StatusBar, Animated, SafeAreaView, Text, View, TouchableOpacity, Image, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
 import { Box, useColorModeValue } from 'native-base';
-import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
+import { MaterialCommunityIcons, AntDesign, Entypo, FontAwesome5 } from '@expo/vector-icons';
+import { useNavigation, useFocusEffect } from '@react-navigation/native'
 import styles from "./styles";
-import { useNavigation } from '@react-navigation/native'
 
-
+// Importações do FireBase
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
 import { getFirestore, collection, query, onSnapshot, where, serverTimestamp, orderBy, setDoc, doc, addDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { Orient } from "react-native-svg";
 
 export default function Presenca() {
 
-  const navigation = useNavigation()
+  //
+  // Inicialização do FireBase 
+  //
+  const app = initializeApp(firebaseConfig);
+  const firestore = getFirestore(app);
+  const auth = getAuth(app);
+  const q = query(collection(firestore, "membros"), where("email", "==", auth.currentUser.email));
+  const p = query(collection(firestore, "presence"), orderBy("created_at", "asc"));
 
-  const [ORDER, setOrder] = useState([])
-  const espera = [{
-    id: 1,
-    user: 'Marcos',
-    tampa: 2,
-    camisa: 10
-  }]
-  const TIMES = [
+  //
+  // Constantes
+  //
+  const navigation = useNavigation(); // Navegação entre telas
+  const [acess, setAcess] = useState(true); // Variável que determina tipo de acesso
+  const [usuario, setUser] = useState([]); // Recebe informações do banco referentes ao usuário
+  const [present, setPresent] = useState(0) // Determina a presença do jogador
+  const [ORDER, setOrder] = useState([]) // Array que recebe a ordem de chegada
+  const initialLayout = { // Configura dimensões de largura
+    width: Dimensions.get('window').width
+  };
+
+  const espera = [ // Array que recebe os jogadores no estado de 'espera'
+    {
+      id: 1,
+      user: 'Marcos',
+      tampa: 2,
+      camisa: 10
+    }
+  ]
+  const TIMES = [ //Array que recebe os dois times montados
     {
       id: 1,
       player1: '',
@@ -53,8 +72,156 @@ export default function Presenca() {
     },
   ]
 
-  const ItemOrder = ({ username, tampa }) => (
+  //
+  // Variáveis de data e hora
+  //
+  var dataAtual = new Date();
+  var dia = dataAtual.getDate;
+  var mes = (dataAtual.getMonth() + 1);
+  var ano = dataAtual.getFullYear();
+  var dataTotal = (dia + '/' + mes + '/' + ano);
 
+  //
+  // Funções
+  //
+  function Tab() { // Componente da TabView
+    const [index, setIndex] = React.useState(0);
+    const [routes] = React.useState([{
+      key: 'first',
+      title: 'CHEGADA'
+    }, {
+      key: 'second',
+      title: 'TIMES'
+    },
+    {
+      key: 'third',
+      title: 'ESPERA'
+    }]);
+
+    TouchableOpacity.defaultProps = { activeOpacity: 0.9 };
+
+    const renderTabBar = props => {
+
+      const inputRange = props.navigationState.routes.map((x, i) => i);
+
+      return <Box flexDirection="row">
+        {props.navigationState.routes.map((route, i) => {
+          const opacity = props.position.interpolate({
+            inputRange,
+            outputRange: inputRange.map(inputIndex => inputIndex === i ? 1 : 0.5)
+          });
+          const color = index === i ? useColorModeValue('#C0212E', '#C0212E') : useColorModeValue('#C0212E', '#C0212E');
+          const borderColor = index === i ? '#C0212E' : useColorModeValue('coolGray.200', 'gray.400');
+          return <Box borderBottomWidth="3" borderColor={borderColor} flex={1} alignItems="center" p="3" cursor="pointer" backgroundColor={"#FFFFFF"} style={{ borderTopColor: "#DBDBDB", borderTopWidth: 0.25 }}>
+            <TouchableOpacity onPress={() => { setIndex(i); }}>
+              <Animated.Text style={{ color }}>{route.title}</Animated.Text>
+            </TouchableOpacity>
+          </Box>;
+        })}
+      </Box>;
+    };
+
+    return <TabView navigationState={{ index, routes }} renderScene={renderScene} renderTabBar={renderTabBar} onIndexChange={setIndex} initialLayout={initialLayout} style={{ marginTop: StatusBar.currentHeight }} />;
+  }
+
+
+  //
+  // Classes
+  //
+  class FabPresence extends Component { // Componente FAB
+    animation = new Animated.Value(0)
+
+    toggleOptions = () => {
+      const toValue = this.open ? 0 : 1
+
+      Animated.spring(this.animation, {
+        toValue,
+        friction: 7,
+        useNativeDriver: true,
+      }).start();
+
+      this.open = !this.open;
+    }
+
+    render() {
+
+      const firstSubmenu = {
+        transform: [
+          { scale: this.animation },
+          {
+            translateY: this.animation.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, -55]
+            })
+          }
+        ]
+      }
+
+      const secondSubmenu = {
+        transform: [
+          { scale: this.animation },
+          {
+            translateY: this.animation.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, -110]
+            })
+          }
+        ]
+      }
+
+      const rotation = {
+        transform: [
+          {
+            rotate: this.animation.interpolate({
+              inputRange: [0, 1],
+              outputRange: ["0deg", "135deg"]
+            })
+          }
+        ]
+      }
+
+      return (
+        <View style={[styles.fabContent, this.props.style]}>
+
+          <TouchableWithoutFeedback
+            onPress={() => {
+              this.toggleOptions();
+              alert('Limpar times')
+            }}
+          >
+            <Animated.View style={[styles.fabButton, styles.submenu, styles.align, secondSubmenu]}>
+              <Text style={styles.fabText}> Limpar times </Text>
+              <FontAwesome5 name="users-slash" size={16} color="#FFFFFF" style={styles.submenuIcon} />
+            </Animated.View>
+          </TouchableWithoutFeedback>
+
+          <TouchableWithoutFeedback
+            onPress={() => {
+              this.toggleOptions();
+              alert('Formar times')
+            }}
+          >
+            <Animated.View style={[styles.fabButton, styles.submenu, styles.align, firstSubmenu]}>
+              <Text style={styles.fabText}> Formar times </Text>
+              <FontAwesome5 name="users" size={16} color="#FFFFFF" style={styles.submenuIcon} />
+            </Animated.View>
+          </TouchableWithoutFeedback>
+
+          <TouchableWithoutFeedback onPress={this.toggleOptions}>
+            <Animated.View style={[styles.fabButton, styles.menu, rotation]}>
+              <Entypo name="plus" size={24} color="#FFFFFF" />
+            </Animated.View>
+          </TouchableWithoutFeedback>
+        </View>
+      );
+    }
+  }
+
+  //
+  // COMPONENTES
+  //
+  // 1° Rota da TabView
+  const ItemOrder = ({ username, tampa }) => (  // Componente Item para CHEGADA
     <View style={styles.boxOrder}>
       <Image style={styles.user} source={require('../../assets/img/user.png')} resizeMode="contain" />
       <View style={styles.orderInfo}>
@@ -64,7 +231,7 @@ export default function Presenca() {
     </View>
   );
 
-  const FirstRoute = () => <FlatList
+  const FirstRoute = () => <FlatList // Componente FlatList para CHEGADA
     flex={1}
     my="4"
     showsVerticalScrollIndicator={false}
@@ -73,7 +240,8 @@ export default function Presenca() {
     keyExtractor={item => item.id}
   />;
 
-  const ItemTimes = ({ player1, player2, player3, player4, player5 }) => (
+  // 2° Rota da TabView
+  const ItemTimes = ({ player1, player2, player3, player4, player5 }) => ( // Componente Item para TIMES
     <View>
       <View style={styles.boxTeam}>
         <Text style={styles.teamNumber}>Time X</Text>
@@ -136,7 +304,7 @@ export default function Presenca() {
     </View>
   );
 
-  const SecondRoute = () => <FlatList
+  const SecondRoute = () => <FlatList // Componente FlatList para TIMES
     flex={1}
     my="4"
     showsVerticalScrollIndicator={false}
@@ -145,7 +313,8 @@ export default function Presenca() {
     keyExtractor={item => item.id}
   />;
 
-  const ItemWait = ({ username, tampa }) => (
+  // 3° Rota da TabView
+  const ItemWait = ({ username, tampa }) => ( // Componente Item para ESPERA
     <View style={styles.boxOrder}>
       <Image style={styles.user} source={require('../../assets/img/user.png')} resizeMode="contain" />
       <View style={styles.orderInfo}>
@@ -155,7 +324,7 @@ export default function Presenca() {
     </View>
   );
 
-  const ThirdRoute = () => <FlatList
+  const ThirdRoute = () => <FlatList //Componente FlatList para ESPERA
     flex={1}
     my="4"
     showsVerticalScrollIndicator={false}
@@ -164,17 +333,82 @@ export default function Presenca() {
     keyExtractor={item => item.id}
   />;
 
-  const initialLayout = {
-    width: Dimensions.get('window').width
-  };
-
-  const renderScene = SceneMap({
+  // Renderiza as rotas
+  const renderScene = SceneMap({ // Renderiza todas as rotas na TabView
     first: FirstRoute,
     second: SecondRoute,
     third: ThirdRoute
   });
 
+  // Função de presença => chamada para enviar ao banco os jogadores presentes
+  const presence = () => {
+    setDoc(doc(firestore, "presence", usuario[3]), {
+      name: usuario[3],
+      user: usuario[0],
+      camisa: usuario[2],
+      tampa: usuario[1],
+      created_at: serverTimestamp(),
+      day: dataTotal
+    })
+      .then(() => {
+        setPresent(present + 1)
+        Alert.alert(
+          "Sucesso!",
+          "Presença confirmada!",
+          [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+        )
+      })
+      .catch(error => {
+        Alert.alert(
+          "Erro!",
+          "Algo deu errado na sua presença.",
+          [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+        )
+      })
 
+    addDoc(collection(firestore, "historic"), {
+      name: usuario[3],
+      day: serverTimestamp()
+    })
+      .then(() => {
+        console.log("Criou")
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
+  //
+  // Monitorando estados
+  //
+  useEffect(() => { // Membros presentes
+    onSnapshot(p, (querySnapshot) => {
+      const presents = [];
+      querySnapshot.forEach((doc) => {
+        presents.push({ ...doc.data(), id: doc.id });
+      })
+
+      setOrder(presents);
+    });
+  }, [present]);
+
+  useEffect(() => { // Novos dados no banco
+    onSnapshot(q, (querySnapshot) => {
+      const members = [];
+      querySnapshot.forEach((doc) => {
+        members.push(doc.data().user);
+        members.push(doc.data().tampa);
+        members.push(doc.data().camisa);
+        members.push(doc.data().name);
+      })
+
+      setUser(members);
+    });
+  }, []);
+
+  // Coração do Projeto
+  // 
+  //
   // for (var i = 0; i < ORDER.length; i++) {
   //   if (TIMES[0].player1 === null && TIMES[0].player2 === null && TIMES[0].player3 === null && TIMES[0].player4 === null && TIMES[0].player5 === null) {
   //     TIMES[0].player1 = ORDER[i].name
@@ -400,124 +634,58 @@ export default function Presenca() {
   //     }
   //   }
   // }
-  
-  var dataAtual = new Date();
-  var dia = dataAtual.getDate;
-  var mes = (dataAtual.getMonth() + 1);
-  var ano = dataAtual.getFullYear();
-  var dataTotal = (dia + '/' + mes + '/' + ano);
-
-  const app = initializeApp(firebaseConfig);
-  const firestore = getFirestore(app);
-  const auth = getAuth(app);
-
-  const q = query(collection(firestore, "membros"), where("email", "==", auth.currentUser.email));
-  const p = query(collection(firestore, "presence"), where("day", "==", dataTotal), orderBy("created_at", "asc"));
-
-  const [usuario, setUser] = useState([])
-  const [present, setPresent] = useState(0)
 
   useEffect(() => {
-    onSnapshot(q, (querySnapshot) => {
+    onSnapshot(q, (querySnapshot) => { // Verifica o tipo do usuário logado
       const members = [];
       querySnapshot.forEach((doc) => {
-        members.push(doc.data().user);
-        members.push(doc.data().tampa);
-        members.push(doc.data().camisa);
-        members.push(doc.data().name);
+        members.push(doc.data().type);
       })
-
-      setUser(members);
-    });
+      if (members[0] === 'Organizador') {
+        setAcess(true);
+        console.log('organizador ein pae')
+      } else {
+        if (members[0] === 'Jogador') {
+          setAcess(false);
+          console.log('maloca')
+        }
+      }
+    })
   }, []);
 
-  const presence = () => {
-    setDoc(doc(firestore, "presence", usuario[3]), {
-      name: usuario[3],
-      user: usuario[0],
-      camisa: usuario[2],
-      tampa: usuario[1],
-      created_at: serverTimestamp(),
-      day: dataTotal
-    })
-      .then(() => {
-        setPresent(present + 1)
-        Alert.alert(
-          "Sucesso!",
-          "Presença confirmada!",
+  if (acess === false) {
+    return (
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#FAFAFA" }}>
+        <StatusBar />
+        <View style={styles.boxHeader}>
 
-          [{ text: "OK", onPress: () => console.log("OK Pressed") }]
-        )
-      })
-      .catch(error => {
-        Alert.alert(
-          "Erro!",
-          "Algo deu errado na sua presença.",
-          [{ text: "OK", onPress: () => console.log("OK Pressed") }]
-        )
-      })
+          <Image style={styles.userPhoto} source={require('../../assets/img/userBig.png')} resizeMode="contain" />
+          <View style={styles.infoUsers}>
+            <Text style={styles.username}>{usuario[0]}</Text>
+            <View style={styles.infoUsersAux}>
+              <View style={styles.boxCamisa}>
+                <Text>CAMISA</Text>
+                <Text>{usuario[2]}</Text>
+              </View>
+              <View style={styles.boxTampa}>
+                <Text>TAMPA</Text>
+                <Text>{usuario[1]}</Text>
+              </View>
+            </View>
+          </View>
 
-    addDoc(collection(firestore, "historic"), {
-      name: usuario[3],
-      day: serverTimestamp()
-    })
-    .then(() => {
-      console.log("Criou")
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  }
-
-  useEffect(() => {
-    onSnapshot(p, (querySnapshot) => {
-      const presents = [];
-      querySnapshot.forEach((doc) => {
-        presents.push({ ...doc.data(), id: doc.id });
-      })
-
-      setOrder(presents);
-    });
-  }, [present]);
-
-  function Example() {
-    const [index, setIndex] = React.useState(0);
-    const [routes] = React.useState([{
-      key: 'first',
-      title: 'CHEGADA'
-    }, {
-      key: 'second',
-      title: 'TIMES'
-    },
-    {
-      key: 'third',
-      title: 'ESPERA'
-    }]);
-
-    TouchableOpacity.defaultProps = { activeOpacity: 0.9 };
-
-    const renderTabBar = props => {
-
-      const inputRange = props.navigationState.routes.map((x, i) => i);
-
-      return <Box flexDirection="row">
-        {props.navigationState.routes.map((route, i) => {
-          const opacity = props.position.interpolate({
-            inputRange,
-            outputRange: inputRange.map(inputIndex => inputIndex === i ? 1 : 0.5)
-          });
-          const color = index === i ? useColorModeValue('#C0212E', '#C0212E') : useColorModeValue('#C0212E', '#C0212E');
-          const borderColor = index === i ? '#C0212E' : useColorModeValue('coolGray.200', 'gray.400');
-          return <Box borderBottomWidth="3" borderColor={borderColor} flex={1} alignItems="center" p="3" cursor="pointer" backgroundColor={"#FFFFFF"} style={{ borderTopColor: "#DBDBDB", borderTopWidth: 0.25 }}>
-            <TouchableOpacity onPress={() => { setIndex(i); }}>
-              <Animated.Text style={{ color }}>{route.title}</Animated.Text>
+          <View style={{ marginLeft: 24, justifyContent: "center", flexDirection: 'column' }}>
+            <TouchableOpacity
+              style={{ backgroundColor: '#ED4654', paddingVertical: 10, paddingHorizontal: 16, alignItems: "center", borderRadius: 8 }}
+              onPress={() => navigation.navigate('Scanner')}>
+              <MaterialCommunityIcons name="qrcode-scan" size={24} color="#FFFFFF" />
+              <Text style={{ color: '#FFFFFF', marginTop: 8 }}>Check-in</Text>
             </TouchableOpacity>
-          </Box>;
-        })}
-      </Box>;
-    };
-
-    return <TabView navigationState={{ index, routes }} renderScene={renderScene} renderTabBar={renderTabBar} onIndexChange={setIndex} initialLayout={initialLayout} style={{ marginTop: StatusBar.currentHeight }} />;
+          </View>
+        </View>
+        <Tab />
+      </SafeAreaView >
+    );
   }
 
   return (
@@ -549,7 +717,8 @@ export default function Presenca() {
           </TouchableOpacity>
         </View>
       </View>
-      <Example />
+      <Tab />
+      <FabPresence />
     </SafeAreaView >
   );
 }
