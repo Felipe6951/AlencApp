@@ -27,69 +27,6 @@ export default function Solicitacoes() {
     });
   }, [])
 
-  const historic = [{
-    name: "Francisca Jilkelly Costa Ferreira",
-    data: "29 / 7 / 2022"
-  },
-  {
-    name: "Francisca Jilkelly Costa Ferreira",
-    data: "21 / 7 / 2022"
-  },
-  {
-    name: "Francisca Jilkelly Costa Ferreira",
-    data: "22 / 7 / 2022"
-  },
-  {
-    name: "Marcos",
-    data: "23 / 7 / 2022"
-  },
-  {
-    name: "Marcos",
-    data: "24 / 7 / 2022"
-  },
-  {
-    name: "Kaio Eduardo Alves de Lima",
-    data: "25 / 7 / 2022"
-  },
-  {
-    name: "Kaio Eduardo Alves de Lima",
-    data: "26 / 7 / 2022"
-  },
-  {
-    name: "Kaio Eduardo Alves de Lima",
-    data: "27 / 7 / 2022"
-  },
-  {
-    name: "Maikon",
-    data: "28 / 7 / 2022"
-  },
-  {
-    name: "Irlan",
-    data: "30 / 7 / 2022"
-  },
-  {
-    name: "Irlan",
-    data: "18 / 7 / 2022"
-  },
-  {
-    name: "Irlan",
-    data: "29 / 9 / 2022"
-  }
-]
-
-const HISTORIC = []
-
-function historico(name) {
-
-  for (var i = 0; i < historic.length; i++) {
-    if (historic[i].name == name) {
-      console.log(historic[i].name)      
-    }
-  }
-
-  return console.log("Deu certo");
-}
-
   const Item = ({ name, email }) => (
     <View style={styles.itemCard}>
       <View style={styles.itemContent}>
@@ -105,7 +42,9 @@ function historico(name) {
      
       <View style={[styles.direction, styles.buttonChoosesPosition]}>
         <TouchableOpacity style={styles.buttonChooses}
-          onPress={() => historico(name)}>
+          onPress={() => updateDoc(doc(firestore, "membros", email), { situacao: "Recusado", type: "Recusado" }).then(() => {
+            Alert.alert("Solicitações", name + " Recusado!")
+          })}>
           <Text style={styles.textButtonChooses}>Recusar</Text>
         </TouchableOpacity>
 
