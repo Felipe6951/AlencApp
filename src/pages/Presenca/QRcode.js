@@ -4,8 +4,17 @@ import QRCode from 'react-native-qrcode-svg';
 import { Input } from 'native-base';
 
 export default function CodeQR() {
-    const [input, setInput] = useState('');
     const [qrValue, setQrValue] = useState('');
+
+    function created() {
+        var day = new Date().getDate();
+        var month = (new Date().getMonth() + 1);
+        var year = new Date().getFullYear();
+
+        var date = (day + "/" + month + "/" + year);
+
+        return date;
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -26,21 +35,10 @@ export default function CodeQR() {
                 </View>
 
                 <View style={styles.formContent}>
-                    <Input
-                        onChangeText={(text) => setInput(text)}
-                        value={input}
-                        placeholder='Digite o valor do QRcode'
-                        variant="outline"
-                        backgroundColor={'#F2F2F2'}
-                        placeholderTextColor={'#888888'}
-                        fontSize={15}
-                    />
                     <TouchableOpacity
                         style={styles.btnCreate}
                         onPress={() => {
-                            Keyboard.dismiss();  
-                            setQrValue(input);
-                            setInput('');
+                            setQrValue(created());
                         }}
                     >
                         <Text style={styles.btnCreateText}>Gerar QR Code</Text>

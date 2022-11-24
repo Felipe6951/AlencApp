@@ -112,13 +112,13 @@ export default function Avisos() {
 
           <View style={{ justifyContent: 'flex-end', marginRight: 8, marginTop: 16, flexDirection: 'row', marginBottom: 8 }}>
             <TouchableOpacity
-              style={{ paddingHorizontal: 8, paddingTop: 8 }}
+              style={{ paddingTop: 8 }}
               onPress={() => {
                 setDescription('')
                 setMotiveSelected([])
               }}
             >
-              <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#C0212E', marginRight: 24 }}>Limpar</Text>
+              <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#C0212E', marginRight: 24 }}>LIMPAR</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -128,7 +128,7 @@ export default function Avisos() {
                 createWarnig();
               }}
             >
-              <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#C0212E' }}>Enviar</Text>
+              <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#C0212E' }}>ENVIAR</Text>
             </TouchableOpacity>
           </View>
 

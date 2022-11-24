@@ -105,7 +105,7 @@ export default function Organizadores() {
       outputRange: [0, 1],
       extrapolate: 'clamp'
     })
-
+ 
     return (
       <View>
         <TouchableOpacity

@@ -29,7 +29,6 @@ export default function Presenca() {
   const navigation = useNavigation(); // Navegação entre telas
   const [acess, setAcess] = useState(true); // Variável que determina tipo de acesso
   const [usuario, setUser] = useState([]); // Recebe informações do banco referentes ao usuário
-  const [present, setPresent] = useState(0) // Determina a presença do jogador
   const [ORDER, setOrder] = useState([]) // Array que recebe a ordem de chegada
   const initialLayout = { // Configura dimensões de largura
     width: Dimensions.get('window').width
@@ -73,15 +72,6 @@ export default function Presenca() {
   ]
 
   //
-  // Variáveis de data e hora
-  //
-  var dataAtual = new Date();
-  var dia = dataAtual.getDate;
-  var mes = (dataAtual.getMonth() + 1);
-  var ano = dataAtual.getFullYear();
-  var dataTotal = (dia + '/' + mes + '/' + ano);
-
-  //
   // Funções
   //
   function Tab() { // Componente da TabView
@@ -123,8 +113,6 @@ export default function Presenca() {
 
     return <TabView navigationState={{ index, routes }} renderScene={renderScene} renderTabBar={renderTabBar} onIndexChange={setIndex} initialLayout={initialLayout} style={{ marginTop: StatusBar.currentHeight }} />;
   }
-
-
   //
   // Classes
   //
@@ -339,45 +327,7 @@ export default function Presenca() {
     second: SecondRoute,
     third: ThirdRoute
   });
-
-  // Função de presença => chamada para enviar ao banco os jogadores presentes
-  const presence = () => {
-    setDoc(doc(firestore, "presence", usuario[3]), {
-      name: usuario[3],
-      user: usuario[0],
-      camisa: usuario[2],
-      tampa: usuario[1],
-      created_at: serverTimestamp(),
-      day: dataTotal
-    })
-      .then(() => {
-        setPresent(present + 1)
-        Alert.alert(
-          "Sucesso!",
-          "Presença confirmada!",
-          [{ text: "OK", onPress: () => console.log("OK Pressed") }]
-        )
-      })
-      .catch(error => {
-        Alert.alert(
-          "Erro!",
-          "Algo deu errado na sua presença.",
-          [{ text: "OK", onPress: () => console.log("OK Pressed") }]
-        )
-      })
-
-    addDoc(collection(firestore, "historic"), {
-      name: usuario[3],
-      day: serverTimestamp()
-    })
-      .then(() => {
-        console.log("Criou")
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-
+  
   //
   // Monitorando estados
   //
@@ -390,7 +340,7 @@ export default function Presenca() {
 
       setOrder(presents);
     });
-  }, [present]);
+  }, []);
 
   useEffect(() => { // Novos dados no banco
     onSnapshot(q, (querySnapshot) => {
@@ -407,8 +357,8 @@ export default function Presenca() {
   }, []);
 
   // Coração do Projeto
-  // 
-  //
+  
+  
   // for (var i = 0; i < ORDER.length; i++) {
   //   if (TIMES[0].player1 === null && TIMES[0].player2 === null && TIMES[0].player3 === null && TIMES[0].player4 === null && TIMES[0].player5 === null) {
   //     TIMES[0].player1 = ORDER[i].name
@@ -618,8 +568,8 @@ export default function Presenca() {
   //                       if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa || TIMES[1].tampa3 === ORDER[i].tampa || TIMES[1].tampa4 === ORDER[i].tampa) {
   //                         espera.push(ORDER[i])
   //                       } else {
-  //                         TIMES[0].player5 = ORDER[i].name
-  //                         TIMES[0].tampa5 = ORDER[i].tampa
+  //                         TIMES[1].player5 = ORDER[i].name
+  //                         TIMES[1].tampa5 = ORDER[i].tampa
   //                       }
   //                     } else {
   //                       espera.push(ORDER[i])

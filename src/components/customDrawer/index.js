@@ -21,9 +21,9 @@ export function CustomDrawer(props) {
     const handleSignout = () => {
         signOut(auth).then(() => {
             navigation.navigate("Login")
-          }).catch((error) => {
+        }).catch((error) => {
             Alert.alert(error)
-          });
+        });
     }
 
     return (
@@ -38,7 +38,6 @@ export function CustomDrawer(props) {
                 </View>
 
                 <View style={{ backgroundColor: '#FFFFFF' }}>
-
                     <View>
                         <Text style={{ backgroundColor: '#F2F2F2', paddingLeft: 16, paddingVertical: 12, fontSize: 12, color: '#505050' }}>MENU</Text>
 
@@ -79,6 +78,14 @@ export function CustomDrawer(props) {
                             >
                                 <FontAwesome5 name="qrcode" size={20} color="#8C1F28" style={{ marginRight: 6 }} />
                                 <Text style={{ fontSize: 16 }}>QR Code</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={{ flexDirection: 'row', alignItems: "center", paddingVertical: 16, paddingHorizontal: 16 }}
+                                onPress={() => navigation.navigate('Cartões')}
+                            >
+                                <MaterialCommunityIcons name="cards" size={20} color="#8C1F28" style={{ marginRight: 6 }} />
+                                <Text style={{ fontSize: 16 }}>Cartões</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity

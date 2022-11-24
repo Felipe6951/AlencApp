@@ -53,7 +53,7 @@ export default function NewOrganizer() {
     );
 
     const Item = ({ name, user, email, telefone }) => (
-        <TouchableWithoutFeedback onPress={() => Alert.alert("Organizador", "Tornar organizador?", [{ text: "Não" }, { text: "Sim", onPress: () => updateDoc(doc(firestore, "membros", name), { type: "Organizador" }).then(() => { Alert.alert("Organizadores", name + "Agora é um organizador!") }) }])}>
+        <TouchableWithoutFeedback onPress={() => Alert.alert("Organizador", "Tem certeza que deseja tornar " + name + " um organizador?", [{ text: "Não" }, { text: "Sim", onPress: () => updateDoc(doc(firestore, "membros", email), { type: "Organizador" }).then(() => { Alert.alert("Organizadores", name + " agora é um organizador!") }) }])}>
             <View style={{ marginHorizontal: '5%', backgroundColor: '#FFFFFF', padding: 24, borderRadius: 8, marginBottom: 16, elevation: 5, shadowColor: '#505050' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ marginRight: 12 }}>

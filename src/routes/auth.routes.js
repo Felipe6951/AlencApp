@@ -9,6 +9,8 @@ import Espera from '../pages/Espera';
 import Recusado from '../pages/Recusado/index';
 import Scanner from '../pages/Presenca/scanner';
 import Notifications from '../pages/Avisos/Notifications';
+import SoccerCards from '../pages/Cartoes/SoccerCards';
+import NewSoccerCard from '../pages/Cartoes/NewSoccerCard';
 
 const Stack = createNativeStackNavigator();
 
@@ -102,6 +104,22 @@ export default function Authroutes() {
         }
       />
 
+      <Stack.Screen
+        name="NewSoccerCard"
+        component={NewSoccerCard}
+        options={() => ({
+          title: 'Anotações',
+          headerStyle: {
+            backgroundColor: '#8C1F28',
+          },
+          headerTitleStyle: {
+            color: '#FFFFFF',
+            fontSize: 18
+          },
+          headerTintColor: '#FFFFFF'
+        })
+        }
+      />
     </Stack.Navigator>
   );
-}
+} 
