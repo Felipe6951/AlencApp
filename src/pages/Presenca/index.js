@@ -611,15 +611,15 @@ export default function Presenca() {
 
           <Image style={styles.userPhoto} source={require('../../assets/img/userBig.png')} resizeMode="contain" />
           <View style={styles.infoUsers}>
-            <Text style={styles.username}>{usuario[0]}</Text>
+            {/* <Text style={styles.username}>{usuario[0]}</Text> */}
             <View style={styles.infoUsersAux}>
               <View style={styles.boxCamisa}>
                 <Text>CAMISA</Text>
-                <Text>{usuario[2]}</Text>
+                {/* <Text>{usuario[2]}</Text> */}
               </View>
               <View style={styles.boxTampa}>
                 <Text>TAMPA</Text>
-                <Text>{usuario[1]}</Text>
+                {/* <Text>{usuario[1]}</Text> */}
               </View>
             </View>
           </View>
@@ -645,15 +645,15 @@ export default function Presenca() {
 
         <Image style={styles.userPhoto} source={require('../../assets/img/userBig.png')} resizeMode="contain" />
         <View style={styles.infoUsers}>
-          <Text style={styles.username}>{usuario[0]}</Text>
+          {/* <Text style={styles.username}>{usuario[0]}</Text> */}
           <View style={styles.infoUsersAux}>
             <View style={styles.boxCamisa}>
               <Text>CAMISA</Text>
-              <Text>{usuario[2]}</Text>
+              {/* <Text>{usuario[2]}</Text> */}
             </View>
             <View style={styles.boxTampa}>
               <Text>TAMPA</Text>
-              <Text>{usuario[1]}</Text>
+              {/* <Text>{usuario[1]}</Text> */}
             </View>
           </View>
         </View>
