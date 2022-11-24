@@ -24,13 +24,10 @@ export default function Login() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
+        console.log(user.email);
       })
       .catch(error => {
-        Alert.alert(
-          "ERROR",
-          "Email ou senha incorretos."
-        );
+        Alert.alert("ERROR", "Email ou senha incorretos.", [{text: 'FECHAR'}]);
       })
   }
 
@@ -38,7 +35,7 @@ export default function Login() {
     const subscriber = onAuthStateChanged(auth, (user) => {
       if (user) {
 
-        const q = query(collection(firestore, "membros"), where("email", "==", auth.currentUser.email));
+        const q = query(collection(firestore, "membros"), where("email", "==", user.email));
 
         onSnapshot(q, (querySnapshot) => {
           const members = [];

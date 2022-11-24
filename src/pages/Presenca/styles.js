@@ -112,15 +112,61 @@ const styles = StyleSheet.create({
         flexDirection: "column"
     },
     infoUsersAux: {
-        flexDirection: "row", 
+        flexDirection: "row",
         marginTop: 8
     },
     boxCamisa: {
-        alignItems: "center", 
+        alignItems: "center",
         marginRight: 8
     },
     boxTampa: {
         alignItems: "center"
+    },
+    fabContent: {
+        alignItems: 'center',
+        position: 'absolute',
+        left: 300,
+        top: 580
+    },
+    fabButton: {
+        position: 'absolute',
+        width: 60,
+        height: 60,
+        borderRadius: 60 / 2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowRadius: 10,
+        shadowColor: "#C0212E",
+        shadowOpacity: 0.3,
+        shadowOffset: {
+            height: 10
+        }
+    },
+    fabText: {
+        right: 75,
+        fontSize: 12,
+        backgroundColor: "#FFFFFF",
+        color: '#FF4554',
+        borderRadius: 4,
+        paddingVertical: 4,
+        paddingHorizontal: 8,
+        alignItems: "center", 
+        width: '200%'
+    },
+    submenuIcon: {
+        right: 48.5
+    },
+    menu: {
+        backgroundColor: "#C0212E",
+    },
+    submenu: {
+        width: 48,
+        height: 48,
+        borderRadius: 48 / 2,
+        backgroundColor: "#FF4554"
+    },
+    align: {
+        flexDirection: 'row'
     }
 })
 

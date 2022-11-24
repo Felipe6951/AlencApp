@@ -15,6 +15,8 @@ import Jogadores from '../pages/Jogadores'
 import Solicitacoes from '../pages/Solicitacoes'
 import Organizadores from '../pages/Organizadores'
 import QRcode from '../pages/Presenca/QRcode'
+import NewSoccerCard from '../pages/Cartoes/NewSoccerCard';
+import SoccerCards from '../pages/Cartoes/SoccerCards';
 
 const { Screen, Navigator } = createDrawerNavigator();
 
@@ -177,6 +179,21 @@ export default function AdminRoutes() {
           headerTintColor: '#FFFFFF'
         })}
       />
+
+      <Screen
+        name="Cartões"
+        component={SoccerCards}
+        options={({ navigation }) => ({
+          headerStyle: {
+            backgroundColor: '#8C1F28',
+          },
+          headerTitleStyle: {
+            color: '#FFFFFF',
+            fontSize: 18
+          },
+          headerTintColor: '#FFFFFF'
+        })}
+      />
     </Navigator>
   );
-}
+} 

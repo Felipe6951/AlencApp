@@ -38,6 +38,14 @@ export default function Notifications() {
         </View>
     );
 
+    if (notification == '') {
+        return (
+            <SafeAreaView style={styles.containerZero}>
+                <Text style={styles.txtZero}>Nenhuma notificação.</Text>
+            </SafeAreaView>
+        );
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar />
@@ -96,5 +104,14 @@ const styles = StyleSheet.create({
     notification: {
         marginBottom: 16,
         alignItems: "center"
+    },
+    containerZero: {
+        alignItems: "center",
+        paddingVertical: 24,
+        backgroundColor: "#FAFAFA",
+        height: '100%'
+    },
+    txtZero: {
+        color: 'gray'
     }
 })
