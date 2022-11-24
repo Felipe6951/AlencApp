@@ -15,7 +15,6 @@ export default function Scanner() {
     const [scanned, setScanned] = useState(false); // Verifica se o valor já foi escaneado, estado = false > não foi escaneado
     const [qrValue, setQrValue] = useState('') // Recebe valor do QRcode
     const [usuario, setUser] = useState([]); // Recebe informações do banco referentes ao usuário
-    const [id, setId] = useState(0)
     const navigation = useNavigation() // Navegação
     
     const app = initializeApp(firebaseConfig);
@@ -129,13 +128,12 @@ export default function Scanner() {
                     )
                 })
 
-            setDoc(collection(firestore, "historic", id.toString()), {
+            setDoc(collection(firestore, "historic", serverTimestamp()), {
                 name: usuario[3],
                 day: created()
             })
                 .then(() => {
                     console.log("Criou")
-                    setId(id + 1);
                 })
                 .catch((error) => {
                     console.log(error)

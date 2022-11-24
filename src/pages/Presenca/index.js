@@ -9,7 +9,7 @@ import styles from "./styles";
 // Importações do FireBase
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
-import { getFirestore, collection, query, onSnapshot, where, serverTimestamp, orderBy, setDoc, doc, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, query, onSnapshot, where, serverTimestamp, orderBy, setDoc, doc, addDoc, deleteDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
 export default function Presenca() {
@@ -29,51 +29,328 @@ export default function Presenca() {
   const navigation = useNavigation(); // Navegação entre telas
   const [acess, setAcess] = useState(true); // Variável que determina tipo de acesso
   const [usuario, setUser] = useState([]); // Recebe informações do banco referentes ao usuário
-  const [ORDER, setOrder] = useState([]) // Array que recebe a ordem de chegada
+  // const [ORDER, setOrder] = useState([]) // Array que recebe a ordem de chegada
+  const ORDER = [{
+    name: 'Marcos',
+    tampa: 1
+  },
+  {
+    name: 'Kadson',
+    tampa: 5
+  },
+  {
+    name: 'Irlan',
+    tampa: 3
+  },
+  {
+    name: 'Felipe',
+    tampa: 2
+  },
+  {
+    name: 'Maikon',
+    tampa: 5
+  }, {
+    name: 'Gustavo',
+    tampa: 4
+  },
+  {
+    name: 'Kaio',
+    tampa: 1
+  }, {
+    name: 'Joao',
+    tampa: 3
+  },
+  {
+    name: 'Neto',
+    tampa: 6
+  },
+  {
+    name: 'Luiz',
+    tampa: 1
+  },
+  {
+    name: 'Ryan',
+    tampa: 4
+  },
+  {
+    name: 'Pedro',
+    tampa: 3
+  }
+  ]
   const initialLayout = { // Configura dimensões de largura
     width: Dimensions.get('window').width
   };
 
-  const espera = [ // Array que recebe os jogadores no estado de 'espera'
-    {
-      id: 1,
-      user: 'Marcos',
-      tampa: 2,
-      camisa: 10
-    }
-  ]
-  const TIMES = [ //Array que recebe os dois times montados
-    {
-      id: 1,
-      player1: '',
-      tampa1: '',
-      player2: '',
-      tampa2: '',
-      player3: '',
-      tampa3: '',
-      player4: '',
-      tampa4: '',
-      player5: '',
-      tampa5: '',
-    },
-    {
-      id: 2,
-      player1: '',
-      tampa1: '',
-      player2: '',
-      tampa2: '',
-      player3: '',
-      tampa3: '',
-      player4: '',
-      tampa4: '',
-      player5: '',
-      tampa5: '',
-    },
-  ]
-
   //
   // Funções
   //
+  function formarTimes() {
+    const TIMES = [ //Array que recebe os dois times montados
+      {
+        id: 1,
+        player1: '',
+        tampa1: '',
+        player2: '',
+        tampa2: '',
+        player3: '',
+        tampa3: '',
+        player4: '',
+        tampa4: '',
+        player5: '',
+        tampa5: '',
+      },
+      {
+        id: 2,
+        player1: '',
+        tampa1: '',
+        player2: '',
+        tampa2: '',
+        player3: '',
+        tampa3: '',
+        player4: '',
+        tampa4: '',
+        player5: '',
+        tampa5: '',
+      },
+    ]
+
+    const espera = []
+
+    for (var i = 0; i < ORDER.length; i++) {
+      if (TIMES[0].player1 === null && TIMES[0].player2 === null && TIMES[0].player3 === null && TIMES[0].player4 === null && TIMES[0].player5 === null) {
+        TIMES[0].player1 = ORDER[i].name
+        TIMES[0].tampa1 = ORDER[i].tampa
+      } else {
+        if (TIMES[0].player2 === null && TIMES[0].player3 === null && TIMES[0].player4 === null && TIMES[0].player5 === null) {
+          if (TIMES[1].player1 === null) {
+            if (TIMES[0].tampa1 === ORDER[i].tampa) {
+              TIMES[1].player1 = ORDER[i].name
+              TIMES[1].tampa1 = ORDER[i].tampa
+            } else {
+              TIMES[0].player2 = ORDER[i].name
+              TIMES[0].tampa2 = ORDER[i].tampa
+            }
+          } else {
+            if (TIMES[0].tampa1 === ORDER[i].tampa) {
+              espera.push(ORDER[i])
+            } else {
+              TIMES[0].player2 = ORDER[i].name
+              TIMES[0].tampa2 = ORDER[i].tampa
+            }
+          }
+        } else {
+          if (TIMES[0].player3 === null && TIMES[0].player4 === null && TIMES[0].player5 === null) {
+            if (TIMES[1].player1 === null) {
+              if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa) {
+                TIMES[1].player1 = ORDER[i].name
+                TIMES[1].tampa1 = ORDER[i].tampa
+              } else {
+                TIMES[0].player3 = ORDER[i].name
+                TIMES[0].tampa3 = ORDER[i].tampa
+              }
+            } else {
+              if (TIMES[1].player2 === null) {
+                if (TIMES[1].tampa1 === ORDER[i].tampa) {
+                  espera.push(ORDER[i])
+                } else {
+                  if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa) {
+                    TIMES[1].player2 = ORDER[i].name
+                    TIMES[1].tampa2 = ORDER[i].tampa
+                  } else {
+                    TIMES[0].player3 = ORDER[i].name
+                    TIMES[0].tampa3 = ORDER[i].tampa
+                  }
+                }
+              } else {
+                if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa) {
+                  espera.push(ORDER[i])
+                } else {
+                  TIMES[0].player3 = ORDER[i].name
+                  TIMES[0].tampa3 = ORDER[i].tampa
+                }
+              }
+            }
+          } else {
+            if (TIMES[0].player4 === null && TIMES[0].player5 === null) {
+              if (TIMES[1].player1 === null) {
+                if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa) {
+                  TIMES[1].player1 = ORDER[i].name
+                  TIMES[1].tampa1 = ORDER[i].tampa
+                } else {
+                  TIMES[0].player4 = ORDER[i].name
+                  TIMES[0].tampa4 = ORDER[i].tampa
+                }
+              } else {
+                if (TIMES[1].player2 === null) {
+                  if (TIMES[1].tampa1 === ORDER[i].tampa) {
+                    espera.push(ORDER[i])
+                  } else {
+                    if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa) {
+                      TIMES[1].player2 = ORDER[i].name
+                      TIMES[1].tampa2 = ORDER[i].tampa
+                    } else {
+                      TIMES[0].player4 = ORDER[i].name
+                      TIMES[0].tampa4 = ORDER[i].tampa
+                    }
+                  }
+                } else {
+                  if (TIMES[1].player3 === null) {
+                    if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa) {
+                      espera.push(ORDER[i])
+                    } else {
+                      if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa) {
+                        TIMES[1].player3 = ORDER[i].name
+                        TIMES[1].tampa3 = ORDER[i].tampa
+                      } else {
+                        TIMES[0].player4 = ORDER[i].name
+                        TIMES[0].tampa4 = ORDER[i].tampa
+                      }
+                    }
+                  } else {
+                    if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa) {
+                      espera.push(ORDER[i])
+                    } else {
+                      TIMES[0].player4 = ORDER[i].name
+                      TIMES[0].tampa4 = ORDER[i].tampa
+                    }
+                  }
+                }
+              }
+            } else {
+              if (TIMES[0].player5 === null) {
+                if (TIMES[1].player1 === null) {
+                  if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
+                    TIMES[1].player1 = ORDER[i].name
+                    TIMES[1].tampa1 = ORDER[i].tampa
+                  } else {
+                    TIMES[0].player5 = ORDER[i].name
+                    TIMES[0].tampa5 = ORDER[i].tampa
+                  }
+                } else {
+                  if (TIMES[1].player2 === null) {
+                    if (TIMES[1].tampa1 === ORDER[i].tampa) {
+                      espera.push(ORDER[i])
+                    } else {
+                      if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
+                        TIMES[1].player2 = ORDER[i].name
+                        TIMES[1].tampa2 = ORDER[i].tampa
+                      } else {
+                        TIMES[0].player5 = ORDER[i].name
+                        TIMES[0].tampa5 = ORDER[i].tampa
+                      }
+                    }
+                  } else {
+                    if (TIMES[1].player3 === null) {
+                      if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa) {
+                        espera.push(ORDER[i])
+                      } else {
+                        if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
+                          TIMES[1].player3 = ORDER[i].name
+                          TIMES[1].tampa3 = ORDER[i].tampa
+                        } else {
+                          TIMES[0].player5 = ORDER[i].name
+                          TIMES[0].tampa5 = ORDER[i].tampa
+                        }
+                      }
+                    } else {
+                      if (TIMES[1].player4 === null) {
+                        if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa || TIMES[1].tampa3 === ORDER[i].tampa) {
+                          espera.push(ORDER[i])
+                        } else {
+                          if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
+                            TIMES[1].player4 = ORDER[i].name
+                            TIMES[1].tampa4 = ORDER[i].tampa
+                          } else {
+                            TIMES[0].player5 = ORDER[i].name
+                            TIMES[0].tampa5 = ORDER[i].tampa
+                          }
+                        }
+                      } else {
+                        if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
+                          espera.push(ORDER[i])
+                        } else {
+                          TIMES[0].player5 = ORDER[i].name
+                          TIMES[0].tampa5 = ORDER[i].tampa
+                        }
+                      }
+                    }
+                  }
+                }
+              } else {
+                if (TIMES[1].player1 === null) {
+                  if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
+                    TIMES[1].player1 = ORDER[i].name
+                    TIMES[1].tampa1 = ORDER[i].tampa
+                  } else {
+                    espera.push(ORDER[i])
+                  }
+                } else {
+                  if (TIMES[1].player2 === null) {
+                    if (TIMES[1].tampa1 === ORDER[i].tampa) {
+                      espera.push(ORDER[i])
+                    } else {
+                      if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
+                        TIMES[1].player2 = ORDER[i].name
+                        TIMES[1].tampa2 = ORDER[i].tampa
+                      } else {
+                        espera.push(ORDER[i])
+                      }
+                    }
+                  } else {
+                    if (TIMES[1].player3 === null) {
+                      if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa) {
+                        espera.push(ORDER[i])
+                      } else {
+                        if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
+                          TIMES[1].player3 = ORDER[i].name
+                          TIMES[1].tampa3 = ORDER[i].tampa
+                        } else {
+                          espera.push(ORDER[i])
+                        }
+                      }
+                    } else {
+                      if (TIMES[1].player4 === null) {
+                        if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa || TIMES[1].tampa3 === ORDER[i].tampa) {
+                          espera.push(ORDER[i])
+                        } else {
+                          if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
+                            TIMES[1].player4 = ORDER[i].name
+                            TIMES[1].tampa4 = ORDER[i].tampa
+                          } else {
+                            espera.push(ORDER[i])
+                          }
+                        }
+                      } else {
+                        if (TIMES[1].player5 === null) {
+                          if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa || TIMES[1].tampa3 === ORDER[i].tampa || TIMES[1].tampa4 === ORDER[i].tampa) {
+                            espera.push(ORDER[i])
+                          } else {
+                            TIMES[1].player5 = ORDER[i].name
+                            TIMES[1].tampa5 = ORDER[i].tampa
+                          }
+                        } else {
+                          espera.push(ORDER[i])
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return TIMES, espera;
+  }
+
+  function limparPresenca() {
+    for (var i = 0; i < ORDER.length; i++) {
+      deleteDoc(doc(firestore, "presence", ORDER[i].name))
+    }
+  }
+
   function Tab() { // Componente da TabView
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([{
@@ -174,11 +451,11 @@ export default function Presenca() {
           <TouchableWithoutFeedback
             onPress={() => {
               this.toggleOptions();
-              alert('Limpar times')
+              limparPresenca();
             }}
           >
             <Animated.View style={[styles.fabButton, styles.submenu, styles.align, secondSubmenu]}>
-              <Text style={styles.fabText}> Limpar times </Text>
+              <Text style={styles.fabText}> Limpar presença </Text>
               <FontAwesome5 name="users-slash" size={16} color="#FFFFFF" style={styles.submenuIcon} />
             </Animated.View>
           </TouchableWithoutFeedback>
@@ -186,7 +463,7 @@ export default function Presenca() {
           <TouchableWithoutFeedback
             onPress={() => {
               this.toggleOptions();
-              alert('Formar times')
+              formarTimes();
             }}
           >
             <Animated.View style={[styles.fabButton, styles.submenu, styles.align, firstSubmenu]}>
@@ -327,7 +604,7 @@ export default function Presenca() {
     second: SecondRoute,
     third: ThirdRoute
   });
-  
+
   //
   // Monitorando estados
   //
@@ -357,234 +634,6 @@ export default function Presenca() {
   }, []);
 
   // Coração do Projeto
-  
-  
-  // for (var i = 0; i < ORDER.length; i++) {
-  //   if (TIMES[0].player1 === null && TIMES[0].player2 === null && TIMES[0].player3 === null && TIMES[0].player4 === null && TIMES[0].player5 === null) {
-  //     TIMES[0].player1 = ORDER[i].name
-  //     TIMES[0].tampa1 = ORDER[i].tampa
-  //   } else {
-  //     if (TIMES[0].player2 === null && TIMES[0].player3 === null && TIMES[0].player4 === null && TIMES[0].player5 === null) {
-  //       if (TIMES[1].player1 === null) {
-  //         if (TIMES[0].tampa1 === ORDER[i].tampa) {
-  //           TIMES[1].player1 = ORDER[i].name
-  //           TIMES[1].tampa1 = ORDER[i].tampa
-  //         } else {
-  //           TIMES[0].player2 = ORDER[i].name
-  //           TIMES[0].tampa2 = ORDER[i].tampa
-  //         }
-  //       } else {
-  //         if (TIMES[0].tampa1 === ORDER[i].tampa) {
-  //           espera.push(ORDER[i])
-  //         } else {
-  //           TIMES[0].player2 = ORDER[i].name
-  //           TIMES[0].tampa2 = ORDER[i].tampa
-  //         }
-  //       }
-  //     } else {
-  //       if (TIMES[0].player3 === null && TIMES[0].player4 === null && TIMES[0].player5 === null) {
-  //         if (TIMES[1].player1 === null) {
-  //           if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa) {
-  //             TIMES[1].player1 = ORDER[i].name
-  //             TIMES[1].tampa1 = ORDER[i].tampa
-  //           } else {
-  //             TIMES[0].player3 = ORDER[i].name
-  //             TIMES[0].tampa3 = ORDER[i].tampa
-  //           }
-  //         } else {
-  //           if (TIMES[1].player2 === null) {
-  //             if (TIMES[1].tampa1 === ORDER[i].tampa) {
-  //               espera.push(ORDER[i])
-  //             } else {
-  //               if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa) {
-  //                 TIMES[1].player2 = ORDER[i].name
-  //                 TIMES[1].tampa2 = ORDER[i].tampa
-  //               } else {
-  //                 TIMES[0].player3 = ORDER[i].name
-  //                 TIMES[0].tampa3 = ORDER[i].tampa
-  //               }
-  //             }
-  //           } else {
-  //             if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa) {
-  //               espera.push(ORDER[i])
-  //             } else {
-  //               TIMES[0].player3 = ORDER[i].name
-  //               TIMES[0].tampa3 = ORDER[i].tampa
-  //             }
-  //           }
-  //         }
-  //       } else {
-  //         if (TIMES[0].player4 === null && TIMES[0].player5 === null) {
-  //           if (TIMES[1].player1 === null) {
-  //             if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa) {
-  //               TIMES[1].player1 = ORDER[i].name
-  //               TIMES[1].tampa1 = ORDER[i].tampa
-  //             } else {
-  //               TIMES[0].player4 = ORDER[i].name
-  //               TIMES[0].tampa4 = ORDER[i].tampa
-  //             }
-  //           } else {
-  //             if (TIMES[1].player2 === null) {
-  //               if (TIMES[1].tampa1 === ORDER[i].tampa) {
-  //                 espera.push(ORDER[i])
-  //               } else {
-  //                 if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa) {
-  //                   TIMES[1].player2 = ORDER[i].name
-  //                   TIMES[1].tampa2 = ORDER[i].tampa
-  //                 } else {
-  //                   TIMES[0].player4 = ORDER[i].name
-  //                   TIMES[0].tampa4 = ORDER[i].tampa
-  //                 }
-  //               }
-  //             } else {
-  //               if (TIMES[1].player3 === null) {
-  //                 if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa) {
-  //                   espera.push(ORDER[i])
-  //                 } else {
-  //                   if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa) {
-  //                     TIMES[1].player3 = ORDER[i].name
-  //                     TIMES[1].tampa3 = ORDER[i].tampa
-  //                   } else {
-  //                     TIMES[0].player4 = ORDER[i].name
-  //                     TIMES[0].tampa4 = ORDER[i].tampa
-  //                   }
-  //                 }
-  //               } else {
-  //                 if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa) {
-  //                   espera.push(ORDER[i])
-  //                 } else {
-  //                   TIMES[0].player4 = ORDER[i].name
-  //                   TIMES[0].tampa4 = ORDER[i].tampa
-  //                 }
-  //               }
-  //             }
-  //           }
-  //         } else {
-  //           if (TIMES[0].player5 === null) {
-  //             if (TIMES[1].player1 === null) {
-  //               if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
-  //                 TIMES[1].player1 = ORDER[i].name
-  //                 TIMES[1].tampa1 = ORDER[i].tampa
-  //               } else {
-  //                 TIMES[0].player5 = ORDER[i].name
-  //                 TIMES[0].tampa5 = ORDER[i].tampa
-  //               }
-  //             } else {
-  //               if (TIMES[1].player2 === null) {
-  //                 if (TIMES[1].tampa1 === ORDER[i].tampa) {
-  //                   espera.push(ORDER[i])
-  //                 } else {
-  //                   if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
-  //                     TIMES[1].player2 = ORDER[i].name
-  //                     TIMES[1].tampa2 = ORDER[i].tampa
-  //                   } else {
-  //                     TIMES[0].player5 = ORDER[i].name
-  //                     TIMES[0].tampa5 = ORDER[i].tampa
-  //                   }
-  //                 }
-  //               } else {
-  //                 if (TIMES[1].player3 === null) {
-  //                   if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa) {
-  //                     espera.push(ORDER[i])
-  //                   } else {
-  //                     if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
-  //                       TIMES[1].player3 = ORDER[i].name
-  //                       TIMES[1].tampa3 = ORDER[i].tampa
-  //                     } else {
-  //                       TIMES[0].player5 = ORDER[i].name
-  //                       TIMES[0].tampa5 = ORDER[i].tampa
-  //                     }
-  //                   }
-  //                 } else {
-  //                   if (TIMES[1].player4 === null) {
-  //                     if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa || TIMES[1].tampa3 === ORDER[i].tampa) {
-  //                       espera.push(ORDER[i])
-  //                     } else {
-  //                       if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
-  //                         TIMES[1].player4 = ORDER[i].name
-  //                         TIMES[1].tampa4 = ORDER[i].tampa
-  //                       } else {
-  //                         TIMES[0].player5 = ORDER[i].name
-  //                         TIMES[0].tampa5 = ORDER[i].tampa
-  //                       }
-  //                     }
-  //                   } else {
-  //                     if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
-  //                       espera.push(ORDER[i])
-  //                     } else {
-  //                       TIMES[0].player5 = ORDER[i].name
-  //                       TIMES[0].tampa5 = ORDER[i].tampa
-  //                     }
-  //                   }
-  //                 }
-  //               }
-  //             }
-  //           } else {
-  //             if (TIMES[1].player1 === null) {
-  //               if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
-  //                 TIMES[1].player1 = ORDER[i].name
-  //                 TIMES[1].tampa1 = ORDER[i].tampa
-  //               } else {
-  //                 espera.push(ORDER[i])
-  //               }
-  //             } else {
-  //               if (TIMES[1].player2 === null) {
-  //                 if (TIMES[1].tampa1 === ORDER[i].tampa) {
-  //                   espera.push(ORDER[i])
-  //                 } else {
-  //                   if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
-  //                     TIMES[1].player2 = ORDER[i].name
-  //                     TIMES[1].tampa2 = ORDER[i].tampa
-  //                   } else {
-  //                     espera.push(ORDER[i])
-  //                   }
-  //                 }
-  //               } else {
-  //                 if (TIMES[1].player3 === null) {
-  //                   if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa) {
-  //                     espera.push(ORDER[i])
-  //                   } else {
-  //                     if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
-  //                       TIMES[1].player3 = ORDER[i].name
-  //                       TIMES[1].tampa3 = ORDER[i].tampa
-  //                     } else {
-  //                       espera.push(ORDER[i])
-  //                     }
-  //                   }
-  //                 } else {
-  //                   if (TIMES[1].player4 === null) {
-  //                     if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa || TIMES[1].tampa3 === ORDER[i].tampa) {
-  //                       espera.push(ORDER[i])
-  //                     } else {
-  //                       if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
-  //                         TIMES[1].player4 = ORDER[i].name
-  //                         TIMES[1].tampa4 = ORDER[i].tampa
-  //                       } else {
-  //                         espera.push(ORDER[i])
-  //                       }
-  //                     }
-  //                   } else {
-  //                     if (TIMES[1].player5 === null) {
-  //                       if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa || TIMES[1].tampa3 === ORDER[i].tampa || TIMES[1].tampa4 === ORDER[i].tampa) {
-  //                         espera.push(ORDER[i])
-  //                       } else {
-  //                         TIMES[1].player5 = ORDER[i].name
-  //                         TIMES[1].tampa5 = ORDER[i].tampa
-  //                       }
-  //                     } else {
-  //                       espera.push(ORDER[i])
-  //                     }
-  //                   }
-  //                 }
-  //               }
-  //             }
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
-
   useEffect(() => {
     onSnapshot(q, (querySnapshot) => { // Verifica o tipo do usuário logado
       const members = [];

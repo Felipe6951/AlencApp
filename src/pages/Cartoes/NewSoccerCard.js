@@ -11,7 +11,6 @@ export default function NewSoccerCard() {
 
     const [cardYellow, setCardYellow] = useState('');
     const [cardRed, setCardRed] = useState('');
-    const [id, setId] = useState(0)
 
     const app = initializeApp(firebaseConfig);
     const firestore = getFirestore(app);
@@ -28,7 +27,7 @@ export default function NewSoccerCard() {
         if (cardYellow === '' && cardRed === '') {
             Alert.alert('ERROR', 'Preencha todos os campos.')
         } else {
-            setDoc(doc(firestore, "cartoes", id.toString()), {
+            setDoc(doc(firestore, "cartoes", created()), {
                 cardYellow: cardYellow,
                 cardRed: cardRed,
                 created: created(),
@@ -38,7 +37,6 @@ export default function NewSoccerCard() {
                     Alert.alert("Cartões", "Cartões registrados com sucesso!", [{ text: 'FECHAR' }]);
                     setCardRed('');
                     setCardYellow('');
-                    setId(id + 1);
                 })
                 .catch((error) => {
                     Alert.alert(error)

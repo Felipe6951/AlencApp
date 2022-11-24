@@ -11,7 +11,6 @@ export default function Avisos() {
   const [motive] = React.useState(["Jogo cancelado", "Mudança de horário", "Outro"])
   const [motiveSelected, setMotiveSelected] = React.useState([])
   const [description, setDescription] = useState('');
-  const [id, setId] = useState(0)
 
   const app = initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
@@ -41,7 +40,7 @@ export default function Avisos() {
     if (motiveSelected === '' || description === '') {
       Alert.alert('ERROR', 'Preencha todos os campos.')
     } else {
-      setDoc(doc(firestore, "notificacoes", id.toString()), {
+      setDoc(doc(firestore, "notificacoes", serverTimestamp()), {
         motive: motiveSelected,
         description: description,
         created: created(),
@@ -51,7 +50,6 @@ export default function Avisos() {
           Alert.alert("Avisos", "Aviso enviado!", [{text: 'FECHAR'}]);
           setMotiveSelected([]);
           setDescription('');
-          setId(id + 1);
         })
         .catch((error) => {
           Alert.alert(error)
