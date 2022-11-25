@@ -8,7 +8,7 @@ import { getFirestore, serverTimestamp, setDoc, doc, collection } from 'firebase
 import { firebaseConfig } from '../../../firebase-config';
 
 export default function Avisos() {
-  const [motive] = React.useState(["Jogo cancelado", "Mudança de horário", "Outro"])
+  const [motive] = React.useState(["Jogo cancelado", "Mudança de horário", "Multa", "Denúncia", "Pagamento atrasado", "Outro"])
   const [motiveSelected, setMotiveSelected] = React.useState([])
   const [description, setDescription] = useState('');
 
