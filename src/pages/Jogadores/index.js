@@ -8,7 +8,7 @@ import { Swipeable } from 'react-native-gesture-handler';
 
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
-import { getFirestore, collection, query, onSnapshot, where, updateDoc, doc } from 'firebase/firestore'
+import { getFirestore, collection, query, onSnapshot, where, updateDoc, doc, queryEqual, orderBy } from 'firebase/firestore'
 
 export default function Jogadores() {
 
@@ -16,59 +16,10 @@ export default function Jogadores() {
   const firestore = getFirestore(app);
 
   const q = query(collection(firestore, "membros"), where("situacao", "==", "Aceito"));
+  const h = query(collection(firestore, "historic"), orderBy("name"))
 
   const [DATA, setData] = useState([]);
-
-  const historic = [{
-    name: "Francisca Jilkelly Costa Ferreira",
-    data: "29 / 7 / 2022"
-  },
-  {
-    name: "Francisca Jilkelly Costa Ferreira",
-    data: "21 / 7 / 2022"
-  },
-  {
-    name: "Francisca Jilkelly Costa Ferreira",
-    data: "22 / 7 / 2022"
-  },
-  {
-    name: "Felipe Freitas Lopes",
-    data: "23 / 7 / 2022"
-  },
-  {
-    name: "Felipe Freitas Lopes",
-    data: "24 / 7 / 2022"
-  },
-  {
-    name: "Kaio Eduardo Alves de Lima",
-    data: "25 / 7 / 2022"
-  },
-  {
-    name: "Kaio Eduardo Alves de Lima",
-    data: "26 / 7 / 2022"
-  },
-  {
-    name: "Kaio Eduardo Alves de Lima",
-    data: "27 / 7 / 2022"
-  },
-  {
-    name: "Maikon",
-    data: "28 / 7 / 2022"
-  },
-  {
-    name: "Marcos Vinícius Fernandes Neris",
-    data: "30 / 7 / 2022"
-  },
-  {
-    name: "Marcos Vinícius Fernandes Neris",
-    data: "18 / 7 / 2022"
-  },
-  {
-    name: "Marcos Vinícius Fernandes Neris",
-    data: "29 / 9 / 2022"
-  }
-  ]
-
+  const [historic, setHistoric] = useState([]);
   const [searchText, setSearchText] = useState('')
   const [list, setList] = useState([])
 
@@ -81,6 +32,22 @@ export default function Jogadores() {
       );
     }
   }, [searchText]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const unsubcribe = onSnapshot(h, (querrySnapshot) => {
+        const HISTORICO = [];
+        querrySnapshot.forEach((doc) => {
+          HISTORICO.push({ ...doc.data(), id: doc.id});
+        })
+        setHistoric(HISTORICO);
+      });
+
+      return () => {
+        unsubcribe();
+      }
+    }, [])
+  );
 
   useFocusEffect(
     React.useCallback(() => {
@@ -147,10 +114,11 @@ export default function Jogadores() {
 
   function historico(name, day) {
     const HISTORIC = []
+    console.log(historic)
     for (var i = 0; i < historic.length; i++) {
       let nameIsEqual = name.toUpperCase().trim() == historic[i].name.toUpperCase().trim()
       if (nameIsEqual) {
-        HISTORIC.push(historic[i].data);
+        HISTORIC.push(historic[i].day);
       }
     }
     return Alert.alert(
