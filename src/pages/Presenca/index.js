@@ -31,52 +31,65 @@ export default function Presenca() {
   const [usuario, setUser] = useState([]); // Recebe informações do banco referentes ao usuário
   // const [ORDER, setOrder] = useState([]) // Array que recebe a ordem de chegada
   const ORDER = [{
+    id: 1,
     name: 'Marcos',
     tampa: 1
   },
   {
+    id: 2,
     name: 'Kadson',
     tampa: 5
   },
   {
+    id: 3,
     name: 'Irlan',
     tampa: 3
   },
   {
+    id: 4,
     name: 'Felipe',
     tampa: 2
   },
   {
+    id: 5,
     name: 'Maikon',
     tampa: 5
   }, {
+    id: 6,
     name: 'Gustavo',
     tampa: 4
   },
   {
+    id: 7,
     name: 'Kaio',
     tampa: 1
   }, {
+    id: 8,
     name: 'Joao',
     tampa: 3
   },
   {
+    id: 9,
     name: 'Neto',
     tampa: 6
   },
   {
+    id: 10,
     name: 'Luiz',
     tampa: 1
   },
   {
+    id: 11,
     name: 'Ryan',
     tampa: 4
   },
   {
+    id: 12,
     name: 'Pedro',
     tampa: 3
   }
   ]
+
   const initialLayout = { // Configura dimensões de largura
     width: Dimensions.get('window').width
   };
@@ -660,15 +673,15 @@ export default function Presenca() {
 
           <Image style={styles.userPhoto} source={require('../../assets/img/userBig.png')} resizeMode="contain" />
           <View style={styles.infoUsers}>
-            {/* <Text style={styles.username}>{usuario[0]}</Text> */}
+            <Text style={styles.username}>{usuario[0]}</Text>
             <View style={styles.infoUsersAux}>
               <View style={styles.boxCamisa}>
                 <Text>CAMISA</Text>
-                {/* <Text>{usuario[2]}</Text> */}
+                <Text>{usuario[2]}</Text>
               </View>
               <View style={styles.boxTampa}>
                 <Text>TAMPA</Text>
-                {/* <Text>{usuario[1]}</Text> */}
+                <Text>{usuario[1]}</Text>
               </View>
             </View>
           </View>
@@ -694,15 +707,15 @@ export default function Presenca() {
 
         <Image style={styles.userPhoto} source={require('../../assets/img/userBig.png')} resizeMode="contain" />
         <View style={styles.infoUsers}>
-          {/* <Text style={styles.username}>{usuario[0]}</Text> */}
+          <Text style={styles.username}>{usuario[0]}</Text>
           <View style={styles.infoUsersAux}>
             <View style={styles.boxCamisa}>
               <Text>CAMISA</Text>
-              {/* <Text>{usuario[2]}</Text> */}
+              <Text>{usuario[2]}</Text>
             </View>
             <View style={styles.boxTampa}>
               <Text>TAMPA</Text>
-              {/* <Text>{usuario[1]}</Text> */}
+              <Text>{usuario[1]}</Text>
             </View>
           </View>
         </View>
