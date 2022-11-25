@@ -30,7 +30,7 @@ export default function Avisos() {
       hour = "0" + hour;
     }
 
-    var date = (hour + ":" + minutes + " - " + day + "/" + month + "/" + year);
+    var date = (hour + ":" + minutes + " - " + day + "." + month + "." + year);
 
     return date;
   }
@@ -40,7 +40,7 @@ export default function Avisos() {
     if (motiveSelected === '' || description === '') {
       Alert.alert('ERROR', 'Preencha todos os campos.')
     } else {
-      setDoc(doc(firestore, "notificacoes", serverTimestamp()), {
+      setDoc(doc(firestore, "notificacoes", created()), {
         motive: motiveSelected,
         description: description,
         created: created(),

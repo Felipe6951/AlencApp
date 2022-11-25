@@ -1,11 +1,18 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, ScrollView, FlatList, Animated, TouchableWithoutFeedback } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import * as OpenAnything from 'react-native-openanything';
-import DATA from '../Auxiliar/dataEstatuto'
 import { useNavigation } from '@react-navigation/native';
 
 export default function Estatuto() {
+
+  const DATA = [
+    {
+      id: 1,
+      year: 2022,
+      url: "https://drive.google.com/file/d/15wKQkM_Yiw6rWL3aVb1Y7igBrHmGLUab/view?usp=sharing",
+    }
+  ]
 
   class FabStatute extends Component {
     animation = new Animated.Value(0)

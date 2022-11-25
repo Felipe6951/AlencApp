@@ -16,12 +16,11 @@ export default function Scanner() {
     const [qrValue, setQrValue] = useState('') // Recebe valor do QRcode
     const [usuario, setUser] = useState([]); // Recebe informações do banco referentes ao usuário
     const navigation = useNavigation() // Navegação
-    
+
     const app = initializeApp(firebaseConfig);
     const firestore = getFirestore(app);
     const auth = getAuth(app);
     const q = query(collection(firestore, "membros"), where("email", "==", auth.currentUser.email));
-
 
     function created() {
         var day = new Date().getDate();
@@ -33,17 +32,39 @@ export default function Scanner() {
         return date;
     }
 
+    function id() {
+        var day = new Date().getDate();
+        var month = (new Date().getMonth() + 1);
+        var year = new Date().getFullYear();
+        var hour = new Date().getHours();
+        var minutes = new Date().getMinutes();
+        var seconds = new Date().getSeconds();
+
+
+        if (minutes >= 0 && minutes < 10) {
+            minutes = "0" + minutes;
+        }
+
+        if (hour >= 0 && hour < 10) {
+            hour = "0" + hour;
+        }
+
+        var id = (hour + ":" + minutes + ":" + seconds + " - " + day + "." + month + "." + year);
+
+        return id;
+    }
+
     useEffect(() => { // Novos dados no banco
         onSnapshot(q, (querySnapshot) => {
-          const members = [];
-          querySnapshot.forEach((doc) => {
-            members.push(doc.data().user);
-            members.push(doc.data().tampa);
-            members.push(doc.data().camisa);
-            members.push(doc.data().name);
-          })
-    
-          setUser(members);
+            const members = [];
+            querySnapshot.forEach((doc) => {
+                members.push(doc.data().user);
+                members.push(doc.data().tampa);
+                members.push(doc.data().camisa);
+                members.push(doc.data().name);
+            })
+
+            setUser(members);
         });
     }, []);
 
@@ -105,6 +126,17 @@ export default function Scanner() {
     if (scanned == true) {
         if (qrValue === created()) {
             // Função de presença => chamada para enviar ao banco os jogadores presentes
+            setDoc(collection(firestore, "historico", id()), {
+                name: usuario[3],
+                day: created()
+            })
+                .then(() => {
+                    console.log("Criou")
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+
             setDoc(doc(firestore, "presence", usuario[3]), {
                 name: usuario[3],
                 user: usuario[0],
@@ -127,19 +159,7 @@ export default function Scanner() {
                         [{ text: "OK", onPress: () => console.log("OK Pressed") }]
                     )
                 })
-
-            setDoc(collection(firestore, "historic", serverTimestamp()), {
-                name: usuario[3],
-                day: created()
-            })
-                .then(() => {
-                    console.log("Criou")
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
-
-            navigation.navigate('Presenças')
+            // navigation.navigate('Presenças')
         }
     }
 

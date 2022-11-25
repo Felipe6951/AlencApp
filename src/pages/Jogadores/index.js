@@ -5,7 +5,6 @@ import { Ionicons, AntDesign, FontAwesome, MaterialIcons, Feather } from '@expo/
 import { useFocusEffect } from '@react-navigation/native'
 import { Swipeable } from 'react-native-gesture-handler';
 // import styles from '../Solicitacoes/styles';
-import styles from '../Solicitacoes/styles';
 
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
@@ -121,8 +120,8 @@ export default function Jogadores() {
           style={styles.rightActions}
           onPress={() => {
             Alert.alert(
-              "Solicitações",
-              "Recusar solicitação de cadastro de " + name + "?",
+              "Excluir",
+              "Tem certeza que deseja excluir a conta de " + name + "?",
               [
                 {
                   text: 'CANCELAR',
