@@ -8,7 +8,7 @@ import { Swipeable } from 'react-native-gesture-handler';
 
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
-import { getFirestore, collection, query, onSnapshot, where } from 'firebase/firestore'
+import { getFirestore, collection, query, onSnapshot, where, updateDoc, doc } from 'firebase/firestore'
 
 export default function Organizadores() {
 
@@ -98,29 +98,41 @@ export default function Organizadores() {
     }
   }
 
-  function RightActions(progress, dragX) {
-
-    const scale = dragX.interpolate({
-      inputRange: [0, 100],
-      outputRange: [0, 1],
-      extrapolate: 'clamp'
-    })
- 
+  function RightActions(name, email) {
     return (
       <View>
         <TouchableOpacity
-          onPress={null}
-          style={{ elevation: 5, shadowColor: '#505050', height: 103, alignItems: 'center', justifyContent: 'center', backgroundColor: '#ED4654', marginRight: 24, borderTopRightRadius: 8, borderBottomRightRadius: 8, paddingRight: 32, paddingLeft: 40, marginLeft: -32 }}>
+          style={{ elevation: 5, shadowColor: '#505050', height: 103, alignItems: 'center', justifyContent: 'center', backgroundColor: '#ED4654', marginRight: 24, borderTopRightRadius: 8, borderBottomRightRadius: 8, paddingRight: 32, paddingLeft: 40, marginLeft: -32 }}
+          onPress={() => {
+            Alert.alert(
+              "Excluir",
+              "Tem certeza que deseja tornar " + name + " um jogador?",
+              [
+                {
+                  text: 'CANCELAR',
+                  style: 'cancel'
+                },
+                {
+                  text: 'CONFIRMAR',
+                  onPress: () => updateDoc(doc(firestore, "membros", email), { type: "Jogador" }).then(() => {
+                    console.log(name + " voltou a ser um jogador.")
+                  })
+                }
+              ]
+            )
+          }}
+        >
           <Feather name="trash-2" size={20} color="white" />
           <Text style={styles.actionTextRemove}>Excluir</Text>
         </TouchableOpacity>
       </View>
-    )
+
+    );
   }
 
-  const Item = ({ name, tampa, camisa }) => (
+  const Item = ({ name, tampa, camisa, email }) => (
     <Swipeable
-      renderRightActions={RightActions}
+      renderRightActions={() => RightActions(name, email)}
     >
       <View style={styles.boxItem}>
         <View style={styles.boxItemName}>
@@ -197,7 +209,7 @@ export default function Organizadores() {
           </View>
         }
         data={list}
-        renderItem={({ item }) => <Item name={item.name} tampa={item.tampa} camisa={item.camisa} />}
+        renderItem={({ item }) => <Item name={item.name} tampa={item.tampa} camisa={item.camisa} email={item.email} />}
         keyExtractor={item => item.id}
       />
 

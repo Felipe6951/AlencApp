@@ -128,19 +128,19 @@ export default function Scanner() {
             })
                 .then(() => {
                     Alert.alert(
-                        "Sucesso!",
-                        "Presença confirmada!",
-                        [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+                        "Presença",
+                        "Sua presença foi confirmada!",
+                        [{ text: "FECHAR", onPress: () => console.log("OK Pressed") }]
                     )
                 })
                 .catch(error => {
                     Alert.alert(
                         "Erro!",
                         "Algo deu errado na sua presença.",
-                        [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+                        [{ text: "FECHAR", onPress: () => console.log("OK Pressed") }]
                     )
                 })
-            // navigation.navigate('Presenças')
+            navigation.navigate('Presenças')
         }
     }
 
@@ -155,7 +155,6 @@ export default function Scanner() {
                     style={styles.camera}
                 />
             </View>
-            <Text> {qrValue} </Text>
             {scanned && <ScanAgain />}
         </SafeAreaView>
     );

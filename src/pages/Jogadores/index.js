@@ -80,7 +80,7 @@ export default function Jogadores() {
     );
   }
 
-  function RightActions(name) {
+  function RightActions(name, email) {
     return (
       <View>
         <TouchableOpacity
@@ -135,10 +135,10 @@ export default function Jogadores() {
   }
 
 
-  const Item = ({ name, tampa, camisa, day }) => (
+  const Item = ({ name, tampa, camisa, day, email }) => (
     <Swipeable
       renderLeftActions={() => LeftActions(name, day)}
-      renderRightActions={() => RightActions(name)}
+      renderRightActions={() => RightActions(name, email)}
     >
       <View style={styles.boxItem}>
         <View style={styles.boxItemName}>

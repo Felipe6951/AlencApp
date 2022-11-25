@@ -114,17 +114,6 @@ export default function Perfil() {
             </View>
           </View>
 
-
-          <View style={styles.boxSole}>
-            <View style={styles.boxSoleDirection}>
-              <FontAwesome name="refresh" size={18} style={styles.icons} />
-              <Text>Frequência</Text>
-            </View>
-            <View>
-              <Text style={styles.informations}>80%</Text>
-            </View>
-          </View>
-
           <View style={styles.boxSole}>
             <View style={styles.boxSoleDirection}>
               <Ionicons name="today" size={18} style={styles.icons} />
