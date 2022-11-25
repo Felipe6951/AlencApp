@@ -17,7 +17,7 @@ export default function Sobre() {
           <Text style={styles.informationAbout}>©AlencApp - Todos os direitos reservados.</Text>
           <Text style={styles.informationAbout}>Desenvolvido por Felipe Freitas, Vinícius Fernandes, Irlan Moreira e Maikon Maia.</Text>
           <Text style={styles.informationAbout}>Alencar Futebol Clube (A.F.C.)</Text>
-          <Text style={styles.informationAbout}>@Versão 201910940100</Text>
+          <Text style={styles.informationAbout}>@Versão 1.0.0</Text>
         </View>
       </ScrollView>
 

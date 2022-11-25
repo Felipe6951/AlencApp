@@ -90,7 +90,7 @@ export function GeralCustomDrawer(props) {
                         </View>
                     </View>
 
-                    <View style={{paddingTop: '58.5%'}}>
+                    <View style={{marginTop: '110%'}}>
                         <TouchableOpacity
                             style={{ backgroundColor: '#C0212E', flexDirection: 'row', alignItems: "center", paddingVertical: 12, paddingHorizontal: 16 }}
                             onPress={handleSignout}

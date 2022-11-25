@@ -38,12 +38,12 @@ export default function Home() {
   const { width } = Dimensions.get("window");
 
   return (
-    <SafeAreaView style={{ backgroundColor: '#FAFAFA', paddingBottom: "100%" }}>
+    <SafeAreaView style={{ backgroundColor: '#FAFAFA', height: '100%'}}>
       <StatusBar />
-      <View style={{ backgroundColor: '#FFFFFF', height: "55%", paddingHorizontal: 24, paddingVertical: 16, elevation: 5, shadowColor: "#909090", borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }}>
+      <View style={{ backgroundColor: '#FFFFFF', height: "30%", paddingHorizontal: 24, paddingVertical: 24, elevation: 5, shadowColor: "#909090", borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }}>
         <TouchableOpacity
           onPress={() => navigation.navigate('Perfil')}
-          style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+          style={{ flex: 1, flexDirection: 'row', alignItems: 'center'}}>
           <View>
             <Image
               source={require('../../assets/img/userBig.png')}
@@ -62,7 +62,7 @@ export default function Home() {
           </View>
         </TouchableOpacity>
 
-        <View style={{ borderBottomWidth: 1, borderBottomColor: '#DDDDDD', width: 312, alignSelf: 'center' }} />
+        <View style={{ borderBottomWidth: 1, borderBottomColor: '#DDDDDD', width: '100%', alignSelf: 'center', marginBottom: 8}} />
 
         <View style={{ marginTop: 16, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
 

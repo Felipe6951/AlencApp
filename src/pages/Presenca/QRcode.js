@@ -19,33 +19,29 @@ export default function CodeQR() {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar />
-            <KeyboardAvoidingView behavior='height' keyboardVerticalOffset={1}>
-                {/* <ScrollView showsVerticalScrollIndicator={false}> */}
-                <View>
-                    <QRCode
-                        value={qrValue ? qrValue : 'Alencar Futebol Clube'}
-                        size={310}
-                        color="black"
-                        backgroundColor="#FAFAFA"
-                        logoSize={30}
-                        logoMargin={2}
-                        logoBorderRadius={15}
-                        logoBackgroundColor="yellow"
-                    />
-                </View>
+            <View style={{alignItems: 'center'}}>
+                <QRCode
+                    value={qrValue ? qrValue : 'Alencar Futebol Clube'}
+                    size={310}
+                    color="black"
+                    backgroundColor="#FAFAFA"
+                    logoSize={30}
+                    logoMargin={2}
+                    logoBorderRadius={15}
+                    logoBackgroundColor="yellow"
+                />
+            </View>
 
-                <View style={styles.formContent}>
-                    <TouchableOpacity
-                        style={styles.btnCreate}
-                        onPress={() => {
-                            setQrValue(created());
-                        }}
-                    >
-                        <Text style={styles.btnCreateText}>Gerar QR Code</Text>
-                    </TouchableOpacity>
-                </View>
-                {/* </ScrollView> */}
-            </KeyboardAvoidingView>
+            <View style={styles.formContent}>
+                <TouchableOpacity
+                    style={styles.btnCreate}
+                    onPress={() => {
+                        setQrValue(created());
+                    }}
+                >
+                    <Text style={styles.btnCreateText}>Gerar QR Code</Text>
+                </TouchableOpacity>
+            </View>
         </SafeAreaView>
     );
 };
@@ -57,10 +53,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignSelf: 'center',
         backgroundColor: '#FAFAFA',
-        paddingHorizontal: '40%'
+        width: '100%'
     },
     formContent: {
-        marginTop: 24
+        marginTop: 24,
+        marginHorizontal: 24
     },
     btnCreate: {
         backgroundColor: '#C0212E',

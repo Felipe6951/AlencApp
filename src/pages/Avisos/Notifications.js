@@ -50,6 +50,7 @@ export default function Notifications() {
         <SafeAreaView style={styles.container}>
             <StatusBar />
             <FlatList
+                style={{ marginTop: 24 }}
                 data={notification}
                 renderItem={({ item }) => <Item motive={item.motive} description={item.description} created={item.created} />}
                 keyExtractor={(item) => item.id}

@@ -67,8 +67,7 @@ const styles = StyleSheet.create({
         marginRight: 6
     },
     boxGlobal: {
-        marginTop: 92,
-        marginBottom: 24
+      marginTop: '25%'
     },
     line: {
         borderBottomWidth: 0.2,

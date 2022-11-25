@@ -126,6 +126,7 @@ export default function SoccerCards() {
         <SafeAreaView style={styles.container}>
             <StatusBar />
             <FlatList
+                style={{ marginTop: 24 }}
                 data={note}
                 renderItem={({ item }) => <Item cardYellow={item.cardYellow} cardRed={item.cardRed} created={item.created} />}
                 keyExtractor={(item) => item.id}
@@ -139,7 +140,6 @@ export default function SoccerCards() {
 // Estilização de componentes
 const styles = StyleSheet.create({
     container: {
-        paddingVertical: 24,
         height: "100%",
         backgroundColor: "#FAFAFA",
     },
@@ -187,10 +187,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingVertical: 24,
         backgroundColor: "#FAFAFA",
-        height: '100%'
+        height: '100%',
     },
     txtZero: {
-        color: 'gray'
+        color: 'gray',
+        marginTop: 24
     },
     cardTitle: {
         color: '#C0212E'
@@ -204,8 +205,8 @@ const styles = StyleSheet.create({
     fabContent: {
         alignItems: 'center',
         position: 'absolute',
-        left: 300,
-        top: 580
+        left: '80%',
+        bottom: '16%'
     },
     fabButton: {
         position: 'absolute',

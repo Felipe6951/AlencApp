@@ -33,66 +33,6 @@ export default function Presenca() {
   const [times, setTimes] = useState([])
   const [ESPERA, setEspera] = useState([])
 
-  // const ORDER = [{
-  //   id: 1,
-  //   user: 'Marcos',
-  //   tampa: 1
-  // },
-  // {
-  //   id: 2,
-  //   user: 'Adson',
-  //   tampa: 5
-  // },
-  // {
-  //   id: 3,
-  //   user: 'Irlan',
-  //   tampa: 3
-  // },
-  // {
-  //   id: 4,
-  //   user: 'Felipe',
-  //   tampa: 2
-  // },
-  // {
-  //   id: 5,
-  //   user: 'Maikon',
-  //   tampa: 5
-  // }, {
-  //   id: 6,
-  //   user: 'Gustavo',
-  //   tampa: 4
-  // },
-  // {
-  //   id: 7,
-  //   user: 'Kaio',
-  //   tampa: 1
-  // }, {
-  //   id: 8,
-  //   user: 'Joao',
-  //   tampa: 3
-  // },
-  // {
-  //   id: 9,
-  //   user: 'Neto',
-  //   tampa: 6
-  // },
-  // {
-  //   id: 10,
-  //   user: 'Luiz',
-  //   tampa: 1
-  // },
-  // {
-  //   id: 11,
-  //   user: 'Ryan',
-  //   tampa: 4
-  // },
-  // {
-  //   id: 12,
-  //   user: 'Pedro',
-  //   tampa: 3
-  // }
-  // ]
-
   const initialLayout = { // Configura dimensões de largura
     width: Dimensions.get('window').width
   };

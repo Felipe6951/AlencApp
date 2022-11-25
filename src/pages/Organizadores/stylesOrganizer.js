@@ -5,8 +5,8 @@ const styles = StyleSheet.create({
     fabContent: {
         alignItems: 'center',
         position: 'absolute',
-        left: 300,
-        top: 580
+        left: '80%',
+        bottom: '16%'
     },
     fabButton: {
         position: 'absolute',

@@ -16,7 +16,8 @@ const styles = StyleSheet.create({
     informationContent: {
         alignSelf: 'center', 
         marginHorizontal: 24, 
-        alignItems: 'center'
+        alignItems: 'center',
+        textAlign: "center"
     },
     textInformation: {
         fontSize: 12,

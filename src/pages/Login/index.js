@@ -27,7 +27,7 @@ export default function Login() {
         console.log(user.email);
       })
       .catch(error => {
-        Alert.alert("ERROR", "Email ou senha incorretos.", [{text: 'FECHAR'}]);
+        Alert.alert("ERROR", "Email ou senha incorretos.", [{ text: 'FECHAR' }]);
       })
   }
 
@@ -42,7 +42,7 @@ export default function Login() {
           querySnapshot.forEach((doc) => {
             members.push(doc.data().type);
           })
-  
+
           console.log(members[0]);
 
           if (members[0] === "Organizador") {
@@ -183,7 +183,6 @@ export default function Login() {
                 <Text style={styles.buttonActions}>Cadastre-se</Text>
               </TouchableOpacity>
             </View>
-
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
