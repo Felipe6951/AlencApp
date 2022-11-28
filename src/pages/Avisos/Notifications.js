@@ -10,7 +10,7 @@ export default function Notifications() {
 
     const app = initializeApp(firebaseConfig);
     const firestore = getFirestore(app);
-    const q = query(collection(firestore, "notificacoes"), orderBy("stamp", "desc"), limit(4));
+    const q = query(collection(firestore, "notificacoes"), orderBy("stamp", "desc"), limit(4)); 
 
     const [notification, setNotification] = useState([])
 
@@ -50,7 +50,6 @@ export default function Notifications() {
         <SafeAreaView style={styles.container}>
             <StatusBar />
             <FlatList
-                style={{ marginTop: 24 }}
                 data={notification}
                 renderItem={({ item }) => <Item motive={item.motive} description={item.description} created={item.created} />}
                 keyExtractor={(item) => item.id}

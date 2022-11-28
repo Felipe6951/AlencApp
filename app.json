@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "LoginRegAlencapp",
-    "slug": "LoginRegAlencapp",
+    "name": "AlencApp",
+    "slug": "AlencApp",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
     ], 
     "splash": {
-      "image": "./src/assets/img/splash.png",
+      "image": "./src/assets/img/Splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#8C1F28"
     }
