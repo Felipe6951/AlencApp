@@ -35,6 +35,7 @@ export default function Jogadores() {
 
   useFocusEffect(
     React.useCallback(() => {
+      
       const unsubcribe = onSnapshot(h, (querrySnapshot) => {
         const HISTORICO = [];
         querrySnapshot.forEach((doc) => {
@@ -59,7 +60,6 @@ export default function Jogadores() {
         })
         setData(members);
         setList(members);
-        console.log("entrou");
       });
 
       return () => {
@@ -114,7 +114,6 @@ export default function Jogadores() {
 
   function historico(name, day) {
     const HISTORIC = []
-    console.log(historic)
     for (var i = 0; i < historic.length; i++) {
       let nameIsEqual = name.toUpperCase().trim() == historic[i].name.toUpperCase().trim()
       if (nameIsEqual) {

@@ -5,12 +5,15 @@ import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
 import { getAuth, deleteUser, signOut } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
+import { deleteDoc, doc, getFirestore } from 'firebase/firestore';
+import { Email } from 'react-native-openanything';
 
 export default function Espera() {
 
     const navigation = useNavigation();
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app)
+    const firestore = getFirestore(app);
 
     const user = auth.currentUser;
 
@@ -23,6 +26,13 @@ export default function Espera() {
     }
 
     const delete_user = () => {
+        deleteDoc(doc(firestore, "membros", user.email))
+            .then(() => {
+                console.log("apagou")
+            })
+            .catch(error => {
+                console.log(error)
+            })
         deleteUser(user)
             .then(() => {
                 navigation.navigate("Register")

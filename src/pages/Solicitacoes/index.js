@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, View, SafeAreaView, TouchableOpacity, Alert, FlatList } from 'react-native';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import styles from './styles';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../firebase-config';
@@ -16,16 +17,24 @@ export default function Solicitacoes() {
 
   const [DATA, setData] = useState([]);
 
-  useEffect(() => {
-    onSnapshot(q, (querySnapshot) => {
-      const members = [];
-      querySnapshot.forEach((doc) => {
-        members.push({ ...doc.data(), id: doc.id });
-      })
+  useFocusEffect(
+    React.useCallback(() => {
 
-      setData(members);
-    });
-  }, [])
+      const unsubcribe = onSnapshot(q, (querySnapshot) => {
+        const members = [];
+        querySnapshot.forEach((doc) => {
+          members.push({ ...doc.data(), id: doc.id });
+        })
+        setData(members);
+        console.log("entrou");
+      });
+
+      return () => {
+        unsubcribe();
+      };
+
+    }, [])
+  );
 
   const Item = ({ name, email }) => (
     <View style={styles.itemCard}>

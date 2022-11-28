@@ -13,12 +13,14 @@ export default function Espera() {
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app)
 
-    const handleSignout = () => {
+    function handleSignout() {
         signOut(auth).then(() => {
+            console.log("saiu")
             navigation.navigate("Login")
-        }).catch((error) => {
-            Alert.alert(error)
-        });
+        })
+        .catch(error => {
+            console.log(error)
+        })
     }
 
     TouchableOpacity.defaultProps = { activeOpacity: 0.9 };
