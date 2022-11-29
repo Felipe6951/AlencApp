@@ -5,11 +5,18 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ], 
+    ],
+    "icon": "./src/assets/img/Icon.png",
     "splash": {
       "image": "./src/assets/img/Splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#8C1F28"
+    },
+    "android": {
+      "package": "com.vinicius_fdes.AlencApp"
+    },
+    "ios": {
+      "bundleIdentifier": "com.vinicius.AlencApp"
     }
   }
 }
