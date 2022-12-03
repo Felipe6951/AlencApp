@@ -13,7 +13,7 @@ export default function SoccerCards() {
 
     const app = initializeApp(firebaseConfig);
     const firestore = getFirestore(app);
-    const q = query(collection(firestore, "cartoes"));
+    const q = query(collection(firestore, "cartoes"), orderBy("stamp", "desc"), limit(15)); 
 
     const [note, setNote] = useState([])
 
@@ -205,8 +205,8 @@ const styles = StyleSheet.create({
     fabContent: {
         alignItems: 'center',
         position: 'absolute',
-        left: '80%',
-        bottom: '16%'
+        left: '82%',
+        bottom: '14%'
     },
     fabButton: {
         position: 'absolute',
