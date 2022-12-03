@@ -54,6 +54,8 @@ export default function Presenca() {
         tampa4: null,
         player5: null,
         tampa5: null,
+        player6: null,
+        tampa6: null
       },
       {
         id: 2,
@@ -67,41 +69,43 @@ export default function Presenca() {
         tampa4: null,
         player5: null,
         tampa5: null,
+        player6: null,
+        tampa6: null
       },
     ]
 
     const espera = []
 
     for (var i = 0; i < ORDER.length; i++) {
-      if (TIMES[0].player1 === null && TIMES[0].player2 === null && TIMES[0].player3 === null && TIMES[0].player4 === null && TIMES[0].player5 === null) {
-        TIMES[0].player1 = ORDER[i].user
+      if (TIMES[0].player1 === null) {
+        TIMES[0].player1 = ORDER[i].name
         TIMES[0].tampa1 = ORDER[i].tampa
       } else {
-        if (TIMES[0].player2 === null && TIMES[0].player3 === null && TIMES[0].player4 === null && TIMES[0].player5 === null) {
+        if (TIMES[0].player2 === null) {
           if (TIMES[1].player1 === null) {
             if (TIMES[0].tampa1 === ORDER[i].tampa) {
-              TIMES[1].player1 = ORDER[i].user
+              TIMES[1].player1 = ORDER[i].name
               TIMES[1].tampa1 = ORDER[i].tampa
             } else {
-              TIMES[0].player2 = ORDER[i].user
+              TIMES[0].player2 = ORDER[i].name
               TIMES[0].tampa2 = ORDER[i].tampa
             }
           } else {
             if (TIMES[0].tampa1 === ORDER[i].tampa) {
               espera.push(ORDER[i])
             } else {
-              TIMES[0].player2 = ORDER[i].user
+              TIMES[0].player2 = ORDER[i].name
               TIMES[0].tampa2 = ORDER[i].tampa
             }
           }
         } else {
-          if (TIMES[0].player3 === null && TIMES[0].player4 === null && TIMES[0].player5 === null) {
+          if (TIMES[0].player3 === null) {
             if (TIMES[1].player1 === null) {
               if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa) {
-                TIMES[1].player1 = ORDER[i].user
+                TIMES[1].player1 = ORDER[i].name
                 TIMES[1].tampa1 = ORDER[i].tampa
               } else {
-                TIMES[0].player3 = ORDER[i].user
+                TIMES[0].player3 = ORDER[i].name
                 TIMES[0].tampa3 = ORDER[i].tampa
               }
             } else {
@@ -110,10 +114,10 @@ export default function Presenca() {
                   espera.push(ORDER[i])
                 } else {
                   if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa) {
-                    TIMES[1].player2 = ORDER[i].user
+                    TIMES[1].player2 = ORDER[i].name
                     TIMES[1].tampa2 = ORDER[i].tampa
                   } else {
-                    TIMES[0].player3 = ORDER[i].user
+                    TIMES[0].player3 = ORDER[i].name
                     TIMES[0].tampa3 = ORDER[i].tampa
                   }
                 }
@@ -121,19 +125,19 @@ export default function Presenca() {
                 if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa) {
                   espera.push(ORDER[i])
                 } else {
-                  TIMES[0].player3 = ORDER[i].user
+                  TIMES[0].player3 = ORDER[i].name
                   TIMES[0].tampa3 = ORDER[i].tampa
                 }
               }
             }
           } else {
-            if (TIMES[0].player4 === null && TIMES[0].player5 === null) {
+            if (TIMES[0].player4 === null) {
               if (TIMES[1].player1 === null) {
                 if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa) {
-                  TIMES[1].player1 = ORDER[i].user
+                  TIMES[1].player1 = ORDER[i].name
                   TIMES[1].tampa1 = ORDER[i].tampa
                 } else {
-                  TIMES[0].player4 = ORDER[i].user
+                  TIMES[0].player4 = ORDER[i].name
                   TIMES[0].tampa4 = ORDER[i].tampa
                 }
               } else {
@@ -142,10 +146,10 @@ export default function Presenca() {
                     espera.push(ORDER[i])
                   } else {
                     if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa) {
-                      TIMES[1].player2 = ORDER[i].user
+                      TIMES[1].player2 = ORDER[i].name
                       TIMES[1].tampa2 = ORDER[i].tampa
                     } else {
-                      TIMES[0].player4 = ORDER[i].user
+                      TIMES[0].player4 = ORDER[i].name
                       TIMES[0].tampa4 = ORDER[i].tampa
                     }
                   }
@@ -155,10 +159,10 @@ export default function Presenca() {
                       espera.push(ORDER[i])
                     } else {
                       if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa) {
-                        TIMES[1].player3 = ORDER[i].user
+                        TIMES[1].player3 = ORDER[i].name
                         TIMES[1].tampa3 = ORDER[i].tampa
                       } else {
-                        TIMES[0].player4 = ORDER[i].user
+                        TIMES[0].player4 = ORDER[i].name
                         TIMES[0].tampa4 = ORDER[i].tampa
                       }
                     }
@@ -166,7 +170,7 @@ export default function Presenca() {
                     if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa) {
                       espera.push(ORDER[i])
                     } else {
-                      TIMES[0].player4 = ORDER[i].user
+                      TIMES[0].player4 = ORDER[i].name
                       TIMES[0].tampa4 = ORDER[i].tampa
                     }
                   }
@@ -176,10 +180,10 @@ export default function Presenca() {
               if (TIMES[0].player5 === null) {
                 if (TIMES[1].player1 === null) {
                   if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
-                    TIMES[1].player1 = ORDER[i].user
+                    TIMES[1].player1 = ORDER[i].name
                     TIMES[1].tampa1 = ORDER[i].tampa
                   } else {
-                    TIMES[0].player5 = ORDER[i].user
+                    TIMES[0].player5 = ORDER[i].name
                     TIMES[0].tampa5 = ORDER[i].tampa
                   }
                 } else {
@@ -188,10 +192,10 @@ export default function Presenca() {
                       espera.push(ORDER[i])
                     } else {
                       if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
-                        TIMES[1].player2 = ORDER[i].user
+                        TIMES[1].player2 = ORDER[i].name
                         TIMES[1].tampa2 = ORDER[i].tampa
                       } else {
-                        TIMES[0].player5 = ORDER[i].user
+                        TIMES[0].player5 = ORDER[i].name
                         TIMES[0].tampa5 = ORDER[i].tampa
                       }
                     }
@@ -201,10 +205,10 @@ export default function Presenca() {
                         espera.push(ORDER[i])
                       } else {
                         if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
-                          TIMES[1].player3 = ORDER[i].user
+                          TIMES[1].player3 = ORDER[i].name
                           TIMES[1].tampa3 = ORDER[i].tampa
                         } else {
-                          TIMES[0].player5 = ORDER[i].user
+                          TIMES[0].player5 = ORDER[i].name
                           TIMES[0].tampa5 = ORDER[i].tampa
                         }
                       }
@@ -214,10 +218,10 @@ export default function Presenca() {
                           espera.push(ORDER[i])
                         } else {
                           if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
-                            TIMES[1].player4 = ORDER[i].user
+                            TIMES[1].player4 = ORDER[i].name
                             TIMES[1].tampa4 = ORDER[i].tampa
                           } else {
-                            TIMES[0].player5 = ORDER[i].user
+                            TIMES[0].player5 = ORDER[i].name
                             TIMES[0].tampa5 = ORDER[i].tampa
                           }
                         }
@@ -225,7 +229,7 @@ export default function Presenca() {
                         if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa) {
                           espera.push(ORDER[i])
                         } else {
-                          TIMES[0].player5 = ORDER[i].user
+                          TIMES[0].player5 = ORDER[i].name
                           TIMES[0].tampa5 = ORDER[i].tampa
                         }
                       }
@@ -233,59 +237,131 @@ export default function Presenca() {
                   }
                 }
               } else {
-                if (TIMES[1].player1 === null) {
-                  if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
-                    TIMES[1].player1 = ORDER[i].user
-                    TIMES[1].tampa1 = ORDER[i].tampa
-                  } else {
-                    espera.push(ORDER[i])
-                  }
-                } else {
-                  if (TIMES[1].player2 === null) {
-                    if (TIMES[1].tampa1 === ORDER[i].tampa) {
-                      espera.push(ORDER[i])
+                if (TIMES[0].player6 === null) {
+                  if (TIMES[1].player1 === null) {
+                    if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
+                      TIMES[1].player1 = ORDER[i].name
+                      TIMES[1].tampa1 = ORDER[i].tampa
                     } else {
-                      if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
-                        TIMES[1].player2 = ORDER[i].user
-                        TIMES[1].tampa2 = ORDER[i].tampa
-                      } else {
-                        espera.push(ORDER[i])
-                      }
+                      TIMES[0].player6 = ORDER[i].name
+                      TIMES[0].tampa6 = ORDER[i].tampa
                     }
                   } else {
-                    if (TIMES[1].player3 === null) {
-                      if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa) {
+                    if (TIMES[1].player2 === null) {
+                      if (TIMES[1].tampa1 === ORDER[i].tampa) {
                         espera.push(ORDER[i])
                       } else {
                         if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
-                          TIMES[1].player3 = ORDER[i].user
-                          TIMES[1].tampa3 = ORDER[i].tampa
+                          TIMES[1].player2 = ORDER[i].name
+                          TIMES[1].tampa2 = ORDER[i].tampa
+                        } else {
+                          TIMES[0].player6 = ORDER[i].name
+                          TIMES[0].tampa6 = ORDER[i].tampa
+                        }
+                      }
+                    } else {
+                      if (TIMES[1].player3 === null) {
+                        if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa) {
+                          espera.push(ORDER[i])
+                        } else {
+                          if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
+                            TIMES[1].player3 = ORDER[i].name
+                            TIMES[1].tampa3 = ORDER[i].tampa
+                          } else {
+                            TIMES[0].player6 = ORDER[i].name
+                            TIMES[0].tampa6 = ORDER[i].tampa
+                          }
+                        }
+                      } else {
+                        if (TIMES[1].player4 === null) {
+                          if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa || TIMES[1].tampa3 === ORDER[i].tampa) {
+                            espera.push(ORDER[i])
+                          } else {
+                            if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
+                              TIMES[1].player4 = ORDER[i].name
+                              TIMES[1].tampa4 = ORDER[i].tampa
+                            } else {
+                              TIMES[0].player6 = ORDER[i].name
+                              TIMES[0].tampa6 = ORDER[i].tampa
+                            }
+                          }
+                        } else {
+                          if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
+                            espera.push(ORDER[i])
+                          } else {
+                            TIMES[0].player6 = ORDER[i].name
+                            TIMES[0].tampa6 = ORDER[i].tampa
+                          }
+                        }
+                      }
+                    }
+                  }
+                } else {
+                  if (TIMES[1].player1 === null) {
+                    if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa || TIMES[0].tampa6 === ORDER[i].tampa) {
+                      TIMES[1].player1 = ORDER[i].name
+                      TIMES[1].tampa1 = ORDER[i].tampa
+                    } else {
+                      espera.push(ORDER[i])
+                    }
+                  } else {
+                    if (TIMES[1].player2 === null) {
+                      if (TIMES[1].tampa1 === ORDER[i].tampa) {
+                        espera.push(ORDER[i])
+                      } else {
+                        if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa || TIMES[0].tampa6 === ORDER[i].tampa) {
+                          TIMES[1].player2 = ORDER[i].name
+                          TIMES[1].tampa2 = ORDER[i].tampa
                         } else {
                           espera.push(ORDER[i])
                         }
                       }
                     } else {
-                      if (TIMES[1].player4 === null) {
-                        if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa || TIMES[1].tampa3 === ORDER[i].tampa) {
+                      if (TIMES[1].player3 === null) {
+                        if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa) {
                           espera.push(ORDER[i])
                         } else {
-                          if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa) {
-                            TIMES[1].player4 = ORDER[i].user
-                            TIMES[1].tampa4 = ORDER[i].tampa
+                          if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa || TIMES[0].tampa6 === ORDER[i].tampa) {
+                            TIMES[1].player3 = ORDER[i].name
+                            TIMES[1].tampa3 = ORDER[i].tampa
                           } else {
                             espera.push(ORDER[i])
                           }
                         }
                       } else {
-                        if (TIMES[1].player5 === null) {
-                          if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa || TIMES[1].tampa3 === ORDER[i].tampa || TIMES[1].tampa4 === ORDER[i].tampa) {
+                        if (TIMES[1].player4 === null) {
+                          if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa || TIMES[1].tampa3 === ORDER[i].tampa) {
                             espera.push(ORDER[i])
                           } else {
-                            TIMES[1].player5 = ORDER[i].user
-                            TIMES[1].tampa5 = ORDER[i].tampa
+                            if (TIMES[0].tampa1 === ORDER[i].tampa || TIMES[0].tampa2 === ORDER[i].tampa || TIMES[0].tampa3 === ORDER[i].tampa || TIMES[0].tampa4 === ORDER[i].tampa || TIMES[0].tampa5 === ORDER[i].tampa || TIMES[0].tampa6 === ORDER[i].tampa) {
+                              TIMES[1].player4 = ORDER[i].name
+                              TIMES[1].tampa4 = ORDER[i].tampa
+                            } else {
+                              espera.push(ORDER[i])
+                            }
                           }
                         } else {
-                          espera.push(ORDER[i])
+                          if (TIMES[1].player5 === null) {
+                            if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa || TIMES[1].tampa3 === ORDER[i].tampa || TIMES[1].tampa4 === ORDER[i].tampa) {
+                              espera.push(ORDER[i])
+    
+                            } else {
+                              TIMES[1].player5 = ORDER[i].name
+                              TIMES[1].tampa5 = ORDER[i].tampa
+                            }
+                          } else {
+                            if (TIMES[1].player6 === null) {
+                              if (TIMES[1].tampa1 === ORDER[i].tampa || TIMES[1].tampa2 === ORDER[i].tampa || TIMES[1].tampa3 === ORDER[i].tampa || TIMES[1].tampa4 === ORDER[i].tampa || TIMES[1].tampa5 === ORDER[i].tampa || TIMES[0].tampa6 === ORDER[i].tampa) {
+                                espera.push(ORDER[i])
+    
+                              } else {
+                                TIMES[1].player6 = ORDER[i].name
+                                TIMES[1].tampa6 = ORDER[i].tampa
+                              }
+                            } else {
+                              espera.push(ORDER[i])
+                            }
+                          }
                         }
                       }
                     }
@@ -602,6 +678,8 @@ export default function Presenca() {
         tampa4: null,
         player5: null,
         tampa5: null,
+        player6: null,
+        tampa6: null
       },
       {
         id: 2,
@@ -615,6 +693,8 @@ export default function Presenca() {
         tampa4: null,
         player5: null,
         tampa5: null,
+        player6: null,
+        tampa6: null
       },
     ]
 
