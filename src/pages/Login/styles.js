@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     },
     boxActions: {
         flexDirection: 'row',
-        marginTop: 24,
+        marginTop: 20,
         justifyContent: 'center'
     },
     buttonActions: {
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
         marginRight: 6
     },
     boxGlobal: {
-      marginTop: '25%'
+      marginTop: '26%'
     },
     line: {
         borderBottomWidth: 0.2,

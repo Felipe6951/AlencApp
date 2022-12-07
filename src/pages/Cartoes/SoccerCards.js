@@ -13,7 +13,7 @@ export default function SoccerCards() {
 
     const app = initializeApp(firebaseConfig);
     const firestore = getFirestore(app);
-    const q = query(collection(firestore, "cartoes"), orderBy("stamp", "desc"), limit(15)); 
+    const q = query(collection(firestore, "cartoes"), orderBy("stamp", "desc"), limit(17)); 
 
     const [note, setNote] = useState([])
 

@@ -71,7 +71,7 @@ export default function Presenca() {
         tampa5: null,
         player6: null,
         tampa6: null
-      },
+      }
     ]
 
     const espera = []
@@ -547,7 +547,7 @@ export default function Presenca() {
   />;
 
   // 2° Rota da TabView
-  const ItemTimes = ({ player1, player2, player3, player4, player5, tampa1, tampa2, tampa3, tampa4, tampa5, id },) => ( // Componente Item para TIMES
+  const ItemTimes = ({ player1, player2, player3, player4, player5, player6, tampa1, tampa2, tampa3, tampa4, tampa5, tampa6, id },) => ( // Componente Item para TIMES
     <View>
       <View style={styles.boxTeam}>
         <Text style={styles.teamNumber}>Time {id}</Text>
@@ -591,6 +591,14 @@ export default function Presenca() {
           <Text style={styles.tampa}>Tampa {tampa5}</Text>
         </View>
       </View>
+
+      <View style={styles.boxPlayer}>
+        <Image style={styles.user} source={require('../../assets/img/user.png')} resizeMode="contain" />
+        <View style={styles.infoPlayer}>
+          <Text style={styles.players}>{player6}</Text>
+          <Text style={styles.tampa}>Tampa {tampa6}</Text>
+        </View>
+      </View>
     </View>
   );
 
@@ -599,7 +607,7 @@ export default function Presenca() {
     my="4"
     showsVerticalScrollIndicator={false}
     data={times}
-    renderItem={({ item }) => <ItemTimes player1={item.player1} tampa1={item.tampa1} player2={item.player2} tampa2={item.tampa2} player3={item.player3} tampa3={item.tampa3} player4={item.player4} tampa4={item.tampa4} player5={item.player5} tampa5={item.tampa5} id={item.id} />}
+    renderItem={({ item }) => <ItemTimes player1={item.player1} tampa1={item.tampa1} player2={item.player2} tampa2={item.tampa2} player3={item.player3} tampa3={item.tampa3} player4={item.player4} tampa4={item.tampa4} player5={item.player5} tampa5={item.tampa5} player6={item.player6} tampa6={item.tampa6} id={item.id} />}
     keyExtractor={item => item.id}
   />;
 

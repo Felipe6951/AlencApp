@@ -90,7 +90,7 @@ export default function Home() {
         showsHorizontalScrollIndicator={false}
         horizontal={true}
         snapToAlignment='start'
-        style={{ width: width, height: width / 3, paddingHorizontal: 16, marginTop: 24, paddingVertical: 8 }}
+        style={{ width: width, height: '20%', paddingHorizontal: 16, marginTop: 24, paddingVertical: 8 }}
       >
 
         <TouchableOpacity
